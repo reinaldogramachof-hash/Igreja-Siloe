@@ -39,9 +39,9 @@ const navCategories: NavCategory[] = [
     title: "Pastoreio & Membros",
     items: [
       { href: "/celulas", label: "Células", icon: Network },
-      { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
-      { href: "/social", label: "Ação Social", icon: HeartHandshake },
-      { href: "/reunioes", label: "Reuniões & Decisões", icon: FileCheck2 },
+      { href: "/membros", label: "Membros", icon: Users },
+      { href: "/social", label: "Ação Social", icon: HeartHandshake, rolesAllowed: ["admin", "secretaria"] },
+      { href: "/reunioes", label: "Reuniões & Decisões", icon: FileCheck2, rolesAllowed: ["admin", "secretaria", "tesoureiro", "lider_celula", "lider_louvor", "lider_salas"] },
     ],
   },
   {
