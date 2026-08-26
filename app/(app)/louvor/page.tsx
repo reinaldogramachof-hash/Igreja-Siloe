@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import {
   ExternalLink,
   Gauge,
+  Info,
   KeyRound,
   Music2,
   Plus,
@@ -170,54 +171,60 @@ export default function LouvorPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium text-accent">Ministério de Louvor</p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-normal">Escala de Louvor e Músicas</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Repertório, escala do próximo culto e sugestões da igreja.
+          <p className="text-xs font-bold uppercase tracking-wider text-accent">Ministério de Louvor</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Escala & Repertório</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Acesse as músicas selecionadas, a escala do próximo culto e envie sugestões ao líder do louvor.
           </p>
         </div>
-        <Button onClick={() => setOpen(true)} className="gap-2">
-          <Plus className="size-4" />
-          Sugerir música para o culto
+        <Button onClick={() => setOpen(true)} className="gap-2 bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold h-10 px-4 transition-all duration-300">
+          <Plus className="size-4.5" />
+          Sugerir Música
         </Button>
       </div>
 
       {/* Escala da semana */}
-      <section className="grid gap-4 lg:grid-cols-2">
-        <Card className="rounded-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="size-4 text-accent" />
+      <section className="grid gap-6 lg:grid-cols-2">
+        <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+          <CardHeader className="pb-3.5 bg-card/5 border-b border-border/40">
+            <CardTitle className="flex items-center gap-2.5 text-base font-bold text-foreground">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
+                <Sparkles className="size-4" />
+              </span>
               {scale.name}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-xs font-semibold text-muted-foreground mt-1">
               {formatShortDate(scale.date)} · {scale.time}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              Escalados
+          <CardContent className="pt-5">
+            <p className="mb-3.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+              Integrantes Escalados
             </p>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               {scaleMembers.map(({ member, role: worshipRole }) => {
                 const isYou = member.id === user.id
                 return (
                   <div
                     key={member.id}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg border p-2.5",
-                      isYou ? "border-accent/50 bg-accent-soft/60" : "bg-muted/30"
+                      "flex items-center gap-3 rounded-xl border p-3 transition-colors duration-300",
+                      isYou 
+                        ? "border-accent/40 bg-accent-soft/30 shadow-inner" 
+                        : "border-border/40 bg-muted/20 hover:border-border/70"
                     )}
                   >
-                    <Avatar className="size-8">
-                      <AvatarFallback className="text-xs">{getInitials(member.name)}</AvatarFallback>
+                    <Avatar className="size-8.5 border border-border/20 shadow-inner">
+                      <AvatarFallback className="bg-accent-soft text-accent font-bold text-xs">
+                        {getInitials(member.name)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {member.name}
-                        {isYou ? <span className="ml-1 text-accent">(você)</span> : null}
+                        {isYou ? <span className="ml-1 text-xs text-accent font-semibold">(você)</span> : null}
                       </p>
-                      <p className="text-xs text-muted-foreground capitalize">{worshipRole}</p>
+                      <p className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">{worshipRole}</p>
                     </div>
                   </div>
                 )
@@ -226,35 +233,37 @@ export default function LouvorPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Music2 className="size-4 text-accent" />
-              Músicas selecionadas
+        <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+          <CardHeader className="pb-3.5 bg-card/5 border-b border-border/40">
+            <CardTitle className="flex items-center gap-2.5 text-base font-bold text-foreground">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
+                <Music2 className="size-4" />
+              </span>
+              Músicas Selecionadas
             </CardTitle>
-            <CardDescription>Repertório definido para este culto.</CardDescription>
+            <CardDescription className="text-xs font-semibold text-muted-foreground mt-1">Repertório definido para este culto.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3 pt-5">
             {scaleSongs.length > 0 ? (
               scaleSongs.map((song, index) => (
-                <div key={song.id} className="flex items-center justify-between gap-2 rounded-lg border p-2.5">
+                <div key={song.id} className="flex items-center justify-between gap-3 rounded-xl border border-border/40 bg-card/20 p-3 hover:bg-card/45 transition-colors">
                   <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xs font-semibold text-accent-foreground">
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[10px] font-bold text-accent">
                       {index + 1}
                     </span>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{song.title}</p>
-                      <p className="truncate text-xs text-muted-foreground">{song.artist}</p>
+                      <p className="truncate text-sm font-bold text-foreground">{song.title}</p>
+                      <p className="truncate text-xs text-muted-foreground mt-0.5">{song.artist}</p>
                     </div>
                   </div>
-                  <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
-                    <span className="rounded-md bg-muted px-1.5 py-0.5 font-medium">Tom {song.key}</span>
-                    <span>{song.bpm} BPM</span>
+                  <div className="flex shrink-0 items-center gap-2 text-xs font-semibold text-muted-foreground">
+                    <span className="rounded-md bg-muted/65 px-2 py-0.5 font-bold text-foreground">Tom {song.key}</span>
+                    <span className="text-[11px]">{song.bpm} BPM</span>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="py-8 text-center text-sm text-muted-foreground">
+              <p className="py-12 text-center text-xs font-semibold text-muted-foreground">
                 Nenhuma música selecionada ainda.
               </p>
             )}
@@ -263,29 +272,29 @@ export default function LouvorPage() {
       </section>
 
       {/* Repertório */}
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-base font-semibold">Repertório</h2>
+      <section className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-2">
+          <h2 className="text-base font-bold text-foreground pl-1">Repertório Geral</h2>
           <div className="relative w-full sm:w-64">
-            <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
             <Input
               placeholder="Buscar música ou artista..."
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              className="pl-8"
+              className="pl-9 rounded-xl border-border/45 bg-card/45 backdrop-blur-sm text-sm"
             />
           </div>
         </div>
 
         {filteredSongs.length > 0 ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredSongs.map((song) => (
               <SongCard key={song.id} song={song} />
             ))}
           </div>
         ) : (
-          <Card className="rounded-xl">
-            <CardContent className="py-10 text-center text-sm text-muted-foreground">
+          <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+            <CardContent className="py-12 text-center text-sm font-semibold text-muted-foreground">
               Nenhuma música encontrada para “{query}”.
             </CardContent>
           </Card>
@@ -293,12 +302,12 @@ export default function LouvorPage() {
       </section>
 
       {/* Sugestões */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-2">
-          <h2 className="text-base font-semibold">
-            {isLeader ? "Sugestões pendentes" : "Minhas sugestões"}
+      <section className="space-y-4">
+        <div className="flex items-center gap-3">
+          <h2 className="text-base font-bold text-foreground pl-1">
+            {isLeader ? "Sugestões Pendentes" : "Minhas Sugestões"}
           </h2>
-          {isLeader ? <StatusBadge status="pendente" /> : null}
+          {isLeader && <StatusBadge status="pendente" />}
         </div>
 
         {isLeader ? (
@@ -309,25 +318,31 @@ export default function LouvorPage() {
               ))}
             </div>
           ) : (
-            <Card className="rounded-xl">
-              <CardContent className="py-10 text-center text-sm text-muted-foreground">
-                Nenhuma sugestão pendente. Boa!
+            <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+              <CardContent className="py-14 text-center">
+                <div className="flex size-12 items-center justify-center rounded-full bg-success-soft text-success mx-auto mb-3">
+                  <Info className="size-6" />
+                </div>
+                <p className="text-sm font-semibold text-foreground">Sem sugestões pendentes</p>
+                <p className="text-xs text-muted-foreground mt-1">Todas as recomendações de louvor foram revisadas.</p>
               </CardContent>
             </Card>
           )
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {myItems.length > 0 ? (
-              myItems.map((item) => <ApprovalFlowCard key={item.id} item={item} />)
+              <div className="space-y-3">
+                {myItems.map((item) => <ApprovalFlowCard key={item.id} item={item} />)}
+              </div>
             ) : (
-              <Card className="rounded-xl">
-                <CardContent className="py-10 text-center text-sm text-muted-foreground">
+              <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+                <CardContent className="py-12 text-center text-sm font-semibold text-muted-foreground">
                   Você ainda não enviou sugestões de música.
                 </CardContent>
               </Card>
             )}
-            <p className="text-xs text-muted-foreground">
-              As sugestões ficam “pendentes” até o líder do louvor aprovar ou recusar.
+            <p className="text-xs text-muted-foreground/80 pl-1 font-medium">
+              * Suas sugestões são enviadas diretamente para avaliação e aprovação dos líderes de louvor.
             </p>
           </div>
         )}
@@ -341,17 +356,17 @@ export default function LouvorPage() {
           if (!next) resetForm()
         }}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
-            <DialogTitle>Sugerir música para o culto</DialogTitle>
+            <DialogTitle>Sugerir Música para o Culto</DialogTitle>
             <DialogDescription>
-              Envie uma sugestão para o líder do louvor avaliar e incluir na escala.
+              Envie uma sugestão para o líder do louvor avaliar e incluir na escala de músicas.
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="songTitle">Nome da música</Label>
+              <Label htmlFor="songTitle">Nome da Música</Label>
               <Input
                 id="songTitle"
                 placeholder="Ex: Fonte Inesgotável"
@@ -360,48 +375,53 @@ export default function LouvorPage() {
                   setSongTitle(event.target.value)
                   setFormError(null)
                 }}
+                className="rounded-xl border-border/40 h-10"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="artist">Artista / referência (opcional)</Label>
+              <Label htmlFor="artist">Artista / Ministério (opcional)</Label>
               <Input
                 id="artist"
                 placeholder="Ex: Siloé Worship"
                 value={artist}
                 onChange={(event) => setArtist(event.target.value)}
+                className="rounded-xl border-border/40 h-10"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="serviceDate">Culto / data alvo</Label>
+              <Label htmlFor="serviceDate">Data do Culto Alvo</Label>
               <Input
                 id="serviceDate"
                 type="date"
                 value={serviceDate}
                 min={todayISO}
                 onChange={(event) => setServiceDate(event.target.value)}
+                className="rounded-xl border-border/40 h-10"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="note">Observação (opcional)</Label>
+              <Label htmlFor="note">Observação / Link (opcional)</Label>
               <Input
                 id="note"
-                placeholder="Ex: combina com o tema do culto..."
+                placeholder="Ex: combina com a mensagem bíblica deste domingo..."
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
+                className="rounded-xl border-border/40 h-10"
               />
             </div>
 
-            {formError ? (
-              <p className="text-xs font-medium text-danger">{formError}</p>
-            ) : null}
+            {formError && (
+              <p className="text-xs font-semibold text-danger pl-1">{formError}</p>
+            )}
 
-            <DialogFooter className="gap-2">
+            <DialogFooter className="gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
+                className="rounded-xl"
                 onClick={() => {
                   resetForm()
                   setOpen(false)
@@ -409,7 +429,7 @@ export default function LouvorPage() {
               >
                 Cancelar
               </Button>
-              <Button type="submit">Enviar sugestão</Button>
+              <Button type="submit" className="bg-accent hover:bg-accent/90 text-white rounded-xl font-semibold">Enviar Sugestão</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -420,23 +440,25 @@ export default function LouvorPage() {
 
 function SongCard({ song }: { song: Song }) {
   return (
-    <Card className="rounded-xl">
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
+    <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm hover:shadow transition-all duration-300 hover:-translate-y-0.5 overflow-hidden">
+      <CardHeader className="pb-3 bg-card/5">
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <CardTitle className="truncate">{song.title}</CardTitle>
-            <CardDescription className="mt-1 truncate">{song.artist}</CardDescription>
+            <CardTitle className="truncate text-sm.5 font-bold text-foreground">{song.title}</CardTitle>
+            <CardDescription className="mt-1 truncate text-xs text-muted-foreground/90 font-medium">{song.artist}</CardDescription>
           </div>
-          <Music2 className="size-5 shrink-0 text-accent" />
+          <div className="flex size-9 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
+            <Music2 className="size-4.5 shrink-0" />
+          </div>
         </div>
       </CardHeader>
-      <CardContent className="flex items-center gap-2 text-xs text-muted-foreground">
-        <span className="inline-flex items-center gap-1 rounded-md bg-accent-soft px-2 py-1 font-medium text-accent-foreground">
-          <KeyRound className="size-3" />
+      <CardContent className="flex items-center gap-2 text-xs text-muted-foreground pt-4 border-t border-border/10 bg-card/5">
+        <span className="inline-flex items-center gap-1.5 rounded-lg bg-accent-soft/65 px-2.5 py-1 font-bold text-accent">
+          <KeyRound className="size-3.5" />
           Tom {song.key}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 font-medium">
-          <Gauge className="size-3" />
+        <span className="inline-flex items-center gap-1.5 rounded-lg bg-muted/65 px-2.5 py-1 font-semibold text-foreground">
+          <Gauge className="size-3.5" />
           {song.bpm} BPM
         </span>
         {song.referenceUrl ? (
@@ -444,9 +466,9 @@ function SongCard({ song }: { song: Song }) {
             href={song.referenceUrl}
             target="_blank"
             rel="noreferrer"
-            className="ml-auto inline-flex items-center gap-1 font-medium text-accent hover:underline"
+            className="ml-auto inline-flex items-center gap-1 font-bold text-accent hover:underline text-[11px]"
           >
-            Referência
+            Vídeo
             <ExternalLink className="size-3" />
           </a>
         ) : null}

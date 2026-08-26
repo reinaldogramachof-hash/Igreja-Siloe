@@ -1,9 +1,10 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { CalendarDays, DoorOpen, Plus, TriangleAlert, Users } from "lucide-react"
+import { CalendarDays, DoorOpen, Plus, TriangleAlert, Users, Clock, Info } from "lucide-react"
 import { toast } from "sonner"
 import { ApprovalFlowCard } from "@/components/shared/approval-flow-card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -32,9 +33,9 @@ const week = getCurrentWeek()
 const todayISO = toISODate(new Date())
 
 const bookingStyles: Record<RoomBooking["status"], string> = {
-  aprovado: "border-success bg-success-soft text-success-foreground",
-  pendente: "border-warning bg-warning-soft text-warning-foreground",
-  recusado: "border-danger bg-danger-soft text-danger-foreground",
+  aprovado: "border-success/30 bg-success/10 text-success-foreground shadow-sm shadow-success/5",
+  pendente: "border-warning/30 bg-warning/10 text-warning-foreground shadow-sm shadow-warning/5",
+  recusado: "border-danger/30 bg-danger/10 text-danger-foreground shadow-sm shadow-danger/5",
 }
 
 export default function SalasPage() {
@@ -124,45 +125,47 @@ export default function SalasPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium text-accent">Infraestrutura</p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-normal">Controle de Salas</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Agenda da semana, disponibilidade e reservas das salas e salões.
+          <p className="text-xs font-bold uppercase tracking-wider text-accent">Infraestrutura</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Controle de Salas</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Acompanhe a agenda da semana, veja a disponibilidade e solicite reservas para salas e salões.
           </p>
         </div>
-        <Button onClick={() => setOpen(true)} className="gap-2">
-          <Plus className="size-4" />
-          Solicitar sala
+        <Button onClick={() => setOpen(true)} className="gap-2 bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold h-10 px-4 transition-all duration-300">
+          <Plus className="size-4.5" />
+          Solicitar Sala
         </Button>
       </div>
 
       {/* Agenda semanal */}
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="size-4 text-accent" />
-            <h2 className="text-base font-semibold">Agenda da semana</h2>
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
+              <CalendarDays className="size-4" />
+            </span>
+            <h2 className="text-base font-bold text-foreground">Agenda da Semana</h2>
           </div>
-          <p className="text-xs font-medium text-muted-foreground">
+          <Badge className="bg-card border border-border/40 text-muted-foreground px-3 py-1 text-[11px] font-semibold rounded-full hover:bg-card">
             {formatShortDate(week[0].date)} — {formatShortDate(week[6].date)}
-          </p>
+          </Badge>
         </div>
 
-        <div className="overflow-hidden rounded-xl border bg-card">
+        <div className="overflow-hidden rounded-2xl border border-border/45 bg-card/45 backdrop-blur-md shadow-sm">
           <div className="overflow-x-auto">
             <div className="min-w-[920px]">
-              <div className="grid grid-cols-[160px_repeat(7,minmax(112px,1fr))] border-b bg-muted/30">
-                <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">Salas</div>
+              <div className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 bg-muted/20">
+                <div className="px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/80 flex items-center">Salas</div>
                 {week.map((day) => (
                   <div
                     key={day.date}
                     className={cn(
-                      "border-l px-2 py-2 text-center",
-                      day.date === todayISO && "bg-accent-soft/50"
+                      "border-l border-border/40 px-2 py-3 text-center transition-colors",
+                      day.date === todayISO && "bg-accent-soft/30"
                     )}
                   >
-                    <p className="text-xs font-semibold">{day.label}</p>
-                    <p className="text-[11px] text-muted-foreground">{day.dayNumber}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-foreground">{day.label}</p>
+                    <p className="text-xs font-semibold text-muted-foreground/90 mt-0.5">{day.dayNumber}</p>
                   </div>
                 ))}
               </div>
@@ -170,11 +173,14 @@ export default function SalasPage() {
               {rooms.map((room) => (
                 <div
                   key={room.id}
-                  className="grid grid-cols-[160px_repeat(7,minmax(112px,1fr))] border-b last:border-b-0"
+                  className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 last:border-b-0"
                 >
-                  <div className="px-3 py-2">
-                    <p className="text-sm font-medium">{room.name}</p>
-                    <p className="text-[11px] text-muted-foreground">{room.capacity} pessoas</p>
+                  <div className="px-4 py-3.5 bg-card/5">
+                    <p className="text-sm font-semibold text-foreground">{room.name}</p>
+                    <p className="text-[10px] uppercase font-bold text-accent tracking-wide mt-0.5 flex items-center gap-1">
+                      <Users className="size-3" />
+                      Capacidade: {room.capacity}
+                    </p>
                   </div>
                   {week.map((day) => {
                     const dayBookings = bookings.filter(
@@ -184,8 +190,8 @@ export default function SalasPage() {
                       <div
                         key={day.date}
                         className={cn(
-                          "space-y-1 border-l px-1.5 py-1.5",
-                          day.date === todayISO && "bg-accent-soft/50"
+                          "space-y-1.5 border-l border-border/40 p-2",
+                          day.date === todayISO && "bg-accent-soft/30"
                         )}
                       >
                         {dayBookings.length > 0 ? (
@@ -193,7 +199,7 @@ export default function SalasPage() {
                             <BookingBlock key={booking.id} booking={booking} />
                           ))
                         ) : (
-                          <div className="flex h-7 items-center justify-center text-[11px] text-muted-foreground/40">
+                          <div className="flex h-10 items-center justify-center text-xs text-muted-foreground/30">
                             —
                           </div>
                         )}
@@ -206,38 +212,38 @@ export default function SalasPage() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-success" /> Aprovado
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold text-muted-foreground/80 pl-1">
+          <span className="flex items-center gap-2">
+            <span className="size-2 rounded bg-success" /> Aprovado
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-warning" /> Pendente
+          <span className="flex items-center gap-2">
+            <span className="size-2 rounded bg-warning" /> Pendente
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-danger" /> Recusado
+          <span className="flex items-center gap-2">
+            <span className="size-2 rounded bg-danger" /> Recusado
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-accent" /> Hoje
+          <span className="flex items-center gap-2">
+            <span className="size-2 rounded bg-accent" /> Hoje
           </span>
         </div>
       </section>
 
       {/* Salas disponíveis */}
-      <section className="space-y-3">
-        <h2 className="text-base font-semibold">Salas disponíveis</h2>
+      <section className="space-y-4">
+        <h2 className="text-base font-bold text-foreground pl-1">Salas & Capacidades</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {rooms.map((room) => (
-            <Card key={room.id} className="rounded-xl">
-              <CardHeader>
-                <div className="flex size-10 items-center justify-center rounded-lg bg-accent-soft text-accent-foreground">
+            <Card key={room.id} className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow">
+              <CardHeader className="pb-3.5">
+                <div className="flex size-10 items-center justify-center rounded-xl bg-accent-soft/60 text-accent ring-1 ring-accent/15">
                   <DoorOpen className="size-5" />
                 </div>
-                <CardTitle className="mt-3">{room.name}</CardTitle>
-                <CardDescription>{room.description}</CardDescription>
+                <CardTitle className="mt-3.5 text-sm.5 font-bold text-foreground">{room.name}</CardTitle>
+                <CardDescription className="text-xs leading-relaxed text-muted-foreground mt-1">{room.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Users className="size-4" />
+              <CardContent className="pt-0">
+                <p className="flex items-center gap-2 text-xs font-semibold text-accent">
+                  <Users className="size-3.5" />
                   Capacidade: {room.capacity} pessoas
                 </p>
               </CardContent>
@@ -247,8 +253,8 @@ export default function SalasPage() {
       </section>
 
       {/* Minhas solicitações */}
-      <section className="space-y-3">
-        <h2 className="text-base font-semibold">Minhas solicitações</h2>
+      <section className="space-y-4">
+        <h2 className="text-base font-bold text-foreground pl-1">Minhas Solicitações</h2>
         {myItems.length > 0 ? (
           <div className="space-y-3">
             {myItems.map((item) => (
@@ -256,14 +262,17 @@ export default function SalasPage() {
             ))}
           </div>
         ) : (
-          <Card className="rounded-xl">
-            <CardContent className="flex flex-col items-center gap-3 py-10 text-center">
-              <DoorOpen className="size-6 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Você ainda não fez nenhuma solicitação de sala.
+          <Card className="rounded-2xl border-border/40 bg-card/45 backdrop-blur-md shadow-sm">
+            <CardContent className="flex flex-col items-center justify-center py-14 text-center">
+              <div className="flex size-12 items-center justify-center rounded-full bg-muted/40 text-muted-foreground mb-4">
+                <Info className="size-6" />
+              </div>
+              <p className="text-sm font-semibold text-foreground">Sem solicitações</p>
+              <p className="text-xs text-muted-foreground mt-1 max-w-xs">
+                Você ainda não fez nenhuma solicitação de reserva de sala para esta semana.
               </p>
-              <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
-                Solicitar agora
+              <Button variant="outline" size="sm" onClick={() => setOpen(true)} className="mt-4 rounded-xl text-xs font-semibold px-4">
+                Solicitar Agora
               </Button>
             </CardContent>
           </Card>
@@ -278,17 +287,17 @@ export default function SalasPage() {
           if (!next) resetForm()
         }}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
-            <DialogTitle>Solicitar sala</DialogTitle>
+            <DialogTitle>Solicitar Sala</DialogTitle>
             <DialogDescription>
-              Preencha os dados da reserva. Ela entra como “pendente” para o líder de salas aprovar.
+              Preencha os dados da reserva. Ela será enviada para aprovação do líder responsável.
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="room">Sala</Label>
+              <Label htmlFor="room">Escolha a Sala</Label>
               <select
                 id="room"
                 value={roomId}
@@ -296,11 +305,11 @@ export default function SalasPage() {
                   setRoomId(event.target.value)
                   markTouched()
                 }}
-                className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
+                className="h-10 w-full rounded-xl border border-border/40 bg-transparent px-3 text-sm outline-none focus:ring-1 focus:ring-ring dark:bg-card"
               >
                 {rooms.map((room) => (
-                  <option key={room.id} value={room.id} className="bg-background">
-                    {room.name} — {room.capacity} pessoas
+                  <option key={room.id} value={room.id} className="bg-background text-foreground">
+                    {room.name} — Cap: {room.capacity} pessoas
                   </option>
                 ))}
               </select>
@@ -308,7 +317,7 @@ export default function SalasPage() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="space-y-2 sm:col-span-3">
-                <Label htmlFor="date">Data</Label>
+                <Label htmlFor="date">Data da Reserva</Label>
                 <Input
                   id="date"
                   type="date"
@@ -318,10 +327,11 @@ export default function SalasPage() {
                     setDate(event.target.value)
                     markTouched()
                   }}
+                  className="rounded-xl border-border/40 h-10"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="startTime">Início</Label>
+                <Label htmlFor="startTime">Horário de Início</Label>
                 <Input
                   id="startTime"
                   type="time"
@@ -330,10 +340,11 @@ export default function SalasPage() {
                     setStartTime(event.target.value)
                     markTouched()
                   }}
+                  className="rounded-xl border-border/40 h-10"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endTime">Fim</Label>
+                <Label htmlFor="endTime">Horário de Fim</Label>
                 <Input
                   id="endTime"
                   type="time"
@@ -342,42 +353,45 @@ export default function SalasPage() {
                     setEndTime(event.target.value)
                     markTouched()
                   }}
+                  className="rounded-xl border-border/40 h-10"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="purpose">Finalidade</Label>
+              <Label htmlFor="purpose">Finalidade da Reserva</Label>
               <Input
                 id="purpose"
-                placeholder="Ex: Ensaio do coral infantil"
+                placeholder="Ex: Ensaio do Ministério de Louvor"
                 value={purpose}
                 onChange={(event) => {
                   setPurpose(event.target.value)
                   markTouched()
                 }}
+                className="rounded-xl border-border/40 h-10"
               />
             </div>
 
-            {formError ? (
-              <p className="text-xs font-medium text-danger">{formError}</p>
-            ) : null}
+            {formError && (
+              <p className="text-xs font-semibold text-danger pl-1">{formError}</p>
+            )}
 
-            {conflicts.length > 0 ? (
-              <div className="flex items-start gap-2 rounded-lg border border-warning/40 bg-warning-soft p-3 text-xs leading-5 text-warning-foreground">
+            {conflicts.length > 0 && (
+              <div className="flex items-start gap-2.5 rounded-xl border border-warning/35 bg-warning/10 p-3.5 text-xs leading-5 text-warning-foreground">
                 <TriangleAlert className="mt-0.5 size-4 shrink-0" />
                 <p>
-                  <span className="font-semibold">Conflito detectado:</span> já existe{" "}
+                  <span className="font-bold">Conflito de horários:</span> já existe{" "}
                   {conflicts.length > 1 ? `${conflicts.length} reservas aprovadas` : "uma reserva aprovada"} nesse
-                  horário. Sua solicitação ficará “pendente” para o líder avaliar.
+                  período. Sua solicitação ficará pendente de aprovação manual.
                 </p>
               </div>
-            ) : null}
+            )}
 
-            <DialogFooter className="gap-2">
+            <DialogFooter className="gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
+                className="rounded-xl"
                 onClick={() => {
                   resetForm()
                   setOpen(false)
@@ -388,10 +402,13 @@ export default function SalasPage() {
               <Button
                 type="submit"
                 className={cn(
-                  conflicts.length > 0 && "bg-warning text-warning-foreground hover:bg-warning/90"
+                  "rounded-xl font-semibold",
+                  conflicts.length > 0 
+                    ? "bg-warning text-warning-foreground hover:bg-warning/90"
+                    : "bg-accent hover:bg-accent/90 text-white"
                 )}
               >
-                {conflicts.length > 0 ? "Solicitar mesmo assim" : "Confirmar solicitação"}
+                {conflicts.length > 0 ? "Solicitar Mesmo Assim" : "Confirmar Solicitação"}
               </Button>
             </DialogFooter>
           </form>
@@ -405,15 +422,16 @@ function BookingBlock({ booking }: { booking: RoomBooking }) {
   return (
     <div
       className={cn(
-        "rounded-md border-l-2 px-1.5 py-1 text-[11px] leading-tight",
+        "rounded-lg border-l-2 p-2 text-[10px] leading-tight transition-all duration-300 hover:scale-[1.02]",
         bookingStyles[booking.status],
         booking.status === "recusado" && "opacity-60 line-through"
       )}
     >
-      <p className="font-semibold">
-        {booking.startTime}–{booking.endTime}
-      </p>
-      <p className="truncate" title={booking.purpose}>
+      <div className="flex items-center gap-1 font-bold text-foreground">
+        <Clock className="size-3 opacity-75 shrink-0" />
+        <span>{booking.startTime}–{booking.endTime}</span>
+      </div>
+      <p className="font-semibold text-muted-foreground mt-1 truncate" title={booking.purpose}>
         {booking.purpose}
       </p>
     </div>
