@@ -81,7 +81,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
+    <div className="space-y-6 pb-12 animate-fade-in">
       <div>
         <p className="text-xs font-bold uppercase tracking-wider text-accent">Painel do Líder / Admin</p>
         <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Aprovações & Membros</h1>

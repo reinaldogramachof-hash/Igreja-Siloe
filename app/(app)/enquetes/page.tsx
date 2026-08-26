@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner"
+import { useDemoUser } from "@/lib/prototype-auth"
 
 interface Option {
   id: string
@@ -92,6 +93,9 @@ const initialPolls: Poll[] = [
 ]
 
 export default function EnquetesPage() {
+  const { user, role } = useDemoUser()
+  const canManagePolls = role === "admin" || role === "secretaria"
+
   const [polls, setPolls] = useState<Poll[]>(initialPolls)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "closed">("all")
@@ -184,7 +188,7 @@ export default function EnquetesPage() {
   })
 
   return (
-    <div className="container mx-auto space-y-6 p-4 sm:p-6 lg:p-8">
+    <div className="space-y-6 pb-12 animate-fade-in">
       {/* Header section */}
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="min-w-0 flex-1">
@@ -197,15 +201,16 @@ export default function EnquetesPage() {
           </p>
         </div>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger 
-            render={
-              <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
-                <Plus className="size-4" />
-                Nova Enquete
-              </Button>
-            }
-          />
+        {canManagePolls && (
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger 
+              render={
+                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
+                  <Plus className="size-4" />
+                  Nova Enquete
+                </Button>
+              }
+            />
           <DialogContent className="sm:max-w-[500px]">
             <form onSubmit={handleCreatePoll}>
               <DialogHeader>
@@ -281,6 +286,7 @@ export default function EnquetesPage() {
             </form>
           </DialogContent>
         </Dialog>
+        )}
       </div>
 
       {/* Control Bar: Search, Status Tabs and View Toggle */}

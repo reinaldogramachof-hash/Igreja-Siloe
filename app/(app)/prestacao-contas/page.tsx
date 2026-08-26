@@ -26,6 +26,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner"
+import { useDemoUser } from "@/lib/prototype-auth"
 
 interface FinancialReport {
   id: string
@@ -115,6 +116,9 @@ const initialReports: FinancialReport[] = [
 ]
 
 export default function PrestacaoContasPage() {
+  const { user, role } = useDemoUser()
+  const isFinanceManager = role === "admin" || role === "tesoureiro"
+
   const [reports, setReports] = useState<FinancialReport[]>(initialReports)
   const [search, setSearch] = useState("")
   const [selectedReport, setSelectedReport] = useState<FinancialReport | null>(null)
@@ -176,7 +180,7 @@ export default function PrestacaoContasPage() {
   const totalBalanceAll = totalIncomeAll - totalExpenseAll
 
   return (
-    <div className="container mx-auto space-y-6 p-4 sm:p-6 lg:p-8">
+    <div className="space-y-6 pb-12 animate-fade-in">
       {/* Header */}
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="min-w-0 flex-1">
@@ -189,15 +193,16 @@ export default function PrestacaoContasPage() {
           </p>
         </div>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger 
-            render={
-              <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
-                <Plus className="size-4" />
-                Publicar Balancete
-              </Button>
-            }
-          />
+        {isFinanceManager && (
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger 
+              render={
+                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
+                  <Plus className="size-4" />
+                  Publicar Balancete
+                </Button>
+              }
+            />
           <DialogContent className="sm:max-w-[500px]">
             <form onSubmit={handleCreateReport}>
               <DialogHeader>
@@ -264,6 +269,7 @@ export default function PrestacaoContasPage() {
             </form>
           </DialogContent>
         </Dialog>
+        )}
       </div>
 
       {/* KPI Cards Summary */}

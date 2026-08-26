@@ -46,7 +46,8 @@ import { useDemoUser } from "@/lib/prototype-auth"
 import { cn } from "@/lib/utils"
 
 export default function NotificacoesPage() {
-  const { user } = useDemoUser()
+  const { user, role } = useDemoUser()
+  const canManageNotifications = role === "admin" || role === "secretaria"
 
   // Tab State
   const [activeTab, setActiveTab] = useState<"mural" | "inbox" | "disparo">("mural")
@@ -176,14 +177,16 @@ export default function NotificacoesPage() {
               <CheckCheck className="size-4 shrink-0" />
               Marcar Lidas
             </Button>
-            <Button
-              onClick={() => setIsAnnouncementModalOpen(true)}
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
-            >
-              <Plus className="size-4.5 shrink-0" />
-              Novo Comunicado
-            </Button>
+            {canManageNotifications && (
+              <Button
+                onClick={() => setIsAnnouncementModalOpen(true)}
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+              >
+                <Plus className="size-4.5 shrink-0" />
+                Novo Comunicado
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -268,14 +271,16 @@ export default function NotificacoesPage() {
             </Badge>
           )}
         </Button>
-        <Button
-          variant={activeTab === "disparo" ? "default" : "ghost"}
-          size="sm"
-          onClick={() => setActiveTab("disparo")}
-          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
-        >
-          Disparo de Mensagens em Massa
-        </Button>
+        {canManageNotifications && (
+          <Button
+            variant={activeTab === "disparo" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setActiveTab("disparo")}
+            className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
+          >
+            Disparo de Mensagens em Massa
+          </Button>
+        )}
       </div>
 
       {/* ABA 1: MURAL DE RECADOS (FEED) */}

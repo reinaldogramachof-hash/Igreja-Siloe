@@ -46,7 +46,8 @@ import { useDemoUser } from "@/lib/prototype-auth"
 import { cn } from "@/lib/utils"
 
 export default function EventosPage() {
-  const { user } = useDemoUser()
+  const { user, role } = useDemoUser()
+  const isAdmin = role === "admin"
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"eventos" | "inscritos" | "qr_scanner">("eventos")
@@ -239,26 +240,28 @@ export default function EventosPage() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
-          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
-            <Button
-              onClick={() => setActiveTab("qr_scanner")}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
-            >
-              <ScanLine className="size-4 text-accent shrink-0" />
-              Scanner QR
-            </Button>
-            <Button
-              onClick={() => setIsCreateEventModalOpen(true)}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
-            >
-              <Plus className="size-4 shrink-0" />
-              Novo Evento
-            </Button>
-          </div>
+          {isAdmin && (
+            <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
+              <Button
+                onClick={() => setActiveTab("qr_scanner")}
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+              >
+                <ScanLine className="size-4 text-accent shrink-0" />
+                Scanner QR
+              </Button>
+              <Button
+                onClick={() => setIsCreateEventModalOpen(true)}
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+              >
+                <Plus className="size-4 shrink-0" />
+                Novo Evento
+              </Button>
+            </div>
+          )}
           <Button
             onClick={() => setIsRegisterModalOpen(true)}
             size="sm"
@@ -348,14 +351,16 @@ export default function EventosPage() {
             {registrationsList.length}
           </Badge>
         </Button>
-        <Button
-          variant={activeTab === "qr_scanner" ? "default" : "ghost"}
-          size="sm"
-          onClick={() => setActiveTab("qr_scanner")}
-          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
-        >
-          Scanner QR Code
-        </Button>
+        {isAdmin && (
+          <Button
+            variant={activeTab === "qr_scanner" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setActiveTab("qr_scanner")}
+            className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
+          >
+            Scanner QR Code
+          </Button>
+        )}
       </div>
 
       {/* ABA 1: EVENTOS EM DESTAQUE */}

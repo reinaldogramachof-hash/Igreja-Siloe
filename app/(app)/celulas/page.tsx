@@ -53,7 +53,8 @@ const networksList: CellNetwork[] = [
 ]
 
 export default function CelulasPage() {
-  const { user } = useDemoUser()
+  const { user, role } = useDemoUser()
+  const isCellLeader = role === "admin" || role === "lider_celula"
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"celulas" | "relatorios" | "localizador">("celulas")
@@ -205,27 +206,29 @@ export default function CelulasPage() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
-          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
-            <Button
-              onClick={() => setIsAddCellModalOpen(true)}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
-            >
-              <Plus className="size-4 shrink-0" />
-              Cadastrar Célula
-            </Button>
-            <Button
-              onClick={() => setIsReportModalOpen(true)}
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
-            >
-              <FileCheck2 className="size-4.5 shrink-0" />
-              Enviar Relatório Semanal
-            </Button>
+        {isCellLeader && (
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
+            <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
+              <Button
+                onClick={() => setIsAddCellModalOpen(true)}
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+              >
+                <Plus className="size-4 shrink-0" />
+                Cadastrar Célula
+              </Button>
+              <Button
+                onClick={() => setIsReportModalOpen(true)}
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+              >
+                <FileCheck2 className="size-4.5 shrink-0" />
+                Enviar Relatório Semanal
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* STAT CARDS */}

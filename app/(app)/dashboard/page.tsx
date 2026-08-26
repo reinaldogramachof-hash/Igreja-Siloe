@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const greeting = getGreeting()
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
+    <div className="space-y-6 pb-12 animate-fade-in">
       {/* Welcome Banner Section */}
       <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
         <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-br from-accent/10 via-transparent to-transparent p-6 sm:p-8 backdrop-blur-md shadow-sm">
