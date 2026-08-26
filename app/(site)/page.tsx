@@ -24,7 +24,7 @@ export default function SitePage() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-90">
             <Image src="/logo.svg" alt="Igreja Siloé" width={40} height={40} className="rounded-full shadow-sm" priority />
-            <span className="text-sm font-semibold tracking-tight">Igreja Siloé</span>
+            <span className="hidden sm:inline text-sm font-semibold tracking-tight">Igreja Siloé</span>
           </Link>
           
           <nav className="hidden items-center gap-6 md:flex">
@@ -36,7 +36,10 @@ export default function SitePage() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <div className="hidden md:flex">
+              <ThemeToggle />
+            </div>
+
             <Link href="/login" className="hidden text-sm font-medium text-accent hover:underline sm:block">
               Entrar
             </Link>
@@ -49,9 +52,12 @@ export default function SitePage() {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-72">
                   <SheetHeader>
-                    <SheetTitle className="flex items-center gap-3">
-                      <Image src="/logo.svg" alt="Igreja Siloé" width={32} height={32} className="rounded-full" />
-                      Igreja Siloé
+                    <SheetTitle className="flex items-center justify-between gap-2 pr-6">
+                      <div className="flex items-center gap-2.5">
+                        <Image src="/logo.svg" alt="Igreja Siloé" width={30} height={30} className="rounded-full" />
+                        <span className="text-sm font-semibold">Igreja Siloé</span>
+                      </div>
+                      <ThemeToggle />
                     </SheetTitle>
                   </SheetHeader>
                   <Separator className="my-4" />
