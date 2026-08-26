@@ -33,6 +33,19 @@ export default function AdminPage() {
   const [memberList, setMemberList] = useState<Member[]>(() => members)
   const [searchTerm, setSearchTerm] = useState("")
 
+  // Edit states for member dialog mock
+  const [editingMember, setEditingMember] = useState<Member | null>(null)
+  const [editRole, setEditRole] = useState("")
+  const [editName, setEditName] = useState("")
+
+  const filteredMembers = useMemo(() => {
+    return memberList.filter(
+      (m) =>
+        m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        m.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }, [memberList, searchTerm])
+
   if (role !== "admin") {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
@@ -51,19 +64,6 @@ export default function AdminPage() {
       </div>
     )
   }
-
-  // Edit states for member dialog mock
-  const [editingMember, setEditingMember] = useState<Member | null>(null)
-  const [editRole, setEditRole] = useState("")
-  const [editName, setEditName] = useState("")
-
-  const filteredMembers = useMemo(() => {
-    return memberList.filter(
-      (m) =>
-        m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        m.email.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }, [memberList, searchTerm])
 
   function handleStatusChange(id: string, status: BookingStatus) {
     setItems((current) => current.map((item) => (item.id === id ? { ...item, status } : item)))

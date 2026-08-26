@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon } from "lucide-react"
+import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
@@ -12,12 +12,16 @@ import { getRoleLabel } from "@/lib/mock-data"
 import { useDemoUser } from "@/lib/prototype-auth"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
+import type { Role } from "@/lib/types"
 
-const navItems = [
+const navItems: { href: string; label: string; icon: any; rolesAllowed?: Role[] }[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
+  { href: "/financeiro", label: "Financeiro", icon: Landmark, rolesAllowed: ["admin", "tesoureiro"] },
+  { href: "/social", label: "Ação Social", icon: HeartHandshake },
   { href: "/salas", label: "Salas", icon: DoorOpen },
   { href: "/louvor", label: "Louvor", icon: Music2 },
-  { href: "/admin", label: "Admin", icon: ShieldCheck, adminOnly: true },
+  { href: "/admin", label: "Admin", icon: ShieldCheck, rolesAllowed: ["admin"] },
 ]
 
 export function Sidebar() {
@@ -27,7 +31,7 @@ export function Sidebar() {
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebar()
   const { user, role, setRole } = useDemoUser()
 
-  const filteredNavItems = navItems.filter((item) => !item.adminOnly || role === "admin")
+  const filteredNavItems = navItems.filter((item) => !item.rolesAllowed || item.rolesAllowed.includes(role))
 
   const initials = user.name
     .split(" ")

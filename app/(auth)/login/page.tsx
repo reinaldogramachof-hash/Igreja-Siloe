@@ -15,6 +15,8 @@ import {
   UserPlus,
   Lock,
   DoorOpen,
+  Landmark,
+  Users,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -25,6 +27,8 @@ import type { Role } from "@/lib/types"
 
 const roles: { value: Role; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { value: "admin", label: "Admin", icon: ShieldCheck },
+  { value: "secretaria", label: "Secretaria", icon: Users },
+  { value: "tesoureiro", label: "Tesouraria", icon: Landmark },
   { value: "lider_louvor", label: "Louvor", icon: Music2 },
   { value: "lider_salas", label: "Salas", icon: DoorOpen },
   { value: "membro", label: "Membro", icon: User },
@@ -179,7 +183,7 @@ export default function LoginPage() {
                       <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                         Perfil para Demonstração
                       </Label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-medium">
+                      <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 font-medium">
                         {roles.map((item) => {
                           const Icon = item.icon
                           const isSelected = role === item.value
