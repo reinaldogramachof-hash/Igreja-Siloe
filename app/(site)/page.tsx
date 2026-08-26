@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, AtSign, Clock, Droplets, LogIn, MapPin, Menu, MessageCircle, Sparkles } from "lucide-react"
+import { ArrowRight, AtSign, Clock, Download, Droplets, LogIn, MapPin, Menu, MessageCircle, Sparkles } from "lucide-react"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -18,8 +18,11 @@ import {
   whatsappHref,
 } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
+import { usePWAInstall } from "@/lib/use-pwa-install"
 
 export default function SitePage() {
+  const { showInstallButton, promptInstall } = usePWAInstall()
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
@@ -80,6 +83,15 @@ export default function SitePage() {
                       <span className="text-xs font-semibold text-muted-foreground">Aparência</span>
                       <ThemeToggle />
                     </div>
+                    {showInstallButton && (
+                      <button
+                        onClick={promptInstall}
+                        className={cn(buttonVariants({ variant: "outline" }), "w-full gap-2 border-accent/40 text-accent hover:bg-accent hover:text-white")}
+                      >
+                        <Download className="size-4" />
+                        Instalar App
+                      </button>
+                    )}
                     <Link href="/login" className={cn(buttonVariants(), "w-full bg-accent text-white")}>
                       Entrar no Portal
                       <ArrowRight className="size-4" />
@@ -122,7 +134,24 @@ export default function SitePage() {
           </div>
           <div className="relative z-10 flex items-center justify-center lg:justify-end">
             <div className="relative w-full max-w-sm aspect-square drop-shadow-[0_10px_35px_rgba(14,122,143,0.25)] dark:drop-shadow-[0_10px_35px_rgba(47,168,189,0.3)]">
-              <video src="/videos/siloe-logo.mp4" autoPlay loop muted playsInline className="rounded-full object-cover w-full h-full shadow-xl" />
+              <video
+                src="/videos/siloe-logo.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="rounded-full object-cover w-full h-full shadow-xl"
+                onError={(e) => {
+                  // Fallback to static logo image if video fails (older Android/Samsung)
+                  const video = e.currentTarget
+                  const img = document.createElement('img')
+                  img.src = '/logo.svg'
+                  img.alt = 'Igreja Siloé'
+                  img.className = video.className
+                  video.parentNode?.replaceChild(img, video)
+                }}
+              />
             </div>
           </div>
         </div>

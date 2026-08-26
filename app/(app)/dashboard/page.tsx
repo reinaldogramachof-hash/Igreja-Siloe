@@ -1,14 +1,17 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { CalendarDays, DoorOpen, Music2, ShieldCheck, Sparkles, Bell, ArrowRight } from "lucide-react"
+import { CalendarDays, CreditCard, DoorOpen, Music2, ShieldCheck, Sparkles, Bell, ArrowRight, X, User, Phone, Church, QrCode } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { buttonVariants } from "@/components/ui/button"
-import { buildApprovalItems, events, notices } from "@/lib/mock-data"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { buildApprovalItems, events, notices, getRoleLabel } from "@/lib/mock-data"
 import { useDemoUser } from "@/lib/prototype-auth"
 import { getGreeting } from "@/lib/date-utils"
 import { cn } from "@/lib/utils"
+import { QRCode } from "@/components/shared/qr-code"
 
 const shortcuts = [
   { href: "/salas", label: "Solicitar sala", icon: DoorOpen, desc: "Reserve uma sala para ensaio ou reunião" },
@@ -22,11 +25,98 @@ export default function DashboardPage() {
   const pendingCount = allApprovalItems.filter((item) => item.status === "pendente").length
   const pendingLouvorCount = allApprovalItems.filter((item) => item.type === "song" && item.status === "pendente").length
   const pendingSalasCount = allApprovalItems.filter((item) => item.type === "room" && item.status === "pendente").length
+  const [showWallet, setShowWallet] = useState(false)
 
   const greeting = getGreeting()
 
+  const initials = user.name
+    .split(" ")
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+
+  const qrValue = `SILOE:${user.id}:${user.name}:${role}`
+
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
+
+      {/* ──── DIGITAL WALLET MODAL ──── */}
+      {showWallet && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in"
+          onClick={() => setShowWallet(false)}
+        >
+          <div
+            className="relative w-full max-w-sm rounded-3xl border border-border/40 bg-gradient-to-br from-accent/20 via-card to-card/90 shadow-2xl shadow-accent/10 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Stripe topo */}
+            <div className="h-2 w-full bg-gradient-to-r from-accent via-teal-400 to-accent/70" />
+
+            <button
+              onClick={() => setShowWallet(false)}
+              className="absolute top-4 right-4 size-8 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center text-muted-foreground transition-colors"
+            >
+              <X className="size-4" />
+            </button>
+
+            <div className="p-6 flex flex-col items-center gap-5">
+              {/* Logo + título */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="size-12 rounded-2xl bg-accent/15 border border-accent/25 flex items-center justify-center">
+                  <CreditCard className="size-6 text-accent" />
+                </div>
+                <div className="text-center">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Igreja Siloé</p>
+                  <p className="text-[10px] text-muted-foreground">Carteira Digital do Membro</p>
+                </div>
+              </div>
+
+              {/* Avatar + info */}
+              <div className="flex items-center gap-4 w-full rounded-2xl bg-muted/30 border border-border/30 p-4">
+                <Avatar className="size-14 border-2 border-accent/30 shrink-0">
+                  <AvatarFallback className="bg-accent-soft/60 text-accent font-bold text-lg">{initials}</AvatarFallback>
+                </Avatar>
+                <div className="min-w-0">
+                  <p className="font-bold text-foreground text-sm leading-tight">{user.name}</p>
+                  <p className="text-[11px] font-semibold text-accent mt-0.5">{getRoleLabel(role)}</p>
+                  <div className="flex flex-col gap-1 mt-2">
+                    {user.phone && (
+                      <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                        <Phone className="size-3 shrink-0" /> {user.phone}
+                      </span>
+                    )}
+                    <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                      <User className="size-3 shrink-0" /> ID: {user.id}
+                    </span>
+                    {user.ministries && user.ministries.length > 0 && (
+                      <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                        <Church className="size-3 shrink-0" /> {user.ministries.join(", ")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* QR Code */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="p-3 rounded-2xl bg-white shadow-md">
+                  <QRCode value={qrValue} size={140} className="rounded-lg" />
+                </div>
+                <p className="text-[10px] text-muted-foreground text-center max-w-[200px]">
+                  Apresente este QR para check-in em eventos ou identificação na portaria.
+                </p>
+              </div>
+
+              {/* Status badge */}
+              <Badge className="bg-emerald-500/15 text-emerald-500 border border-emerald-500/20 font-bold text-[11px] px-3 py-1">
+                ✓ Membro Ativo — {new Date().getFullYear()}
+              </Badge>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Welcome Banner Section */}
       <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
         <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-br from-accent/10 via-transparent to-transparent p-6 sm:p-8 backdrop-blur-md shadow-sm">
@@ -37,7 +127,6 @@ export default function DashboardPage() {
               <Sparkles className="size-3.5" />
               Portal da Comunidade Siloé
             </Badge>
-
             <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Perfil: {role === "admin" ? "Administrador" : role === "lider_louvor" ? "Líder de Louvor" : role === "lider_salas" ? "Líder de Salas" : "Membro"}
             </Badge>
@@ -55,10 +144,7 @@ export default function DashboardPage() {
             {role === "admin" && (
               <Link 
                 href="/admin" 
-                className={cn(
-                  buttonVariants({ size: "lg" }), 
-                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
-                )}
+                className={cn(buttonVariants({ size: "lg" }), "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg")}
               >
                 <ShieldCheck className="size-4.5" />
                 {pendingCount > 0 ? `Você tem ${pendingCount} solicitações pendentes` : "Gerenciar Membros & Permissões"}
@@ -69,10 +155,7 @@ export default function DashboardPage() {
             {role === "lider_louvor" && (
               <Link 
                 href="/louvor" 
-                className={cn(
-                  buttonVariants({ size: "lg" }), 
-                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
-                )}
+                className={cn(buttonVariants({ size: "lg" }), "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg")}
               >
                 <Music2 className="size-4.5" />
                 {pendingLouvorCount > 0 ? `${pendingLouvorCount} sugestões de músicas pendentes` : "Gerenciar Escalas & Louvor"}
@@ -83,10 +166,7 @@ export default function DashboardPage() {
             {role === "lider_salas" && (
               <Link 
                 href="/salas" 
-                className={cn(
-                  buttonVariants({ size: "lg" }), 
-                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
-                )}
+                className={cn(buttonVariants({ size: "lg" }), "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg")}
               >
                 <DoorOpen className="size-4.5" />
                 {pendingSalasCount > 0 ? `${pendingSalasCount} solicitações de salas para aprovar` : "Gerenciar Agenda de Salas"}
@@ -95,17 +175,26 @@ export default function DashboardPage() {
             )}
 
             {role === "membro" && (
-              <Link 
-                href="/salas" 
-                className={cn(
-                  buttonVariants({ size: "lg" }), 
-                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
-                )}
-              >
-                <DoorOpen className="size-4.5" />
-                Solicitar Reserva de Sala
-                <ArrowRight className="size-4 ml-1" />
-              </Link>
+              <>
+                <Link 
+                  href="/salas" 
+                  className={cn(buttonVariants({ size: "lg" }), "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg")}
+                >
+                  <DoorOpen className="size-4.5" />
+                  Solicitar Reserva de Sala
+                  <ArrowRight className="size-4 ml-1" />
+                </Link>
+
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => setShowWallet(true)}
+                  className="rounded-xl border-border/60 gap-2 font-semibold hover:border-accent/40 hover:bg-accent-soft/20 hover:text-accent transition-all duration-300"
+                >
+                  <QrCode className="size-4.5" />
+                  Minha Carteira Digital
+                </Button>
+              </>
             )}
           </div>
         </div>

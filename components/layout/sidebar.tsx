@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe, Vote, FileCheck2, PieChart } from "lucide-react"
+import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe, Vote, FileCheck2, PieChart, Download } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import { useDemoUser } from "@/lib/prototype-auth"
 import { useTheme } from "@/components/providers/theme-provider"
 import { toast } from "sonner"
 import type { Role } from "@/lib/types"
+import { usePWAInstall } from "@/lib/use-pwa-install"
 
 type NavItem = {
   href: string
@@ -69,6 +70,7 @@ export function Sidebar() {
   const { theme, setTheme } = useTheme()
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebar()
   const { user, role, setRole } = useDemoUser()
+  const { showInstallButton, promptInstall } = usePWAInstall()
 
   const initials = user.name
     .split(" ")
@@ -206,6 +208,21 @@ export function Sidebar() {
                 </div>
               )}
             </div>
+
+            {/* Install PWA button — Android only, disappears after install */}
+            {showInstallButton && (
+              <button
+                onClick={promptInstall}
+                className={cn(
+                  "flex items-center rounded-xl border border-accent/30 bg-accent-soft/20 text-accent text-xs font-semibold transition-all duration-300 hover:bg-accent hover:text-white hover:border-accent shadow-sm",
+                  isCollapsed ? "size-11 mx-auto justify-center" : "p-3 gap-2.5 w-full"
+                )}
+                title={isCollapsed ? "Instalar app" : undefined}
+              >
+                <Download className="size-3.5 shrink-0" />
+                {!isCollapsed && <span className="animate-fade-in">Instalar App</span>}
+              </button>
+            )}
 
             <Link
               href="/"
