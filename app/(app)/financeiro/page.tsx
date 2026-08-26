@@ -82,28 +82,6 @@ export default function FinanceiroPage() {
   const { user, role } = useDemoUser()
   const isFinanceManager = role === "admin" || role === "tesoureiro"
 
-  if (!isFinanceManager) {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
-        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
-          <ShieldAlert className="size-8" />
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito</h2>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
-          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. A gestão do Módulo Financeiro é restrita ao Administrador e Tesouraria. Para transparência financeira, acesse o módulo de Prestação de Contas.
-        </p>
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <Link href="/prestacao-contas" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
-            Ver Prestação de Contas
-          </Link>
-          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl border border-border/60 bg-transparent px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted/40">
-            Voltar ao Dashboard
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
   // Active Tab
   const [activeTab, setActiveTab] = useState<"geral" | "lancamentos" | "cultos" | "contas">("geral")
 
@@ -272,6 +250,28 @@ export default function FinanceiroPage() {
     toast.info("Gerando DRE sintético e extrato em PDF...", {
       description: "O documento com os balanços deste mês foi compilado.",
     })
+  }
+
+  if (!isFinanceManager) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
+          <ShieldAlert className="size-8" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito</h2>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
+          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. O Módulo Financeiro é de acesso exclusivo para a Administração e Tesouraria. Para ver um resumo financeiro, acesse a Prestação de Contas.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link href="/prestacao-contas" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
+            Ir para Prestação de Contas
+          </Link>
+          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl bg-muted px-6 text-sm font-semibold text-foreground shadow transition-colors hover:bg-muted/80">
+            Voltar ao Dashboard
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (

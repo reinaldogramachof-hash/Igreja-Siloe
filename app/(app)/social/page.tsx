@@ -57,25 +57,6 @@ import { cn } from "@/lib/utils"
 export default function SocialPage() {
   const { user, role } = useDemoUser()
 
-  if (role !== "admin" && role !== "secretaria") {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
-        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
-          <ShieldAlert className="size-8" />
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito</h2>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
-          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. A gestão do Módulo Social (Assistência e Visitas) é de acesso restrito à Secretaria e Administração.
-        </p>
-        <div className="mt-6">
-          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
-            Voltar ao Dashboard
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
   // Tabs State
   const [activeTab, setActiveTab] = useState<"entregas" | "familias" | "visitas">("entregas")
   const [viewMode, setViewMode] = useState<"table" | "cards">("cards")
@@ -196,6 +177,25 @@ export default function SocialPage() {
   function resetVisitForm() {
     setVisitMemberName("")
     setVisitNotes("")
+  }
+
+  if (role !== "admin" && role !== "secretaria") {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
+          <ShieldAlert className="size-8" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito</h2>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
+          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. A gestão do Módulo Social (Assistência e Visitas) é de acesso restrito à Secretaria e Administração.
+        </p>
+        <div className="mt-6">
+          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
+            Voltar ao Dashboard
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
