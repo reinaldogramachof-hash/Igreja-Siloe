@@ -118,36 +118,18 @@ export function Sidebar() {
           
           {/* Footer area */}
           <div className="mt-auto p-4 border-t border-border/40 space-y-3 shrink-0">
-            {/* Settings (Theme & Role Switcher) */}
+            {/* Settings (Theme Switcher) */}
             <div className="pt-1">
               {!isCollapsed ? (
-                <div className="flex items-center gap-2">
-                  <div className="flex flex-1 items-center gap-1.5 rounded-xl border border-border/40 bg-card/45 px-2 py-1 shadow-sm">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/80">Simular:</span>
-                    <select
-                      value={role}
-                      onChange={(event) => setRole(event.target.value as typeof role)}
-                      className="rounded-lg bg-transparent text-xs font-semibold text-foreground outline-none focus:ring-0 cursor-pointer flex-1 w-full"
-                      aria-label="Entrar como"
-                    >
-                      <option value="admin" className="bg-background text-foreground">Admin</option>
-                      <option value="lider_louvor" className="bg-background text-foreground">Líder Louvor</option>
-                      <option value="lider_salas" className="bg-background text-foreground">Líder Salas</option>
-                      <option value="membro" className="bg-background text-foreground">Membro</option>
-                    </select>
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    aria-label="Alternar tema"
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="size-9 rounded-xl border border-border/40 bg-card/45 hover:bg-muted/50 text-muted-foreground shrink-0 transition-colors"
-                  >
-                    <Sun className="size-4.5 dark:hidden" />
-                    <Moon className="hidden size-4.5 dark:block" />
-                  </Button>
-                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="w-full h-9 justify-start gap-2.5 rounded-xl border border-border/40 bg-card/45 px-3 text-xs font-semibold text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors"
+                >
+                  <Sun className="size-4 dark:hidden text-accent" />
+                  <Moon className="hidden size-4 dark:block text-accent" />
+                  <span>{theme === "dark" ? "Modo Escuro" : "Modo Claro"}</span>
+                </Button>
               ) : (
                 <div className="flex flex-col items-center">
                   <Button
