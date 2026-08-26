@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe } from "lucide-react"
+import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe, Vote, FileCheck2, PieChart } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
@@ -32,6 +32,7 @@ const navCategories: NavCategory[] = [
     items: [
       { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { href: "/notificacoes", label: "Notificações", icon: Bell },
+      { href: "/enquetes", label: "Enquetes", icon: Vote },
     ],
   },
   {
@@ -40,12 +41,14 @@ const navCategories: NavCategory[] = [
       { href: "/celulas", label: "Células", icon: Network },
       { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
       { href: "/social", label: "Ação Social", icon: HeartHandshake },
+      { href: "/reunioes", label: "Reuniões & Decisões", icon: FileCheck2 },
     ],
   },
   {
     title: "Gestão & Ministérios",
     items: [
       { href: "/financeiro", label: "Financeiro", icon: Landmark, rolesAllowed: ["admin", "tesoureiro"] },
+      { href: "/prestacao-contas", label: "Prestação de Contas", icon: PieChart },
       { href: "/eventos", label: "Eventos", icon: Ticket },
       { href: "/louvor", label: "Louvor", icon: Music2 },
       { href: "/salas", label: "Salas & Estrutura", icon: DoorOpen },

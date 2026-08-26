@@ -150,39 +150,41 @@ export default function NotificacoesPage() {
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
       {/* HEADER DA PÁGINA */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent shrink-0">
               <Bell className="size-5" />
             </span>
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Central de Notificações & Mural
             </h1>
           </div>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm text-muted-foreground max-w-3xl">
             Mural oficial de recados da igreja, notificações in-app do sistema e disparo em massa.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 shrink-0">
-          <Button
-            onClick={handleMarkAllAsRead}
-            variant="outline"
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold"
-          >
-            <CheckCheck className="size-4" />
-            Marcar Lidas
-          </Button>
-          <Button
-            onClick={() => setIsAnnouncementModalOpen(true)}
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10"
-          >
-            <Plus className="size-4.5" />
-            Novo Comunicado
-          </Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
+          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
+            <Button
+              onClick={handleMarkAllAsRead}
+              variant="outline"
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+            >
+              <CheckCheck className="size-4 shrink-0" />
+              Marcar Lidas
+            </Button>
+            <Button
+              onClick={() => setIsAnnouncementModalOpen(true)}
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
+            >
+              <Plus className="size-4.5 shrink-0" />
+              Novo Comunicado
+            </Button>
+          </div>
         </div>
       </div>
 

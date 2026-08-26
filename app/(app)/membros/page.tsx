@@ -186,41 +186,41 @@ export default function MembrosPage() {
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
       {/* Cabeçalho da Página */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent shrink-0">
               <Users className="size-5" />
             </span>
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Secretaria & Membros
             </h1>
           </div>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm text-muted-foreground max-w-3xl">
             Gestão cadastral de membros, trilha de crescimento (discipulado), cartão digital e certificados.
           </p>
         </div>
 
         {isSecretary && (
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
             <Button
               onClick={() => setOnlyBirthdays(!onlyBirthdays)}
               variant={onlyBirthdays ? "default" : "outline"}
               size="sm"
               className={cn(
-                "gap-2 rounded-xl h-10 px-3.5 border-amber-500/40 font-semibold",
+                "gap-2 rounded-xl h-10 px-3.5 border-amber-500/40 font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto",
                 onlyBirthdays && "bg-amber-500 hover:bg-amber-600 text-white border-amber-500"
               )}
             >
-              <Cake className="size-4" />
+              <Cake className="size-4 shrink-0" />
               Aniversariantes do Mês ({totalAniversariantes})
             </Button>
             <Button
               onClick={() => setIsAddModalOpen(true)}
               size="sm"
-              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10"
+              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
             >
-              <UserPlus className="size-4.5" />
+              <UserPlus className="size-4.5 shrink-0" />
               Novo Membro
             </Button>
           </div>

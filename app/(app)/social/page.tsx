@@ -180,28 +180,28 @@ export default function SocialPage() {
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
       {/* Cabeçalho da Página */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent shrink-0">
               <HeartHandshake className="size-5" />
             </span>
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Ação Social & Visitas
             </h1>
           </div>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm text-muted-foreground max-w-3xl">
             Acolhimento comunitário, distribuição de cestas básicas, vale-gás e agenda de atendimento pastoral.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
-          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto">
+          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
             <Button
               onClick={() => setIsVisitModalOpen(true)}
               variant="outline"
               size="sm"
-              className="gap-2 rounded-xl h-10 px-3 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold w-full text-xs sm:text-sm"
+              className="gap-2 rounded-xl h-10 px-3 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
             >
               <Heart className="size-4 shrink-0" />
               Agendar Visita
@@ -210,7 +210,7 @@ export default function SocialPage() {
               onClick={() => setIsFamilyModalOpen(true)}
               variant="outline"
               size="sm"
-              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold w-full text-xs sm:text-sm"
+              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
             >
               <Home className="size-4 shrink-0" />
               Cadastrar Família
@@ -219,7 +219,7 @@ export default function SocialPage() {
           <Button
             onClick={() => setIsDeliveryModalOpen(true)}
             size="sm"
-            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 w-full sm:w-auto text-xs sm:text-sm"
+            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto"
           >
             <Plus className="size-4.5 shrink-0" />
             Registrar Entrega
