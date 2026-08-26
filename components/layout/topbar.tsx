@@ -41,7 +41,8 @@ export function Topbar() {
     : ""
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border/40 bg-background/80 px-4 backdrop-blur-md lg:px-8">
+    <header className="sticky top-0 z-30 border-b border-border/40 bg-background/80 backdrop-blur-md" style={{ paddingTop: 'env(safe-area-inset-top)' }}>      
+      <div className="flex h-16 items-center justify-between px-4 lg:px-8">
       {/* Left side actions */}
       <div className="flex items-center gap-3">
         {/* Menu Buttons (Desktop Toggle / Mobile Drawer Toggle) */}
@@ -99,6 +100,7 @@ export function Topbar() {
         <div className="flex items-center lg:hidden">
           <Image src="/logo.svg" alt="Igreja Siloé" width={28} height={28} className="object-contain" />
         </div>
+      </div>
       </div>
     </header>
   )

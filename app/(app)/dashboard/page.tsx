@@ -1,12 +1,26 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { CalendarDays, CreditCard, DoorOpen, Music2, ShieldCheck, Sparkles, Bell, ArrowRight, X, User, Phone, Church, QrCode } from "lucide-react"
+import Image from "next/image"
+import {
+  CalendarDays,
+  DoorOpen,
+  Music2,
+  ShieldCheck,
+  Sparkles,
+  Bell,
+  ArrowRight,
+  X,
+  Church,
+  QrCode,
+  Maximize2,
+  CheckCircle2,
+  ZoomIn,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { buildApprovalItems, events, notices, getRoleLabel } from "@/lib/mock-data"
 import { useDemoUser } from "@/lib/prototype-auth"
 import { getGreeting } from "@/lib/date-utils"
@@ -25,7 +39,20 @@ export default function DashboardPage() {
   const pendingCount = allApprovalItems.filter((item) => item.status === "pendente").length
   const pendingLouvorCount = allApprovalItems.filter((item) => item.type === "song" && item.status === "pendente").length
   const pendingSalasCount = allApprovalItems.filter((item) => item.type === "room" && item.status === "pendente").length
+  
   const [showWallet, setShowWallet] = useState(false)
+  const [isQrZoomed, setIsQrZoomed] = useState(false)
+
+  // Travar o scroll do body quando o modal da carteira ou o zoom do QR Code estiver aberto
+  useEffect(() => {
+    if (showWallet || isQrZoomed) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [showWallet, isQrZoomed])
 
   const greeting = getGreeting()
 
@@ -40,78 +67,165 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
 
-      {/* ──── DIGITAL WALLET MODAL ──── */}
-      {showWallet && (
+      {/* ──── QR CODE ZOOM MODAL (EXPANSÃO PARA LEITURA RÁPIDA) ──── */}
+      {isQrZoomed && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in"
-          onClick={() => setShowWallet(false)}
+          className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+          onClick={() => setIsQrZoomed(false)}
         >
           <div
-            className="relative w-full max-w-sm rounded-3xl border border-border/40 bg-gradient-to-br from-accent/20 via-card to-card/90 shadow-2xl shadow-accent/10 overflow-hidden"
+            className="relative w-full max-w-[280px] rounded-3xl border border-accent/40 bg-gradient-to-b from-[#0a1118] via-[#0f1722] to-[#121d28] p-5 shadow-2xl text-center flex flex-col items-center gap-3.5 text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Stripe topo */}
-            <div className="h-2 w-full bg-gradient-to-r from-accent via-teal-400 to-accent/70" />
-
             <button
-              onClick={() => setShowWallet(false)}
-              className="absolute top-4 right-4 size-8 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center text-muted-foreground transition-colors"
+              onClick={() => setIsQrZoomed(false)}
+              className="absolute top-3.5 right-3.5 size-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              title="Fechar zoom"
             >
               <X className="size-4" />
             </button>
 
-            <div className="p-6 flex flex-col items-center gap-5">
-              {/* Logo + título */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="size-12 rounded-2xl bg-accent/15 border border-accent/25 flex items-center justify-center">
-                  <CreditCard className="size-6 text-accent" />
-                </div>
-                <div className="text-center">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Igreja Siloé</p>
-                  <p className="text-[10px] text-muted-foreground">Carteira Digital do Membro</p>
+            <div className="flex items-center gap-1.5 text-accent text-xs font-bold uppercase tracking-wider mt-1">
+              <QrCode className="size-4" />
+              <span>QR Code Ampliado</span>
+            </div>
+
+            {/* QR em tamanho ampliado */}
+            <div className="p-3.5 rounded-2xl bg-white shadow-2xl border-2 border-accent/40">
+              <QRCode value={qrValue} size={190} className="rounded-lg" />
+            </div>
+
+            <div>
+              <p className="font-bold text-sm text-white">{user.name}</p>
+              <p className="text-[11px] text-accent font-mono">ID: {user.id}</p>
+              <p className="text-[10.5px] text-white/70 mt-1 max-w-[220px] leading-tight">
+                Apresente na portaria ou recepção para validação instantânea.
+              </p>
+            </div>
+
+            <Button
+              onClick={() => setIsQrZoomed(false)}
+              className="w-full bg-accent hover:bg-accent/90 text-white rounded-xl font-semibold h-9 text-xs mt-0.5"
+            >
+              Fechar QR Code
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* ──── DIGITAL WALLET MODAL (LAPIDAÇÃO VERTICAL SEM ABAS SUPÉRFLUAS) ──── */}
+      {showWallet && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in overflow-y-auto"
+          onClick={() => setShowWallet(false)}
+        >
+          <div
+            className="relative w-full max-w-[340px] rounded-3xl border border-accent/30 bg-gradient-to-b from-[#0a1118] via-[#0e1722] to-[#121d28] shadow-2xl p-4 sm:p-5 flex flex-col text-white my-auto overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Marca d'água elegante de fundo */}
+            <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+              <Image src="/logo.svg" alt="watermark" width={220} height={220} className="grayscale" />
+            </div>
+
+            {/* Topo do Cartão: Logo + Título + Badge de Perfil + Botão Fechar */}
+            <div className="relative w-full flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Image src="/logo.svg" alt="Siloé" width={22} height={22} className="opacity-95 shrink-0" />
+                <div>
+                  <h3 className="text-white text-[10px] font-bold tracking-wider leading-none">IGREJA EVANGÉLICA SILOÉ</h3>
+                  <p className="text-white/60 text-[8px] uppercase tracking-widest mt-0.5 leading-none">Cartão Oficial de Membro</p>
                 </div>
               </div>
 
-              {/* Avatar + info */}
-              <div className="flex items-center gap-4 w-full rounded-2xl bg-muted/30 border border-border/30 p-4">
-                <Avatar className="size-14 border-2 border-accent/30 shrink-0">
-                  <AvatarFallback className="bg-accent-soft/60 text-accent font-bold text-lg">{initials}</AvatarFallback>
-                </Avatar>
-                <div className="min-w-0">
-                  <p className="font-bold text-foreground text-sm leading-tight">{user.name}</p>
-                  <p className="text-[11px] font-semibold text-accent mt-0.5">{getRoleLabel(role)}</p>
-                  <div className="flex flex-col gap-1 mt-2">
-                    {user.phone && (
-                      <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                        <Phone className="size-3 shrink-0" /> {user.phone}
-                      </span>
-                    )}
-                    <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                      <User className="size-3 shrink-0" /> ID: {user.id}
-                    </span>
-                    {user.ministries && user.ministries.length > 0 && (
-                      <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                        <Church className="size-3 shrink-0" /> {user.ministries.join(", ")}
-                      </span>
-                    )}
-                  </div>
+              <div className="flex items-center gap-2">
+                <Badge className="bg-accent text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 border-none shadow-none">
+                  {getRoleLabel(role)}
+                </Badge>
+                <button
+                  onClick={() => setShowWallet(false)}
+                  className="size-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                  title="Fechar carteirinha"
+                >
+                  <X className="size-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Bloco Central: Foto / Avatar + Nome + ID + Ministério */}
+            <div className="relative w-full flex flex-col items-center text-center mt-3.5">
+              <div className="relative size-16 rounded-2xl bg-[#070c12] border-2 border-accent/40 flex items-center justify-center shadow-inner shadow-accent/20 mb-2">
+                <span className="text-white font-bold text-xl">{initials}</span>
+                <div className="absolute -bottom-1 -right-1 size-4.5 rounded-full bg-emerald-500 border-2 border-[#0a1118] flex items-center justify-center" title="Membro Ativo">
+                  <CheckCircle2 className="size-2.5 text-white" />
                 </div>
               </div>
 
-              {/* QR Code */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="p-3 rounded-2xl bg-white shadow-md">
-                  <QRCode value={qrValue} size={140} className="rounded-lg" />
-                </div>
-                <p className="text-[10px] text-muted-foreground text-center max-w-[200px]">
-                  Apresente este QR para check-in em eventos ou identificação na portaria.
-                </p>
+              <h4 className="font-bold text-white text-base leading-tight truncate max-w-[260px]">{user.name}</h4>
+              <p className="text-[11.5px] text-white/70 mt-0.5 truncate max-w-[260px]">{user.email}</p>
+              
+              <div className="flex items-center justify-center gap-2 mt-1.5">
+                <span className="text-[9.5px] text-accent font-mono bg-accent/15 px-2 py-0.5 rounded-md border border-accent/20">
+                  ID: {user.id}
+                </span>
+                {user.phone && (
+                  <span className="text-[9.5px] text-white/60">
+                    {user.phone}
+                  </span>
+                )}
               </div>
 
-              {/* Status badge */}
-              <Badge className="bg-emerald-500/15 text-emerald-500 border border-emerald-500/20 font-bold text-[11px] px-3 py-1">
-                ✓ Membro Ativo — {new Date().getFullYear()}
-              </Badge>
+              {user.ministries && user.ministries.length > 0 && (
+                <div className="flex items-center gap-1 text-[9.5px] text-white/75 mt-1.5 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/5">
+                  <Church className="size-2.5 text-accent shrink-0" />
+                  <span className="truncate max-w-[220px]">{user.ministries.join(" • ")}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Bloco QR Code Vertical (Interativo para Leitura e Zoom) */}
+            <div className="relative w-full flex flex-col items-center mt-3 pt-2.5 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => setIsQrZoomed(true)}
+                className="group relative p-2 rounded-xl bg-white shadow-lg transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent"
+                title="Toque para ampliar o QR Code"
+              >
+                <QRCode value={qrValue} size={105} className="rounded-md" />
+                <div className="absolute inset-0 bg-accent/85 rounded-xl opacity-0 group-hover:opacity-95 flex flex-col items-center justify-center transition-opacity text-white gap-1">
+                  <ZoomIn className="size-5" />
+                  <span className="text-[9px] font-bold uppercase tracking-wider">Ampliar</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsQrZoomed(true)}
+                className="flex items-center gap-1 text-[10px] text-accent font-semibold mt-1.5 hover:underline cursor-pointer"
+              >
+                <Maximize2 className="size-3" />
+                <span>Toque no QR para leitura na portaria</span>
+              </button>
+            </div>
+
+            {/* Rodapé do Cartão: Status de Membresia */}
+            <div className="relative w-full flex items-center justify-between mt-2.5 pt-2 border-t border-white/10 text-[9.5px]">
+              <span className="text-white/50">Rol de Membresia:</span>
+              <span className="text-emerald-400 font-bold flex items-center gap-1">
+                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Ativo / Regular
+              </span>
+            </div>
+
+            {/* Botão de Fechar Único e Otimizado */}
+            <div className="w-full pt-3">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowWallet(false)}
+                className="w-full rounded-xl bg-white/5 hover:bg-white/15 border-white/15 text-white font-semibold text-xs h-9.5 transition-colors"
+              >
+                Fechar
+              </Button>
             </div>
           </div>
         </div>

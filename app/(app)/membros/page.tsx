@@ -22,11 +22,13 @@ import {
   Grid,
   List,
   ShieldCheck,
+  ShieldAlert,
   ChevronRight,
   Heart,
   Droplets,
 } from "lucide-react"
 import { toast } from "sonner"
+import Link from "next/link"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -41,7 +43,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { members as initialMembers } from "@/lib/mock-data"
+import { members as initialMembers, getRoleLabel } from "@/lib/mock-data"
 import type { Member, MemberCategory, MemberStatus, GrowthStep } from "@/lib/types"
 import { useDemoUser } from "@/lib/prototype-auth"
 import { cn } from "@/lib/utils"
@@ -181,6 +183,25 @@ export default function MembrosPage() {
     }
 
     toast.success("Progresso na Trilha de Crescimento atualizado!")
+  }
+
+  if (role === "membro") {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
+          <ShieldAlert className="size-8" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito</h2>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
+          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. A gestão do Módulo de Membros e Secretaria é de acesso restrito à liderança e administração da igreja.
+        </p>
+        <div className="mt-6">
+          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
+            Voltar ao Dashboard
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
