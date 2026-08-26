@@ -1,4 +1,4 @@
-export type Role = "admin" | "lider_louvor" | "lider_salas" | "tesoureiro" | "secretaria" | "membro"
+export type Role = "admin" | "lider_louvor" | "lider_salas" | "tesoureiro" | "secretaria" | "lider_celula" | "membro"
 
 export type BookingStatus = "pendente" | "aprovado" | "recusado"
 
@@ -108,6 +108,39 @@ export type PastoralVisit = {
   status: "agendado" | "realizado" | "retorno_pendente"
   notes?: string
   privacy: "confidencial" | "equipe_pastoral"
+}
+
+export type CellNetwork = "Jovens" | "Casais" | "Famílias" | "Mulheres" | "Homens" | "Adolescentes"
+
+export type CellGroup = {
+  id: string
+  name: string
+  network: CellNetwork
+  leaderName: string
+  coLeaderName?: string
+  hostName: string
+  dayOfWeek: "Segunda" | "Terça" | "Quarta" | "Quinta" | "Sexta" | "Sábado" | "Domingo"
+  time: string
+  neighborhood: string
+  address: string
+  membersCount: number
+  targetMembers: number
+  status: "ativa" | "multiplicada" | "em_formacao"
+}
+
+export type CellMeetingReport = {
+  id: string
+  cellId: string
+  cellName: string
+  meetingDate: string
+  attendeesCount: number
+  visitorsCount: number
+  biblesCount: number
+  conversionsCount: number
+  offeringAmount: number
+  studyTopic: string
+  notes?: string
+  submittedBy: string
 }
 
 export type Room = {

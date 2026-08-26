@@ -17,6 +17,7 @@ import {
   DoorOpen,
   Landmark,
   Users,
+  Network,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,11 +25,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { setStoredRole } from "@/lib/prototype-auth"
 import type { Role } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 const roles: { value: Role; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { value: "admin", label: "Admin", icon: ShieldCheck },
   { value: "secretaria", label: "Secretaria", icon: Users },
   { value: "tesoureiro", label: "Tesouraria", icon: Landmark },
+  { value: "lider_celula", label: "Célula", icon: Network },
   { value: "lider_louvor", label: "Louvor", icon: Music2 },
   { value: "lider_salas", label: "Salas", icon: DoorOpen },
   { value: "membro", label: "Membro", icon: User },
@@ -179,30 +182,107 @@ export default function LoginPage() {
                       />
                     </div>
 
-                    <div className="space-y-2 pt-1">
+                    <div className="space-y-3 pt-1">
                       <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                        Perfil para Demonstração
+                        Selecione o Perfil de Acesso
                       </Label>
-                      <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 font-medium">
-                        {roles.map((item) => {
-                          const Icon = item.icon
-                          const isSelected = role === item.value
-                          return (
-                            <button
-                              key={item.value}
-                              type="button"
-                              onClick={() => setRole(item.value)}
-                              className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 text-xs font-medium transition-all ${
-                                isSelected
-                                  ? "border-accent bg-accent/15 text-accent shadow-md font-semibold ring-2 ring-accent/30 scale-[1.02]"
-                                  : "hover:bg-muted/80 text-muted-foreground border-border/70 hover:border-accent/40"
-                              }`}
-                            >
-                              <Icon className={`size-4 ${isSelected ? "text-accent" : ""}`} />
-                              {item.label}
-                            </button>
-                          )
-                        })}
+                      
+                      {/* 3 Cartões Primários de Perfil */}
+                      <div className="grid grid-cols-3 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setRole("admin")}
+                          className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all ${
+                            role === "admin"
+                              ? "border-accent bg-accent/15 text-accent font-bold ring-2 ring-accent/30 shadow-md scale-[1.02]"
+                              : "border-border/70 text-muted-foreground hover:bg-muted/60 hover:border-accent/40"
+                          }`}
+                        >
+                          <ShieldCheck className="size-5 mb-1 text-accent" />
+                          <span className="text-xs font-bold">Admin</span>
+                          <span className="text-[9px] opacity-75 font-normal">Acesso Total</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!role.startsWith("lider_") && role !== "secretaria" && role !== "tesoureiro") {
+                              setRole("secretaria")
+                            }
+                          }}
+                          className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all ${
+                            role !== "admin" && role !== "membro"
+                              ? "border-accent bg-accent/15 text-accent font-bold ring-2 ring-accent/30 shadow-md scale-[1.02]"
+                              : "border-border/70 text-muted-foreground hover:bg-muted/60 hover:border-accent/40"
+                          }`}
+                        >
+                          <Users className="size-5 mb-1 text-accent" />
+                          <span className="text-xs font-bold">Líder</span>
+                          <span className="text-[9px] opacity-75 font-normal">Ministerial</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setRole("membro")}
+                          className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all ${
+                            role === "membro"
+                              ? "border-accent bg-accent/15 text-accent font-bold ring-2 ring-accent/30 shadow-md scale-[1.02]"
+                              : "border-border/70 text-muted-foreground hover:bg-muted/60 hover:border-accent/40"
+                          }`}
+                        >
+                          <User className="size-5 mb-1 text-accent" />
+                          <span className="text-xs font-bold">Membro</span>
+                          <span className="text-[9px] opacity-75 font-normal">Área Pessoal</span>
+                        </button>
+                      </div>
+
+                      {/* Sub-seleção para a área da Liderança */}
+                      {role !== "admin" && role !== "membro" && (
+                        <div className="p-2.5 rounded-xl border border-accent/30 bg-accent-soft/10 space-y-1.5 animate-fade-in">
+                          <p className="text-[10px] font-bold text-accent uppercase tracking-wider">
+                            Área da Liderança:
+                          </p>
+                          <div className="grid grid-cols-5 gap-1 text-[10px]">
+                            {[
+                              { value: "secretaria" as Role, label: "Secretaria" },
+                              { value: "tesoureiro" as Role, label: "Tesouraria" },
+                              { value: "lider_celula" as Role, label: "Célula" },
+                              { value: "lider_louvor" as Role, label: "Louvor" },
+                              { value: "lider_salas" as Role, label: "Salas" },
+                            ].map((sub) => (
+                              <button
+                                key={sub.value}
+                                type="button"
+                                onClick={() => setRole(sub.value)}
+                                className={cn(
+                                  "py-1 px-1 rounded-lg border font-semibold text-center transition-all truncate",
+                                  role === sub.value
+                                    ? "bg-accent text-white border-accent shadow-sm"
+                                    : "bg-background border-border/50 text-muted-foreground hover:text-foreground"
+                                )}
+                              >
+                                {sub.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Caixa de direcionamento/visão do perfil selecionado */}
+                      <div className="p-3 rounded-xl border border-border/40 bg-muted/20 text-xs space-y-1">
+                        <p className="font-bold text-foreground flex items-center gap-1.5">
+                          <CheckCircle2 className="size-3.5 text-accent" />
+                          Visão do Perfil:
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {role === "admin" && "Visualiza todo o ERP: Finanças, Aprovações, Rol de Membros, Ação Social, Células, Louvor e Salas."}
+                          {role === "secretaria" && "Visualiza Rol de Membros, Trilha de Discipulado, Cartões Digitais e Certificados."}
+                          {role === "tesoureiro" && "Visualiza DRE Sintético, Extrato Financeiro, Envelope de Cultos e Contas a Pagar."}
+                          {role === "lider_celula" && "Visualiza Células da Rede, Envio de Relatórios Semanais e Localizador por Bairro."}
+                          {role === "lider_louvor" && "Visualiza Repertório Musical, Cifras, BPM e Escalas do Ministério de Louvor."}
+                          {role === "lider_salas" && "Visualiza Agendamento de Salas do Templo e Calendário Geral de Eventos."}
+                          {role === "membro" && "Visualiza Cartão Digital de Membro, Localizador de Células e Escalas de Apoio."}
+                        </p>
                       </div>
                     </div>
 

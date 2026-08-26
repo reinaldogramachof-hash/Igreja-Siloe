@@ -13,7 +13,7 @@ export function getStoredRole(): Role {
   }
 
   const role = window.localStorage.getItem(STORAGE_KEY)
-  if (role === "admin" || role === "secretaria" || role === "tesoureiro" || role === "lider_louvor" || role === "lider_salas" || role === "membro") {
+  if (role === "admin" || role === "secretaria" || role === "tesoureiro" || role === "lider_celula" || role === "lider_louvor" || role === "lider_salas" || role === "membro") {
     return role
   }
 
