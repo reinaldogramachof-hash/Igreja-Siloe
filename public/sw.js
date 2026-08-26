@@ -1,15 +1,15 @@
-const CACHE_NAME = 'siloe-pwa-v1'
+const CACHE_NAME = 'siloe-pwa-v2'
 
-// Assets para cache imediato (App Shell)
+// Assets para cache imediato (App Shell essencial)
 const SHELL_ASSETS = [
   '/',
-  '/dashboard',
   '/offline',
   '/manifest.json',
   '/apple-touch-icon.png',
   '/favicon-32x32.png',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
+  '/logo.svg',
 ]
 
 // ─── Install: pré-cache do Shell ───────────────────────────────────────────
@@ -44,26 +44,43 @@ self.addEventListener('fetch', (event) => {
   // Ignora requisições não-HTTP (chrome-extension, etc.)
   if (!url.protocol.startsWith('http')) return
 
-  // Ignora requisições de outros domínios (analytics, fontes externas)
+  // Ignora requisições de outros domínios
   if (url.origin !== self.location.origin) return
 
-  // Assets estáticos Next.js → Cache-first
-  if (url.pathname.startsWith('/_next/static/')) {
+  // Ignora requisições de HMR / Webpack / Turbopack em desenvolvimento
+  if (
+    url.pathname.includes('/_next/webpack-hmr') ||
+    url.pathname.includes('hot-update')
+  ) {
+    return
+  }
+
+  // Em localhost/desenvolvimento, não faz cache de chunks Next.js para evitar conflitos de Turbopack
+  const isLocalhost =
+    self.location.hostname === 'localhost' ||
+    self.location.hostname === '127.0.0.1'
+
+  if (isLocalhost && url.pathname.startsWith('/_next/')) {
+    return
+  }
+
+  // Chunks e scripts do Next.js → Network-First com fallback de cache
+  if (url.pathname.startsWith('/_next/')) {
     event.respondWith(
-      caches.match(request).then(
-        (cached) =>
-          cached ||
-          fetch(request).then((response) => {
+      fetch(request)
+        .then((response) => {
+          if (response && response.status === 200) {
             const clone = response.clone()
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
-            return response
-          })
-      )
+          }
+          return response
+        })
+        .catch(() => caches.match(request))
     )
     return
   }
 
-  // Imagens → Cache-first com fallback de rede
+  // Imagens estáticas → Cache-first com fallback de rede
   if (request.destination === 'image') {
     event.respondWith(
       caches.match(request).then(
@@ -71,10 +88,10 @@ self.addEventListener('fetch', (event) => {
           cached ||
           fetch(request)
             .then((response) => {
-              const clone = response.clone()
-              caches
-                .open(CACHE_NAME)
-                .then((cache) => cache.put(request, clone))
+              if (response && response.status === 200) {
+                const clone = response.clone()
+                caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+              }
               return response
             })
             .catch(() => caches.match('/icons/icon-192x192.png'))
@@ -88,16 +105,15 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // Salva uma cópia em cache se a requisição foi bem-sucedida
-          const clone = response.clone()
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+          if (response && response.status === 200) {
+            const clone = response.clone()
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+          }
           return response
         })
         .catch(() =>
           caches.match(request).then(
-            (cached) =>
-              cached ||
-              caches.match('/offline')
+            (cached) => cached || caches.match('/offline')
           )
         )
     )

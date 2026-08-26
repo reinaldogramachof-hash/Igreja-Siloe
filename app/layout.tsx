@@ -69,7 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js', { scope: '/' })
                     .then(function(reg) {
-                      console.log('[PWA] Service Worker registrado:', reg.scope);
+                      reg.update();
                     })
                     .catch(function(err) {
                       console.warn('[PWA] Falha ao registrar Service Worker:', err);
