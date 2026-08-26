@@ -95,3 +95,53 @@ export function getGreeting(): string {
   if (hours >= 12 && hours < 18) return "Boa tarde"
   return "Boa noite"
 }
+
+/** Retorna os 7 dias (seg..dom) de qualquer semana com base em uma data de referência. */
+export function getWeekForDate(baseDate: Date): WeekDay[] {
+  const monday = new Date(baseDate)
+  monday.setDate(baseDate.getDate() - getWeekdayIndex(baseDate))
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(monday)
+    day.setDate(monday.getDate() + index)
+    return {
+      date: toISODate(day),
+      label: WEEKDAY_LABELS[index],
+      dayNumber: day.getDate(),
+    }
+  })
+}
+
+export type MonthCalendarDay = {
+  date: string
+  dayNumber: number
+  isCurrentMonth: boolean
+  isToday: boolean
+}
+
+/** Retorna a grade completa de dias para a visão mensal de calendário (incluindo dias padding). */
+export function getMonthGrid(year: number, month: number): MonthCalendarDay[] {
+  const firstDayOfMonth = new Date(year, month, 1)
+  const lastDayOfMonth = new Date(year, month + 1, 0)
+  
+  const startWeekday = getWeekdayIndex(firstDayOfMonth) // 0 = Seg ... 6 = Dom
+  const todayStr = toISODate(new Date())
+
+  const startDate = new Date(firstDayOfMonth)
+  startDate.setDate(firstDayOfMonth.getDate() - startWeekday)
+
+  const totalDays = Math.ceil((startWeekday + lastDayOfMonth.getDate()) / 7) * 7
+
+  return Array.from({ length: totalDays }, (_, index) => {
+    const current = new Date(startDate)
+    current.setDate(startDate.getDate() + index)
+    const dateStr = toISODate(current)
+
+    return {
+      date: dateStr,
+      dayNumber: current.getDate(),
+      isCurrentMonth: current.getMonth() === month,
+      isToday: dateStr === todayStr,
+    }
+  })
+}
