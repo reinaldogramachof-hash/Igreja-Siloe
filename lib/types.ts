@@ -273,3 +273,54 @@ export type ApprovalItem = {
   status: BookingStatus
   meta: string
 }
+
+export type SiteServiceSchedule = {
+  id: string
+  dayOfWeek: string
+  time: string
+  title: string
+  description?: string
+}
+
+export type SiteBanner = {
+  id: string
+  title: string
+  subtitle: string
+  buttonText: string
+  buttonLink: string
+  imageUrl: string
+  active: boolean
+}
+
+export type PastoralTeamMember = {
+  id: string
+  name: string
+  role: string
+  bio: string
+  imageUrl: string
+}
+
+export type SiteSettings = {
+  heroTitle: string
+  heroSubtitle: string
+  heroCtaText: string
+  heroCtaLink: string
+  heroBgUrl: string
+  aboutHistory: string
+  aboutMission: string
+  aboutVision: string
+  aboutValues: string
+  schedules: SiteServiceSchedule[]
+  banners: SiteBanner[]
+  pastoralTeam: PastoralTeamMember[]
+  socialLinks: {
+    instagram?: string
+    youtube?: string
+    facebook?: string
+    whatsapp?: string
+  }
+  address: string
+  phone: string
+  email: string
+}
+

@@ -3,28 +3,61 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket } from "lucide-react"
+import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { getRoleLabel } from "@/lib/mock-data"
 import { useDemoUser } from "@/lib/prototype-auth"
-import { useTheme } from "next-themes"
+import { useTheme } from "@/components/providers/theme-provider"
 import { toast } from "sonner"
 import type { Role } from "@/lib/types"
 
-const navItems: { href: string; label: string; icon: any; rolesAllowed?: Role[] }[] = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/eventos", label: "Eventos", icon: Ticket },
-  { href: "/notificacoes", label: "Notificações", icon: Bell },
-  { href: "/celulas", label: "Células", icon: Network },
-  { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
-  { href: "/financeiro", label: "Financeiro", icon: Landmark, rolesAllowed: ["admin", "tesoureiro"] },
-  { href: "/social", label: "Ação Social", icon: HeartHandshake },
-  { href: "/salas", label: "Salas", icon: DoorOpen },
-  { href: "/louvor", label: "Louvor", icon: Music2 },
-  { href: "/admin", label: "Admin", icon: ShieldCheck, rolesAllowed: ["admin"] },
+type NavItem = {
+  href: string
+  label: string
+  icon: any
+  rolesAllowed?: Role[]
+}
+
+type NavCategory = {
+  title: string
+  items: NavItem[]
+}
+
+const navCategories: NavCategory[] = [
+  {
+    title: "Geral",
+    items: [
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/notificacoes", label: "Notificações", icon: Bell },
+    ],
+  },
+  {
+    title: "Pastoreio & Membros",
+    items: [
+      { href: "/celulas", label: "Células", icon: Network },
+      { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
+      { href: "/social", label: "Ação Social", icon: HeartHandshake },
+    ],
+  },
+  {
+    title: "Gestão & Ministérios",
+    items: [
+      { href: "/financeiro", label: "Financeiro", icon: Landmark, rolesAllowed: ["admin", "tesoureiro"] },
+      { href: "/eventos", label: "Eventos", icon: Ticket },
+      { href: "/louvor", label: "Louvor", icon: Music2 },
+      { href: "/salas", label: "Salas & Estrutura", icon: DoorOpen },
+    ],
+  },
+  {
+    title: "Administração",
+    items: [
+      { href: "/site", label: "Gestão do Site", icon: Globe, rolesAllowed: ["admin"] },
+      { href: "/admin", label: "Painel Admin", icon: ShieldCheck, rolesAllowed: ["admin"] },
+    ],
+  },
 ]
 
 export function Sidebar() {
@@ -33,8 +66,6 @@ export function Sidebar() {
   const { theme, setTheme } = useTheme()
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebar()
   const { user, role, setRole } = useDemoUser()
-
-  const filteredNavItems = navItems.filter((item) => !item.rolesAllowed || item.rolesAllowed.includes(role))
 
   const initials = user.name
     .split(" ")
@@ -93,32 +124,52 @@ export function Sidebar() {
             </Button>
           </div>
           
-          {/* Nav Items (scrollable if viewport is short) */}
-          <nav className="flex-1 space-y-1.5 px-3 py-4 overflow-y-auto scrollbar-none">
-            {filteredNavItems.map((item) => {
-              const Icon = item.icon
-              const active = pathname === item.href
+          {/* Nav Items Organizados por Sessões */}
+          <nav className="flex-1 space-y-4 px-3 py-2 overflow-y-auto scrollbar-none">
+            {navCategories.map((category) => {
+              const visibleItems = category.items.filter(
+                (item) => !item.rolesAllowed || item.rolesAllowed.includes(role)
+              )
+
+              if (visibleItems.length === 0) return null
 
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMobile}
-                  className={cn(
-                    "relative flex h-11 items-center rounded-xl text-sm font-medium transition-all duration-300 group",
-                    active
-                      ? "bg-accent/10 text-accent font-semibold shadow-sm shadow-accent/5"
-                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-                    isCollapsed ? "justify-center px-0" : "px-3.5 gap-3"
+                <div key={category.title} className="space-y-1">
+                  {!isCollapsed ? (
+                    <div className="px-3 pt-2 pb-1 text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground/60">
+                      {category.title}
+                    </div>
+                  ) : (
+                    <div className="mx-2 my-2 border-t border-border/30" />
                   )}
-                  title={isCollapsed ? item.label : undefined}
-                >
-                  {active && (
-                    <span className="absolute left-0 top-3 h-5 w-1 rounded-r-full bg-accent" />
-                  )}
-                  <Icon className={cn("size-4.5 shrink-0 transition-transform duration-300 group-hover:scale-105", active ? "text-accent" : "text-muted-foreground group-hover:text-foreground")} />
-                  {!isCollapsed && <span className="animate-fade-in truncate">{item.label}</span>}
-                </Link>
+
+                  {visibleItems.map((item) => {
+                    const Icon = item.icon
+                    const active = pathname === item.href
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={closeMobile}
+                        className={cn(
+                          "relative flex h-10 items-center rounded-xl text-xs font-semibold transition-all duration-200 group",
+                          active
+                            ? "bg-accent/15 text-accent font-bold shadow-sm shadow-accent/5"
+                            : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+                          isCollapsed ? "justify-center px-0" : "px-3 gap-3"
+                        )}
+                        title={isCollapsed ? item.label : undefined}
+                      >
+                        {active && (
+                          <span className="absolute left-0 top-2.5 h-5 w-1 rounded-r-full bg-accent" />
+                        )}
+                        <Icon className={cn("size-4 shrink-0 transition-transform duration-200 group-hover:scale-105", active ? "text-accent" : "text-muted-foreground group-hover:text-foreground")} />
+                        {!isCollapsed && <span className="animate-fade-in truncate">{item.label}</span>}
+                      </Link>
+                    )
+                  })}
+                </div>
               )
             })}
           </nav>

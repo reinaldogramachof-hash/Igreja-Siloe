@@ -8,6 +8,7 @@ import type {
   Song,
   SongRequest,
   WorshipScale,
+  SiteSettings,
 } from "@/lib/types"
 
 export const members: Member[] = [
@@ -1050,3 +1051,91 @@ export function buildApprovalItems(
 
   return [...roomItems, ...songItems]
 }
+
+export const mockSiteSettings: SiteSettings = {
+  heroTitle: "Uma Igreja Viva Servindo a um Deus Vivo",
+  heroSubtitle: "Seja bem-vindo à Comunidade Siloé. Um lugar de fé, comunhão, crescimento e serviço para toda a família.",
+  heroCtaText: "Conheça Nossos Cultos",
+  heroCtaLink: "#cultos",
+  heroBgUrl: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1600&q=80",
+  aboutHistory: "Fundada em 2012, a Igreja Siloé nasceu com o propósito de transmitir o amor irrestrito de Cristo, transformando vidas na nossa cidade através da pregação da Palavra, pastoreio intencional e serviço comunitário.",
+  aboutMission: "Amar a Deus, servir ao próximo e fazer discípulos de Jesus Cristo em todas as nações.",
+  aboutVision: "Ser uma comunidade acolhedora, vibrante e relevante que impacta a geração atual com a verdade do Evangelho.",
+  aboutValues: "Fé Bíblica, Comunhão Fraterna, Serviço com Excelência, Oração Contínua e Discipulado de Relacionamento.",
+  schedules: [
+    {
+      id: "sch-1",
+      dayOfWeek: "Domingo",
+      time: "10:00 - 12:00",
+      title: "Culto de Celebração da Família",
+      description: "Louvor, adoração e ministração da Palavra. Ministério Infantil completo.",
+    },
+    {
+      id: "sch-2",
+      dayOfWeek: "Domingo",
+      time: "18:00 - 20:00",
+      title: "Culto Noturno & Encontro de Jovens",
+      description: "Ambiente dinâmico com adoração contemporânea e comunhão.",
+    },
+    {
+      id: "sch-3",
+      dayOfWeek: "Quarta-feira",
+      time: "19:30 - 21:00",
+      title: "Culto de Ensino & Oração",
+      description: "Estudo bíblico detalhado por livros da Bíblia e momento de intercessão.",
+    },
+    {
+      id: "sch-4",
+      dayOfWeek: "Sábado",
+      time: "19:00 - 21:00",
+      title: "Rede de Células (Casas)",
+      description: "Encontros nos bairros para estudo, comunhão e apoio mútuo.",
+    },
+  ],
+  banners: [
+    {
+      id: "ban-1",
+      title: "Conferência de Avivamento 2026",
+      subtitle: "Inscreva-se com desconto de 1º lote. Vagas limitadas!",
+      buttonText: "Garantir Ingresso",
+      buttonLink: "/eventos",
+      imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
+      active: true,
+    },
+    {
+      id: "ban-2",
+      title: "Rede de Células nos Bairros",
+      subtitle: "Encontre uma célula pertinho da sua casa!",
+      buttonText: "Localizar Célula",
+      buttonLink: "/celulas",
+      imageUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80",
+      active: true,
+    },
+  ],
+  pastoralTeam: [
+    {
+      id: "pas-1",
+      name: "Pr. Roberto & Pra. Camila",
+      role: "Pastores Seniores",
+      bio: "Lideram a Igreja Siloé desde a sua fundação com paixão pela pregação expositiva e ensino da Palavra.",
+      imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    },
+    {
+      id: "pas-2",
+      name: "Pr. Marcos Oliveira",
+      role: "Pastor de Jovens & Comunicação",
+      bio: "Responsável pelo ministério da juventude e estratégias digitais da comunidade.",
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    },
+  ],
+  socialLinks: {
+    instagram: "@igreja.siloe.oficial",
+    youtube: "youtube.com/c/IgrejaSiloeOficial",
+    facebook: "facebook.com/igrejasiloe",
+    whatsapp: "(61) 99812-4411",
+  },
+  address: "Av. das Palmeiras, Quadra 10, Lote 05 - Plano Piloto, Brasília - DF",
+  phone: "(61) 3344-5566",
+  email: "contato@siloe.org.br",
+}
+
