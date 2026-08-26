@@ -788,6 +788,81 @@ export const cellReports = [
   },
 ]
 
+export const systemNotifications = [
+  {
+    id: "notif-001",
+    title: "Nova Reserva de Sala Pendente",
+    description: "Priscila Nogueira solicitou a Sala Kids para domingo às 09:00.",
+    type: "aprovacao" as const,
+    createdAt: "Há 10 minutos",
+    read: false,
+    linkUrl: "/admin",
+  },
+  {
+    id: "notif-002",
+    title: "Escala de Louvor Atualizada",
+    description: "Você foi escalado no Vocal para o Culto de Celebração de Domingo (19h).",
+    type: "escala" as const,
+    createdAt: "Há 2 horas",
+    read: false,
+    linkUrl: "/louvor",
+  },
+  {
+    id: "notif-003",
+    title: "Fechamento de Envelope Registrado",
+    description: "Tesouraria registrou o envelope do Culto de Quarta (R$ 2.440,00).",
+    type: "financeiro" as const,
+    createdAt: "Ontem às 21:30",
+    read: true,
+    linkUrl: "/financeiro",
+  },
+  {
+    id: "notif-004",
+    title: "Novo Membro Cadastrado",
+    description: "Secretaria adicionou Fernanda Souza na rede ministerial.",
+    type: "comunicado" as const,
+    createdAt: "Há 2 dias",
+    read: true,
+    linkUrl: "/membros",
+  },
+]
+
+export const churchAnnouncements = [
+  {
+    id: "ann-001",
+    title: "Conferência Anual de Avivamento & Propósito 2026",
+    content: "Estão abertas as inscrições para a nossa conferência anual! Teremos preletores convidados, oficinas de liderança e louvor intenso. Garanta sua vaga com desconto de lote antecipado.",
+    author: "Pr. Presidente Mateus Silva",
+    targetAudience: "Todos os Membros" as const,
+    category: "evento" as const,
+    pinned: true,
+    createdAt: "2026-08-25",
+    readsCount: 142,
+  },
+  {
+    id: "ann-002",
+    title: "Reunião Geral com Todos os Líderes de Célula",
+    content: "Convocamos todos os líderes e co-líderes de célula para o alinhamento trimestral de multiplicação das redes. Pauta: Treinamento de acolhimento e revisão dos relatórios semanais.",
+    author: "Diretoria Ministerial",
+    targetAudience: "Somente Líderes" as const,
+    category: "urgente" as const,
+    pinned: true,
+    createdAt: "2026-08-24",
+    readsCount: 28,
+  },
+  {
+    id: "ann-003",
+    title: "Ensaio Geral do Ministério de Louvor",
+    content: "Atenção ministério de louvor e técnica: nesta quinta-feira teremos ensaio geral do novo repertório para o mês de Setembro. Favor conferir as cifras e BPMs antecipadamente.",
+    author: "Rafael Monteiro (Líder de Louvor)",
+    targetAudience: "Ministério de Louvor" as const,
+    category: "comunicado" as const,
+    pinned: false,
+    createdAt: "2026-08-22",
+    readsCount: 19,
+  },
+]
+
 export const demoUsersByRole: Record<Role, Member> = {
   admin: members[0],
   secretaria: members[9],

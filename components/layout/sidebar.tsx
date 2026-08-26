@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network } from "lucide-react"
+import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
@@ -16,6 +16,7 @@ import type { Role } from "@/lib/types"
 
 const navItems: { href: string; label: string; icon: any; rolesAllowed?: Role[] }[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/notificacoes", label: "Notificações", icon: Bell },
   { href: "/celulas", label: "Células", icon: Network },
   { href: "/membros", label: "Membros", icon: Users, rolesAllowed: ["admin", "secretaria", "tesoureiro"] },
   { href: "/financeiro", label: "Financeiro", icon: Landmark, rolesAllowed: ["admin", "tesoureiro"] },

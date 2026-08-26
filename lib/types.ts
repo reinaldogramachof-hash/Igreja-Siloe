@@ -143,6 +143,30 @@ export type CellMeetingReport = {
   submittedBy: string
 }
 
+export type NotificationType = "aprovacao" | "escala" | "financeiro" | "comunicado"
+
+export type SystemNotification = {
+  id: string
+  title: string
+  description: string
+  type: NotificationType
+  createdAt: string
+  read: boolean
+  linkUrl?: string
+}
+
+export type ChurchAnnouncement = {
+  id: string
+  title: string
+  content: string
+  author: string
+  targetAudience: "Todos os Membros" | "Somente Líderes" | "Ministério de Louvor" | "Rede de Células"
+  category: "urgente" | "evento" | "comunicado" | "espiritual"
+  pinned: boolean
+  createdAt: string
+  readsCount: number
+}
+
 export type Room = {
   id: string
   name: string
