@@ -49,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       className={`${manrope.variable} h-full dark`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

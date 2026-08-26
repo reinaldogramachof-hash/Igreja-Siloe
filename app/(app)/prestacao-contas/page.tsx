@@ -197,7 +197,7 @@ export default function PrestacaoContasPage() {
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger 
               render={
-                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
+                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl shadow-md shadow-accent/10 whitespace-nowrap shrink-0">
                   <Plus className="size-4" />
                   Publicar Balancete
                 </Button>

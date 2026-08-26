@@ -205,7 +205,7 @@ export default function EnquetesPage() {
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger 
               render={
-                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
+                <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl shadow-md shadow-accent/10 whitespace-nowrap shrink-0">
                   <Plus className="size-4" />
                   Nova Enquete
                 </Button>
@@ -277,11 +277,13 @@ export default function EnquetesPage() {
                 </div>
               </div>
 
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <DialogFooter className="gap-2">
+                <Button type="button" variant="outline" className="rounded-xl font-semibold" onClick={() => setIsDialogOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit">Publicar Enquete</Button>
+                <Button type="submit" className="bg-accent hover:bg-accent/90 text-white rounded-xl font-semibold">
+                  Publicar Enquete
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
