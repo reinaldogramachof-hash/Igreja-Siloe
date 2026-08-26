@@ -192,31 +192,33 @@ export default function SocialPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 shrink-0">
-          <Button
-            onClick={() => setIsVisitModalOpen(true)}
-            variant="outline"
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-3.5 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold"
-          >
-            <Heart className="size-4" />
-            Agendar Visita
-          </Button>
-          <Button
-            onClick={() => setIsFamilyModalOpen(true)}
-            variant="outline"
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold"
-          >
-            <Home className="size-4" />
-            Cadastrar Família
-          </Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
+          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto">
+            <Button
+              onClick={() => setIsVisitModalOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-3 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold w-full text-xs sm:text-sm"
+            >
+              <Heart className="size-4 shrink-0" />
+              Agendar Visita
+            </Button>
+            <Button
+              onClick={() => setIsFamilyModalOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold w-full text-xs sm:text-sm"
+            >
+              <Home className="size-4 shrink-0" />
+              Cadastrar Família
+            </Button>
+          </div>
           <Button
             onClick={() => setIsDeliveryModalOpen(true)}
             size="sm"
-            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10"
+            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 w-full sm:w-auto text-xs sm:text-sm"
           >
-            <Plus className="size-4.5" />
+            <Plus className="size-4.5 shrink-0" />
             Registrar Entrega
           </Button>
         </div>
@@ -278,22 +280,22 @@ export default function SocialPage() {
       </div>
 
       {/* NAVEGAÇÃO DE ABAS INTERNAS */}
-      <div className="flex items-center gap-2 border-b border-border/40 pb-2 overflow-x-auto no-scrollbar">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 border-b border-border/40 pb-3 w-full sm:w-auto">
         <Button
           variant={activeTab === "entregas" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("entregas")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
-          Histórico de Entregas & Auxílios
+          Histórico Entregas
         </Button>
         <Button
           variant={activeTab === "familias" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("familias")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5 relative"
+          className="rounded-xl h-9 text-xs font-bold px-3 relative w-full sm:w-auto"
         >
-          Cadastro de Famílias Assistidas
+          Famílias Assistidas
           <Badge className="ml-1.5 bg-accent-soft text-accent text-[10px] px-1.5 py-0 font-bold border-0">
             {families.length}
           </Badge>
@@ -302,16 +304,16 @@ export default function SocialPage() {
           variant={activeTab === "visitas" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("visitas")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
         >
-          Agenda de Visitas Pastorais
+          Agenda Visitas Pastorais
         </Button>
       </div>
 
       {/* ABA 1: HISTÓRICO DE ENTREGAS */}
       {activeTab === "entregas" && (
         <Card className="rounded-2xl border-border/40 bg-card/60 backdrop-blur-md shadow-sm overflow-hidden">
-          <CardHeader className="p-4 border-b border-border/30 flex flex-row items-center justify-between">
+          <CardHeader className="p-4 border-b border-border/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <CardTitle className="text-base font-bold text-foreground">Registro de Distribuição de Auxílios</CardTitle>
               <CardDescription className="text-xs">
@@ -530,7 +532,7 @@ export default function SocialPage() {
 
       {/* MODAL 1: REGISTRAR ENTREGA DE AUXÍLIO */}
       <Dialog open={isDeliveryModalOpen} onOpenChange={setIsDeliveryModalOpen}>
-        <DialogContent className="sm:max-w-[460px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[460px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Registrar Entrega de Auxílio</DialogTitle>
             <DialogDescription className="text-xs">
@@ -596,7 +598,7 @@ export default function SocialPage() {
 
       {/* MODAL 2: CADASTRAR FAMÍLIA ASSISTIDA */}
       <Dialog open={isFamilyModalOpen} onOpenChange={setIsFamilyModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Cadastrar Família Assistida</DialogTitle>
             <DialogDescription className="text-xs">
@@ -683,7 +685,7 @@ export default function SocialPage() {
 
       {/* MODAL 3: AGENDAR VISITA PASTORAL */}
       <Dialog open={isVisitModalOpen} onOpenChange={setIsVisitModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Agendar Visita Pastoral / Atendimento</DialogTitle>
             <DialogDescription className="text-xs">

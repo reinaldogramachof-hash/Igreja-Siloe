@@ -281,12 +281,12 @@ export default function CelulasPage() {
       </div>
 
       {/* ABA DE NAVEGAÇÃO INTERNA */}
-      <div className="flex items-center gap-2 border-b border-border/40 pb-2 overflow-x-auto no-scrollbar">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 border-b border-border/40 pb-3 w-full sm:w-auto">
         <Button
           variant={activeTab === "celulas" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("celulas")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
           Células da Igreja
         </Button>
@@ -294,7 +294,7 @@ export default function CelulasPage() {
           variant={activeTab === "relatorios" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("relatorios")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5 relative"
+          className="rounded-xl h-9 text-xs font-bold px-3 relative w-full sm:w-auto"
         >
           Relatórios Semanais
           <Badge className="ml-1.5 bg-accent-soft text-accent text-[10px] px-1.5 py-0 font-bold border-0">
@@ -305,9 +305,9 @@ export default function CelulasPage() {
           variant={activeTab === "localizador" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("localizador")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
         >
-          Encontrar uma Célula (Localizador)
+          Localizar Células
         </Button>
       </div>
 
@@ -549,7 +549,7 @@ export default function CelulasPage() {
 
       {/* MODAL 1: ENVIAR RELATÓRIO SEMANAL (MOBILE-FIRST) */}
       <Dialog open={isReportModalOpen} onOpenChange={setIsReportModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Relatório Semanal da Célula</DialogTitle>
             <DialogDescription className="text-xs">
@@ -678,7 +678,7 @@ export default function CelulasPage() {
 
       {/* MODAL 2: CADASTRAR NOVA CÉLULA */}
       <Dialog open={isAddCellModalOpen} onOpenChange={setIsAddCellModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Cadastrar Nova Célula</DialogTitle>
             <DialogDescription className="text-xs">

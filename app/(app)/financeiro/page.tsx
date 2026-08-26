@@ -264,31 +264,33 @@ export default function FinanceiroPage() {
         </div>
 
         {isFinanceManager && (
-          <div className="flex items-center gap-2 shrink-0">
-            <Button
-              onClick={handleExportDRE}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold"
-            >
-              <FileSpreadsheet className="size-4 text-emerald-600 dark:text-emerald-400" />
-              Relatório DRE
-            </Button>
-            <Button
-              onClick={() => setIsCultoModalOpen(true)}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-xl h-10 px-3.5 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold"
-            >
-              <Receipt className="size-4" />
-              Lançar Culto
-            </Button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
+            <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto">
+              <Button
+                onClick={handleExportDRE}
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold w-full text-xs sm:text-sm"
+              >
+                <FileSpreadsheet className="size-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                Relatório DRE
+              </Button>
+              <Button
+                onClick={() => setIsCultoModalOpen(true)}
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-xl h-10 px-3 border-accent/40 bg-accent-soft/20 text-accent hover:bg-accent-soft/40 font-semibold w-full text-xs sm:text-sm"
+              >
+                <Receipt className="size-4 shrink-0" />
+                Lançar Culto
+              </Button>
+            </div>
             <Button
               onClick={() => setIsTxModalOpen(true)}
               size="sm"
-              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10"
+              className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 w-full sm:w-auto text-xs sm:text-sm"
             >
-              <Plus className="size-4.5" />
+              <Plus className="size-4.5 shrink-0" />
               Novo Lançamento
             </Button>
           </div>
@@ -369,12 +371,12 @@ export default function FinanceiroPage() {
       </div>
 
       {/* ABA DE NAVEGAÇÃO INTERNA */}
-      <div className="flex items-center gap-2 border-b border-border/40 pb-2 overflow-x-auto no-scrollbar">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 border-b border-border/40 pb-3 w-full sm:w-auto">
         <Button
           variant={activeTab === "geral" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("geral")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
           Visão Geral & Gráficos
         </Button>
@@ -382,9 +384,9 @@ export default function FinanceiroPage() {
           variant={activeTab === "lancamentos" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("lancamentos")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5 relative"
+          className="rounded-xl h-9 text-xs font-bold px-3 relative w-full sm:w-auto"
         >
-          Extrato de Lançamentos
+          Extrato Lançamentos
           <Badge className="ml-1.5 bg-accent-soft text-accent text-[10px] px-1.5 py-0 font-bold border-0">
             {transactions.length}
           </Badge>
@@ -393,7 +395,7 @@ export default function FinanceiroPage() {
           variant={activeTab === "cultos" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("cultos")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
           Envelope de Cultos
         </Button>
@@ -401,9 +403,9 @@ export default function FinanceiroPage() {
           variant={activeTab === "contas" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("contas")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
-          Contas a Pagar / Pendências
+          Contas a Pagar
         </Button>
       </div>
 

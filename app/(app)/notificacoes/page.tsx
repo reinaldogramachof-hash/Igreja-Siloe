@@ -244,12 +244,12 @@ export default function NotificacoesPage() {
       </div>
 
       {/* ABA DE NAVEGAÇÃO INTERNA */}
-      <div className="flex items-center gap-2 border-b border-border/40 pb-2 overflow-x-auto no-scrollbar">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 border-b border-border/40 pb-3 w-full sm:w-auto">
         <Button
           variant={activeTab === "mural" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("mural")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
           Mural de Recados (Feed)
         </Button>
@@ -257,9 +257,9 @@ export default function NotificacoesPage() {
           variant={activeTab === "inbox" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("inbox")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5 relative"
+          className="rounded-xl h-9 text-xs font-bold px-3 relative w-full sm:w-auto"
         >
-          Notificações do Sistema (Inbox)
+          Alertas do Sistema
           {totalUnreadNotifs > 0 && (
             <Badge className="ml-1.5 bg-amber-500 text-white text-[10px] px-1.5 py-0 font-bold border-0">
               {totalUnreadNotifs}
@@ -270,7 +270,7 @@ export default function NotificacoesPage() {
           variant={activeTab === "disparo" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("disparo")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
         >
           Disparo de Mensagens em Massa
         </Button>
@@ -365,7 +365,7 @@ export default function NotificacoesPage() {
       {/* ABA 2: NOTIFICAÇÕES DO SISTEMA (INBOX) */}
       {activeTab === "inbox" && (
         <Card className="rounded-2xl border-border/40 bg-card/60 backdrop-blur-md shadow-sm overflow-hidden">
-          <CardHeader className="p-4 border-b border-border/30 flex flex-row items-center justify-between">
+          <CardHeader className="p-4 border-b border-border/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <CardTitle className="text-base font-bold text-foreground">Caixa de Alertas do Sistema</CardTitle>
               <CardDescription className="text-xs">
@@ -376,7 +376,7 @@ export default function NotificacoesPage() {
               onClick={handleMarkAllAsRead}
               variant="outline"
               size="sm"
-              className="gap-2 rounded-xl text-xs h-8"
+              className="gap-2 rounded-xl text-xs h-8 self-start sm:self-auto"
             >
               <CheckCheck className="size-3.5" /> Marcar Lidas
             </Button>
@@ -387,7 +387,7 @@ export default function NotificacoesPage() {
               <div
                 key={notif.id}
                 className={cn(
-                  "p-4 flex items-start justify-between gap-4 transition-colors hover:bg-muted/20",
+                  "p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4 transition-colors hover:bg-muted/20",
                   !notif.read && "bg-accent-soft/15 border-l-4 border-l-accent"
                 )}
               >
@@ -405,7 +405,7 @@ export default function NotificacoesPage() {
                   </span>
 
                   <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <h4 className="text-xs font-bold text-foreground">{notif.title}</h4>
                       {!notif.read && (
                         <Badge className="bg-accent text-white text-[9px] font-bold px-1.5 py-0">Nova</Badge>
@@ -418,7 +418,7 @@ export default function NotificacoesPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-2 self-end sm:self-center shrink-0 pt-1 sm:pt-0 border-t border-border/20 sm:border-t-0 w-full sm:w-auto justify-end">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -513,7 +513,7 @@ export default function NotificacoesPage() {
 
       {/* MODAL: NOVO COMUNICADO (MURAL) */}
       <Dialog open={isAnnouncementModalOpen} onOpenChange={setIsAnnouncementModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Publicar Comunicado no Mural</DialogTitle>
             <DialogDescription className="text-xs">

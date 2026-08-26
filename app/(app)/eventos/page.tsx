@@ -235,31 +235,33 @@ export default function EventosPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 shrink-0">
-          <Button
-            onClick={() => setActiveTab("qr_scanner")}
-            variant="outline"
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold"
-          >
-            <ScanLine className="size-4 text-accent" />
-            Scanner QR Code
-          </Button>
-          <Button
-            onClick={() => setIsCreateEventModalOpen(true)}
-            variant="outline"
-            size="sm"
-            className="gap-2 rounded-xl h-10 px-3.5 border-border/60 hover:bg-muted font-semibold"
-          >
-            <Plus className="size-4" />
-            Novo Evento
-          </Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto shrink-0">
+          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto">
+            <Button
+              onClick={() => setActiveTab("qr_scanner")}
+              variant="outline"
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold w-full text-xs sm:text-sm"
+            >
+              <ScanLine className="size-4 text-accent shrink-0" />
+              Scanner QR
+            </Button>
+            <Button
+              onClick={() => setIsCreateEventModalOpen(true)}
+              variant="outline"
+              size="sm"
+              className="gap-2 rounded-xl h-10 px-3 border-border/60 hover:bg-muted font-semibold w-full text-xs sm:text-sm"
+            >
+              <Plus className="size-4 shrink-0" />
+              Novo Evento
+            </Button>
+          </div>
           <Button
             onClick={() => setIsRegisterModalOpen(true)}
             size="sm"
-            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10"
+            className="gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 w-full sm:w-auto text-xs sm:text-sm"
           >
-            <Ticket className="size-4.5" />
+            <Ticket className="size-4.5 shrink-0" />
             Fazer Inscrição
           </Button>
         </div>
@@ -323,12 +325,12 @@ export default function EventosPage() {
       </div>
 
       {/* ABA DE NAVEGAÇÃO INTERNA */}
-      <div className="flex items-center gap-2 border-b border-border/40 pb-2 overflow-x-auto no-scrollbar">
+      <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 border-b border-border/40 pb-3 w-full sm:w-auto">
         <Button
           variant={activeTab === "eventos" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("eventos")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 w-full sm:w-auto"
         >
           Eventos em Destaque
         </Button>
@@ -336,7 +338,7 @@ export default function EventosPage() {
           variant={activeTab === "inscritos" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("inscritos")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5 relative"
+          className="rounded-xl h-9 text-xs font-bold px-3 relative w-full sm:w-auto"
         >
           Lista de Inscritos
           <Badge className="ml-1.5 bg-accent-soft text-accent text-[10px] px-1.5 py-0 font-bold border-0">
@@ -347,9 +349,9 @@ export default function EventosPage() {
           variant={activeTab === "qr_scanner" ? "default" : "ghost"}
           size="sm"
           onClick={() => setActiveTab("qr_scanner")}
-          className="rounded-xl h-9 text-xs font-bold px-3.5"
+          className="rounded-xl h-9 text-xs font-bold px-3 col-span-2 sm:col-span-1 w-full sm:w-auto"
         >
-          Scanner QR Code / Credenciamento
+          Scanner QR Code
         </Button>
       </div>
 
@@ -594,7 +596,7 @@ export default function EventosPage() {
 
       {/* MODAL 1: FAZER INSCRIÇÃO */}
       <Dialog open={isRegisterModalOpen} onOpenChange={setIsRegisterModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Inscrição no Evento</DialogTitle>
             <DialogDescription className="text-xs">
@@ -702,7 +704,7 @@ export default function EventosPage() {
 
       {/* MODAL 2: CRIAR NOVO EVENTO */}
       <Dialog open={isCreateEventModalOpen} onOpenChange={setIsCreateEventModalOpen}>
-        <DialogContent className="sm:max-w-[480px] rounded-2xl border-border/80 bg-card">
+        <DialogContent className="w-[95vw] sm:max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl border-border/80 bg-card">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground">Cadastrar Novo Evento</DialogTitle>
             <DialogDescription className="text-xs">
@@ -803,7 +805,7 @@ export default function EventosPage() {
 
       {/* MODAL 3: INGRESSO DIGITAL COM QR CODE */}
       <Dialog open={!!selectedTicketDetail} onOpenChange={() => setSelectedTicketDetail(null)}>
-        <DialogContent className="sm:max-w-[400px] rounded-3xl border-accent/40 bg-card p-6 text-center">
+        <DialogContent className="w-[95vw] sm:max-w-[400px] max-h-[90vh] overflow-y-auto rounded-3xl border-accent/40 bg-card p-6 text-center">
           {selectedTicketDetail && (
             <div className="space-y-5 animate-fade-in">
               <div className="size-12 rounded-2xl bg-accent-soft/40 text-accent flex items-center justify-center mx-auto">
