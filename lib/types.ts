@@ -167,6 +167,40 @@ export type ChurchAnnouncement = {
   readsCount: number
 }
 
+export type EventCategory = "Conferência" | "Retiro" | "Seminário" | "Acampamento" | "Encontro"
+
+export type ChurchEvent = {
+  id: string
+  title: string
+  description: string
+  category: EventCategory
+  startDate: string
+  endDate: string
+  location: string
+  price: number
+  maxCapacity: number
+  registeredCount: number
+  status: "inscricoes_abertas" | "esgotado" | "encerrado" | "em_breve"
+  imageUrl?: string
+}
+
+export type EventRegistration = {
+  id: string
+  eventId: string
+  eventTitle: string
+  participantName: string
+  participantEmail: string
+  participantPhone: string
+  category: "membro" | "visitante"
+  shirtSize?: "P" | "M" | "G" | "GG" | "XGG"
+  paymentStatus: "pago" | "pendente" | "cortesia"
+  paymentMethod: "PIX" | "Cartão" | "Dinheiro"
+  amountPaid: number
+  qrCode: string
+  checkedIn: boolean
+  checkedInAt?: string
+}
+
 export type Room = {
   id: string
   name: string
