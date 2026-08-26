@@ -25,6 +25,7 @@ import {
   Sparkles,
   LayoutGrid,
   List,
+  ShieldAlert,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
