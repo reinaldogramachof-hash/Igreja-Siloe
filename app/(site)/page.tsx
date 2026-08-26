@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, AtSign, Clock, Droplets, LogIn, MapPin, Menu, MessageCircle, Sparkles } from "lucide-react"
@@ -22,10 +24,16 @@ export default function SitePage() {
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-90">
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-3 transition-opacity hover:opacity-90 cursor-pointer border-0 bg-transparent p-0 text-left outline-none"
+            title="Voltar ao topo da página"
+            aria-label="Voltar ao topo da página"
+          >
             <Image src="/logo.svg" alt="Igreja Siloé" width={40} height={40} className="rounded-full shadow-sm" priority />
             <span className="hidden sm:inline text-sm font-semibold tracking-tight">Igreja Siloé</span>
-          </Link>
+          </button>
           
           <nav className="hidden items-center gap-6 md:flex">
             {siteNavItems.map((item) => (
@@ -50,29 +58,33 @@ export default function SitePage() {
                 <SheetTrigger render={<Button variant="ghost" size="icon" className="size-9" />}>
                   <Menu className="size-5" />
                 </SheetTrigger>
-                <SheetContent side="right" className="w-72">
-                  <SheetHeader>
-                    <SheetTitle className="flex items-center justify-between gap-2 pr-6">
-                      <div className="flex items-center gap-2.5">
-                        <Image src="/logo.svg" alt="Igreja Siloé" width={30} height={30} className="rounded-full" />
-                        <span className="text-sm font-semibold">Igreja Siloé</span>
-                      </div>
+                <SheetContent side="right" className="w-72 flex flex-col justify-between">
+                  <div>
+                    <SheetHeader>
+                      <SheetTitle className="text-left text-sm font-semibold text-foreground">
+                        Igreja Siloé
+                      </SheetTitle>
+                    </SheetHeader>
+                    <Separator className="my-4" />
+                    <nav className="grid gap-2">
+                      {siteNavItems.map((item) => (
+                        <a key={item.href} href={item.href} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
+                          {item.label}
+                        </a>
+                      ))}
+                    </nav>
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-t border-border/40">
+                    <div className="flex items-center justify-between px-1">
+                      <span className="text-xs font-semibold text-muted-foreground">Aparência</span>
                       <ThemeToggle />
-                    </SheetTitle>
-                  </SheetHeader>
-                  <Separator className="my-4" />
-                  <nav className="grid gap-2">
-                    {siteNavItems.map((item) => (
-                      <a key={item.href} href={item.href} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
-                        {item.label}
-                      </a>
-                    ))}
-                  </nav>
-                  <Separator className="my-4" />
-                  <Link href="/login" className={cn(buttonVariants(), "w-full bg-accent text-white")}>
-                    Entrar no Portal
-                    <ArrowRight className="size-4" />
-                  </Link>
+                    </div>
+                    <Link href="/login" className={cn(buttonVariants(), "w-full bg-accent text-white")}>
+                      Entrar no Portal
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>

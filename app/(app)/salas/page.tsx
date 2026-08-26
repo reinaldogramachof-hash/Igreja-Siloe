@@ -45,6 +45,7 @@ export default function SalasPage() {
   // Date Navigation State
   const [referenceDate, setReferenceDate] = useState<Date>(new Date())
   const [viewMode, setViewMode] = useState<"semana" | "mes">("semana")
+  const [selectedMobileDateISO, setSelectedMobileDateISO] = useState<string>(todayISO)
 
   const week = useMemo(() => getWeekForDate(referenceDate), [referenceDate])
   const monthGrid = useMemo(
@@ -77,6 +78,8 @@ export default function SalasPage() {
       nextDate.setMonth(nextDate.getMonth() - 1)
     }
     setReferenceDate(nextDate)
+    const newWeek = getWeekForDate(nextDate)
+    setSelectedMobileDateISO(newWeek[0].date)
   }
 
   function handleNext() {
@@ -87,10 +90,13 @@ export default function SalasPage() {
       nextDate.setMonth(nextDate.getMonth() + 1)
     }
     setReferenceDate(nextDate)
+    const newWeek = getWeekForDate(nextDate)
+    setSelectedMobileDateISO(newWeek[0].date)
   }
 
   function handleToday() {
     setReferenceDate(new Date())
+    setSelectedMobileDateISO(todayISO)
   }
 
   const pendingManageableBookings = useMemo(() => {
@@ -190,13 +196,13 @@ export default function SalasPage() {
 
       {/* Agenda & Calendário com Controle Temporal */}
       <section className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-card/45 p-3 rounded-2xl border border-border/40 backdrop-blur-md">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card/45 p-3 sm:p-4 rounded-2xl border border-border/40 backdrop-blur-md">
           <div className="flex items-center gap-2.5">
             <span className="flex size-9 items-center justify-center rounded-xl bg-accent-soft/60 text-accent">
               <CalendarDays className="size-5" />
             </span>
             <div>
-              <h2 className="text-sm font-bold text-foreground capitalize">{currentMonthLabel}</h2>
+              <h2 className="text-sm sm:text-base font-bold text-foreground capitalize">{currentMonthLabel}</h2>
               <p className="text-[11px] font-medium text-muted-foreground">
                 {viewMode === "semana"
                   ? `${formatShortDate(week[0].date)} — ${formatShortDate(week[6].date)}`
@@ -206,7 +212,7 @@ export default function SalasPage() {
           </div>
 
           {/* Navegação Temporal & Controles */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
             <div className="flex items-center gap-1 rounded-xl border border-border/40 bg-background/50 p-1">
               <Button
                 variant={viewMode === "semana" ? "default" : "ghost"}
@@ -242,81 +248,201 @@ export default function SalasPage() {
 
         {/* VISÃO SEMANAL DE SALAS */}
         {viewMode === "semana" && (
-          <div className="overflow-hidden rounded-2xl border border-border/45 bg-card/45 backdrop-blur-md shadow-sm">
-            <div className="overflow-x-auto">
-              <div className="min-w-[920px]">
-                <div className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 bg-muted/20">
-                  <div className="px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/80 flex items-center">Salas</div>
-                  {week.map((day) => {
-                    const dayHolidays = getHolidaysForDate(day.date)
-                    const hasHoliday = dayHolidays.length > 0
-                    return (
-                      <div
-                        key={day.date}
-                        className={cn(
-                          "border-l border-border/40 px-2 py-2.5 text-center transition-colors flex flex-col items-center justify-between",
-                          day.date === todayISO && "bg-accent-soft/30"
-                        )}
-                      >
-                        <div>
-                          <p className="text-[11px] font-bold uppercase tracking-wide text-foreground">{day.label}</p>
-                          <p className="text-xs font-semibold text-muted-foreground/90 mt-0.5">{day.dayNumber}</p>
-                        </div>
+          <>
+            {/* MOBILE ONLY: Seletor de Dia Deslizante + Visão por Cartões Verticais (Zero scroll horizontal) */}
+            <div className="space-y-4 md:hidden">
+              {/* Date Selector Strip */}
+              <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-2xl border border-border/45 bg-card/45 backdrop-blur-md shadow-xs no-scrollbar">
+                {week.map((day) => {
+                  const isSelected = day.date === selectedMobileDateISO
+                  const isTodayDay = day.date === todayISO
+                  const dayBookingsCount = bookings.filter((b) => b.date === day.date).length
+                  const dayHolidays = getHolidaysForDate(day.date)
+                  const hasHoliday = dayHolidays.length > 0
+
+                  return (
+                    <button
+                      key={day.date}
+                      type="button"
+                      onClick={() => setSelectedMobileDateISO(day.date)}
+                      className={cn(
+                        "flex flex-1 min-w-[46px] flex-col items-center justify-center rounded-xl py-2 px-1 text-center transition-all duration-200 cursor-pointer border",
+                        isSelected
+                          ? "bg-accent text-white border-accent shadow-md ring-2 ring-accent/30 font-bold scale-[1.02]"
+                          : isTodayDay
+                          ? "bg-accent-soft/30 text-accent border-accent/40 font-semibold"
+                          : "bg-background/40 text-muted-foreground border-border/30 hover:border-border/60"
+                      )}
+                    >
+                      <span className="text-[10px] font-bold uppercase tracking-wider">{day.label}</span>
+                      <span className="text-sm font-extrabold mt-0.5">{day.dayNumber}</span>
+
+                      {/* Dots indicators */}
+                      <div className="flex items-center gap-1 mt-1">
                         {hasHoliday && (
-                          <span
-                            className="mt-1 flex items-center gap-1 rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold text-amber-600 dark:text-amber-400 max-w-full truncate"
-                            title={dayHolidays.map((h) => h.name).join(", ")}
-                          >
-                            <PartyPopper className="size-2.5 shrink-0" />
-                            <span className="truncate">{dayHolidays[0].name}</span>
-                          </span>
+                          <span className={cn("size-1.5 rounded-full", isSelected ? "bg-amber-300" : "bg-amber-500")} />
+                        )}
+                        {dayBookingsCount > 0 && (
+                          <span className={cn("size-1.5 rounded-full", isSelected ? "bg-white" : "bg-accent")} />
                         )}
                       </div>
-                    )
-                  })}
-                </div>
+                    </button>
+                  )
+                })}
+              </div>
 
-                {rooms.map((room) => (
-                  <div
-                    key={room.id}
-                    className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 last:border-b-0"
-                  >
-                    <div className="px-4 py-3.5 bg-card/5">
-                      <p className="text-sm font-semibold text-foreground">{room.name}</p>
-                      <p className="text-[10px] uppercase font-bold text-accent tracking-wide mt-0.5 flex items-center gap-1">
-                        <Users className="size-3" />
-                        Capacidade: {room.capacity}
-                      </p>
+              {/* Day Details Header & Cards */}
+              {(() => {
+                const selectedDayHolidays = getHolidaysForDate(selectedMobileDateISO)
+                return (
+                  <div className="space-y-3">
+                    {selectedDayHolidays.length > 0 && (
+                      <div className="flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs font-bold text-amber-700 dark:text-amber-300">
+                        <PartyPopper className="size-4 shrink-0 text-amber-500" />
+                        <span>{selectedDayHolidays[0].name}</span>
+                        {selectedDayHolidays[0].type === "eclesiastico" && (
+                          <Badge className="bg-purple-500/20 text-purple-700 dark:text-purple-300 text-[9px] ml-auto border-0">
+                            Eclesiástica
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Room List for Selected Mobile Day */}
+                    <div className="space-y-3">
+                      {rooms.map((room) => {
+                        const roomBookingsOnDay = bookings.filter(
+                          (b) => b.roomId === room.id && b.date === selectedMobileDateISO
+                        )
+                        return (
+                          <Card key={room.id} className="rounded-2xl border-border/40 bg-card/60 shadow-sm overflow-hidden">
+                            <CardHeader className="p-3.5 pb-2 border-b border-border/30 bg-muted/10 flex flex-row items-center justify-between">
+                              <div>
+                                <CardTitle className="text-sm font-bold text-foreground">{room.name}</CardTitle>
+                                <p className="text-[10px] uppercase font-bold text-accent tracking-wide mt-0.5 flex items-center gap-1">
+                                  <Users className="size-3" />
+                                  Capacidade: {room.capacity}
+                                </p>
+                              </div>
+                              {roomBookingsOnDay.length > 0 ? (
+                                <Badge className="bg-accent-soft text-accent border-accent/20 text-[10px] font-semibold">
+                                  {roomBookingsOnDay.length} {roomBookingsOnDay.length === 1 ? "reserva" : "reservas"}
+                                </Badge>
+                              ) : (
+                                <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                                  Livre
+                                </span>
+                              )}
+                            </CardHeader>
+                            <CardContent className="p-3 space-y-2">
+                              {roomBookingsOnDay.length > 0 ? (
+                                roomBookingsOnDay.map((booking) => (
+                                  <BookingBlock key={booking.id} booking={booking} />
+                                ))
+                              ) : (
+                                <div className="flex items-center justify-between py-1">
+                                  <p className="text-xs text-muted-foreground/60 italic">Nenhum agendamento para esta sala.</p>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      setRoomId(room.id)
+                                      setDate(selectedMobileDateISO)
+                                      setOpen(true)
+                                    }}
+                                    className="h-7 text-[11px] text-accent font-semibold hover:bg-accent-soft/30 px-2"
+                                  >
+                                    + Agendar
+                                  </Button>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
                     </div>
+                  </div>
+                )
+              })()}
+            </div>
+
+            {/* DESKTOP ONLY: Full Table Grid */}
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-border/45 bg-card/45 backdrop-blur-md shadow-sm">
+              <div className="overflow-x-auto">
+                <div className="min-w-[920px]">
+                  <div className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 bg-muted/20">
+                    <div className="px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/80 flex items-center">Salas</div>
                     {week.map((day) => {
-                      const dayBookings = bookings.filter(
-                        (booking) => booking.roomId === room.id && booking.date === day.date
-                      )
+                      const dayHolidays = getHolidaysForDate(day.date)
+                      const hasHoliday = dayHolidays.length > 0
                       return (
                         <div
                           key={day.date}
                           className={cn(
-                            "space-y-1.5 border-l border-border/40 p-2",
+                            "border-l border-border/40 px-2 py-2.5 text-center transition-colors flex flex-col items-center justify-between",
                             day.date === todayISO && "bg-accent-soft/30"
                           )}
                         >
-                          {dayBookings.length > 0 ? (
-                            dayBookings.map((booking) => (
-                              <BookingBlock key={booking.id} booking={booking} />
-                            ))
-                          ) : (
-                            <div className="flex h-10 items-center justify-center text-xs text-muted-foreground/30">
-                              —
-                            </div>
+                          <div>
+                            <p className="text-[11px] font-bold uppercase tracking-wide text-foreground">{day.label}</p>
+                            <p className="text-xs font-semibold text-muted-foreground/90 mt-0.5">{day.dayNumber}</p>
+                          </div>
+                          {hasHoliday && (
+                            <span
+                              className="mt-1 flex items-center gap-1 rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold text-amber-600 dark:text-amber-400 max-w-full truncate"
+                              title={dayHolidays.map((h) => h.name).join(", ")}
+                            >
+                              <PartyPopper className="size-2.5 shrink-0" />
+                              <span className="truncate">{dayHolidays[0].name}</span>
+                            </span>
                           )}
                         </div>
                       )
                     })}
                   </div>
-                ))}
+
+                  {rooms.map((room) => (
+                    <div
+                      key={room.id}
+                      className="grid grid-cols-[180px_repeat(7,minmax(112px,1fr))] border-b border-border/40 last:border-b-0"
+                    >
+                      <div className="px-4 py-3.5 bg-card/5">
+                        <p className="text-sm font-semibold text-foreground">{room.name}</p>
+                        <p className="text-[10px] uppercase font-bold text-accent tracking-wide mt-0.5 flex items-center gap-1">
+                          <Users className="size-3" />
+                          Capacidade: {room.capacity}
+                        </p>
+                      </div>
+                      {week.map((day) => {
+                        const dayBookings = bookings.filter(
+                          (booking) => booking.roomId === room.id && booking.date === day.date
+                        )
+                        return (
+                          <div
+                            key={day.date}
+                            className={cn(
+                              "space-y-1.5 border-l border-border/40 p-2",
+                              day.date === todayISO && "bg-accent-soft/30"
+                            )}
+                          >
+                            {dayBookings.length > 0 ? (
+                              dayBookings.map((booking) => (
+                                <BookingBlock key={booking.id} booking={booking} />
+                              ))
+                            ) : (
+                              <div className="flex h-10 items-center justify-center text-xs text-muted-foreground/30">
+                                —
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* VISÃO MENSAL DO CALENDÁRIO */}

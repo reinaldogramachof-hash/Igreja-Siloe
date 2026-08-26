@@ -64,27 +64,29 @@ export function Topbar() {
           <Menu className="size-5" />
         </Button>
 
-        {/* Mobile-only logo display */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <Image src="/logo.svg" alt="Igreja Siloé" width={28} height={28} className="object-contain" />
-        </div>
-
         {/* Desktop-only secondary actions/breadcrumbs */}
         <div className="hidden lg:flex items-center gap-3 ml-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">Ambiente de Testes</p>
         </div>
       </div>
 
-      {/* Right side - Dynamic Date and Time */}
-      {time && (
-        <div className="hidden sm:flex items-center gap-2.5 rounded-xl border border-border/40 bg-card/45 px-3 py-1.5 shadow-sm text-xs font-semibold text-muted-foreground/90">
-          <Calendar className="size-3.5 text-accent shrink-0" />
-          <span className="truncate">{formattedDate}</span>
-          <Separator orientation="vertical" className="h-3 opacity-60" />
-          <Clock className="size-3.5 text-accent shrink-0" />
-          <span className="font-bold text-foreground">{formattedTime}</span>
+      {/* Right side actions */}
+      <div className="flex items-center gap-3">
+        {time && (
+          <div className="hidden sm:flex items-center gap-2.5 rounded-xl border border-border/40 bg-card/45 px-3 py-1.5 shadow-sm text-xs font-semibold text-muted-foreground/90">
+            <Calendar className="size-3.5 text-accent shrink-0" />
+            <span className="truncate">{formattedDate}</span>
+            <Separator orientation="vertical" className="h-3 opacity-60" />
+            <Clock className="size-3.5 text-accent shrink-0" />
+            <span className="font-bold text-foreground">{formattedTime}</span>
+          </div>
+        )}
+
+        {/* Mobile-only logo display (Upper Right Corner) */}
+        <div className="flex items-center lg:hidden">
+          <Image src="/logo.svg" alt="Igreja Siloé" width={28} height={28} className="object-contain" />
         </div>
-      )}
+      </div>
     </header>
   )
 }
