@@ -21,6 +21,8 @@ import {
   Filter,
   Share2,
   Target,
+  LayoutGrid,
+  List,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
@@ -55,6 +57,7 @@ export default function CelulasPage() {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"celulas" | "relatorios" | "localizador">("celulas")
+  const [viewMode, setViewMode] = useState<"table" | "cards">("cards")
 
   // State
   const [cellList, setCellList] = useState<CellGroup[]>(() => [...initialCellGroups])
@@ -444,54 +447,117 @@ export default function CelulasPage() {
                 Acompanhamento das reuniões semanais enviadas pelos líderes de célula
               </CardDescription>
             </div>
-            <Button
-              onClick={() => setIsReportModalOpen(true)}
-              size="sm"
-              className="gap-2 rounded-xl h-8 text-xs bg-accent hover:bg-accent/90 text-white font-semibold"
-            >
-              <FileCheck2 className="size-3.5" /> Enviar Relatório
-            </Button>
+            <div className="flex items-center gap-2">
+              {/* TOGGLE CARDS / LISTA */}
+              <div className="flex items-center gap-1 rounded-xl bg-muted/60 p-1 border border-border/50 shrink-0">
+                <Button
+                  variant={viewMode === "table" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("table")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Lista/Tabela"
+                >
+                  <List className="size-3.5" />
+                </Button>
+                <Button
+                  variant={viewMode === "cards" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("cards")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Cards"
+                >
+                  <LayoutGrid className="size-3.5" />
+                </Button>
+              </div>
+
+              <Button
+                onClick={() => setIsReportModalOpen(true)}
+                size="sm"
+                className="gap-2 rounded-xl h-8 text-xs bg-accent hover:bg-accent/90 text-white font-semibold"
+              >
+                <FileCheck2 className="size-3.5" /> Enviar Relatório
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th className="py-3 px-4">Célula</th>
-                    <th className="py-3 px-4">Data Reunião</th>
-                    <th className="py-3 px-4 text-center">Presentes</th>
-                    <th className="py-3 px-4 text-center">Visitantes</th>
-                    <th className="py-3 px-4 text-center">Decisões</th>
-                    <th className="py-3 px-4">Oferta (R$)</th>
-                    <th className="py-3 px-4">Estudo / Tema</th>
-                    <th className="py-3 px-4">Enviado Por</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/30 font-medium">
-                  {reportsList.map((rep) => (
-                    <tr key={rep.id} className="hover:bg-muted/20 transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-foreground">{rep.cellName}</td>
-                      <td className="py-3.5 px-4 text-muted-foreground">{rep.meetingDate}</td>
-                      <td className="py-3.5 px-4 text-center font-bold text-foreground">{rep.attendeesCount}</td>
-                      <td className="py-3.5 px-4 text-center">
-                        <Badge variant="outline" className="text-[10px] bg-sky-500/10 text-sky-700 dark:text-sky-300 border-0">
-                          +{rep.visitorsCount}
-                        </Badge>
-                      </td>
-                      <td className="py-3.5 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400">
-                        {rep.conversionsCount > 0 ? `✨ ${rep.conversionsCount}` : "0"}
-                      </td>
-                      <td className="py-3.5 px-4 font-semibold text-foreground">
-                        R$ {rep.offeringAmount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                      </td>
-                      <td className="py-3.5 px-4 text-muted-foreground truncate max-w-xs">{rep.studyTopic}</td>
-                      <td className="py-3.5 px-4 font-semibold text-foreground">{rep.submittedBy}</td>
+            {viewMode === "cards" ? (
+              <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {reportsList.map((rep) => (
+                  <Card key={rep.id} className="rounded-2xl border-border/40 bg-card/60 p-4 space-y-3 shadow-xs flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-muted-foreground font-semibold">{rep.meetingDate}</span>
+                        <span className="text-xs font-bold text-foreground">Oferta: R$ {rep.offeringAmount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-base text-foreground">{rep.cellName}</h4>
+                        <p className="text-[11px] text-muted-foreground italic">Estudo: {rep.studyTopic}</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-border/30 space-y-2">
+                      <div className="grid grid-cols-3 gap-1 text-center bg-muted/20 p-2 rounded-xl border border-border/30">
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Presentes</p>
+                          <p className="text-sm font-extrabold text-foreground">{rep.attendeesCount}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Visitantes</p>
+                          <p className="text-sm font-extrabold text-sky-600 dark:text-sky-400">+{rep.visitorsCount}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Decisões</p>
+                          <p className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">{rep.conversionsCount > 0 ? `✨ ${rep.conversionsCount}` : "0"}</p>
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground text-right">
+                        Enviado por: <strong className="text-foreground">{rep.submittedBy}</strong>
+                      </p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Célula</th>
+                      <th className="py-3 px-4">Data Reunião</th>
+                      <th className="py-3 px-4 text-center">Presentes</th>
+                      <th className="py-3 px-4 text-center">Visitantes</th>
+                      <th className="py-3 px-4 text-center">Decisões</th>
+                      <th className="py-3 px-4">Oferta (R$)</th>
+                      <th className="py-3 px-4">Estudo / Tema</th>
+                      <th className="py-3 px-4">Enviado Por</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-border/30 font-medium">
+                    {reportsList.map((rep) => (
+                      <tr key={rep.id} className="hover:bg-muted/20 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-foreground">{rep.cellName}</td>
+                        <td className="py-3.5 px-4 text-muted-foreground">{rep.meetingDate}</td>
+                        <td className="py-3.5 px-4 text-center font-bold text-foreground">{rep.attendeesCount}</td>
+                        <td className="py-3.5 px-4 text-center">
+                          <Badge variant="outline" className="text-[10px] bg-sky-500/10 text-sky-700 dark:text-sky-300 border-0">
+                            +{rep.visitorsCount}
+                          </Badge>
+                        </td>
+                        <td className="py-3.5 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400">
+                          {rep.conversionsCount > 0 ? `✨ ${rep.conversionsCount}` : "0"}
+                        </td>
+                        <td className="py-3.5 px-4 font-semibold text-foreground">
+                          R$ {rep.offeringAmount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                        </td>
+                        <td className="py-3.5 px-4 text-muted-foreground truncate max-w-xs">{rep.studyTopic}</td>
+                        <td className="py-3.5 px-4 font-semibold text-foreground">{rep.submittedBy}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

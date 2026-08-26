@@ -240,26 +240,26 @@ export default function SiteManagementPage() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="hero" className="w-full space-y-6">
-        <div className="overflow-x-auto pb-1">
-          <TabsList className="flex md:grid grid-cols-2 md:grid-cols-5 gap-2 min-w-max md:min-w-0 bg-muted/60 p-1.5 rounded-2xl border border-border/50">
-            <TabsTrigger value="hero" className="rounded-xl text-xs md:text-sm font-medium gap-2 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <Sparkles className="size-4" />
+        <div className="w-full">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 w-full h-auto bg-muted/60 p-1.5 rounded-2xl border border-border/50">
+            <TabsTrigger value="hero" className="rounded-xl text-xs md:text-sm font-medium gap-1.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Sparkles className="size-3.5" />
               Banner Home
             </TabsTrigger>
-            <TabsTrigger value="sobre" className="rounded-xl text-xs md:text-sm font-medium gap-2 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <FileText className="size-4" />
+            <TabsTrigger value="sobre" className="rounded-xl text-xs md:text-sm font-medium gap-1.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <FileText className="size-3.5" />
               Sobre & Valores
             </TabsTrigger>
-            <TabsTrigger value="horarios" className="rounded-xl text-xs md:text-sm font-medium gap-2 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <Clock className="size-4" />
+            <TabsTrigger value="horarios" className="rounded-xl text-xs md:text-sm font-medium gap-1.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Clock className="size-3.5" />
               Horários
             </TabsTrigger>
-            <TabsTrigger value="banners" className="rounded-xl text-xs md:text-sm font-medium gap-2 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <ImageIcon className="size-4" />
+            <TabsTrigger value="banners" className="rounded-xl text-xs md:text-sm font-medium gap-1.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <ImageIcon className="size-3.5" />
               Destaques
             </TabsTrigger>
-            <TabsTrigger value="contato" className="rounded-xl text-xs md:text-sm font-medium gap-2 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <Share2 className="size-4" />
+            <TabsTrigger value="contato" className="rounded-xl text-xs md:text-sm font-medium gap-1.5 col-span-2 sm:col-span-1 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Share2 className="size-3.5" />
               Equipe & Contato
             </TabsTrigger>
           </TabsList>

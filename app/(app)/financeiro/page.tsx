@@ -23,6 +23,8 @@ import {
   ChevronRight,
   Printer,
   Sparkles,
+  LayoutGrid,
+  List,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
@@ -89,6 +91,9 @@ export default function FinanceiroPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [typeFilter, setTypeFilter] = useState<"todos" | "receita" | "despesa">("todos")
   const [categoryFilter, setCategoryFilter] = useState<string>("todas")
+
+  // View Mode (Cards vs Table)
+  const [viewMode, setViewMode] = useState<"table" | "cards">("cards")
 
   // Modal States
   const [isTxModalOpen, setIsTxModalOpen] = useState(false)
@@ -547,7 +552,7 @@ export default function FinanceiroPage() {
               </CardDescription>
             </div>
 
-            {/* Filtros da Tabela */}
+            {/* Filtros da Tabela & Modo de Visualização */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative w-full sm:w-48">
                 <Search className="absolute left-2.5 top-2.5 size-3.5 text-muted-foreground" />
@@ -585,87 +590,181 @@ export default function FinanceiroPage() {
                   Saídas
                 </Button>
               </div>
+
+              {/* TOGGLE CARDS / LISTA */}
+              <div className="flex items-center gap-1 rounded-xl bg-muted/60 p-1 border border-border/50 shrink-0">
+                <Button
+                  variant={viewMode === "table" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("table")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Lista/Tabela"
+                >
+                  <List className="size-3.5" />
+                </Button>
+                <Button
+                  variant={viewMode === "cards" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("cards")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Cards"
+                >
+                  <LayoutGrid className="size-3.5" />
+                </Button>
+              </div>
             </div>
           </CardHeader>
 
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th className="py-3 px-4">Tipo</th>
-                    <th className="py-3 px-4">Descrição & Categoria</th>
-                    <th className="py-3 px-4">Conta</th>
-                    <th className="py-3 px-4">Método</th>
-                    <th className="py-3 px-4">Data</th>
-                    <th className="py-3 px-4 text-right">Valor</th>
-                    <th className="py-3 px-4 text-center">Ações</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/30 font-medium">
-                  {filteredTransactions.length > 0 ? (
-                    filteredTransactions.map((tx) => (
-                      <tr key={tx.id} className="hover:bg-muted/20 transition-colors">
-                        <td className="py-3 px-4">
-                          {tx.type === "receita" ? (
-                            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                              <ArrowUpRight className="size-3" /> Receita
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold text-rose-600 dark:text-rose-400">
-                              <ArrowDownLeft className="size-3" /> Despesa
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-3 px-4">
-                          <p className="font-bold text-foreground">{tx.description}</p>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <Badge variant="outline" className="text-[9px] px-1.5 py-0 font-normal">
+            {viewMode === "cards" ? (
+              <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {filteredTransactions.length > 0 ? (
+                  filteredTransactions.map((tx) => (
+                    <Card key={tx.id} className="rounded-2xl border-border/40 bg-card/60 p-4 space-y-3 shadow-xs flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "text-[10px] font-bold border-0",
+                              tx.type === "receita"
+                                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                            )}
+                          >
+                            {tx.type === "receita" ? "↑ Receita" : "↓ Despesa"}
+                          </Badge>
+                          <span className="text-[11px] text-muted-foreground font-semibold">{tx.date}</span>
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-sm text-foreground">{tx.description}</h4>
+                          <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                            <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-medium">
                               {tx.category}
                             </Badge>
                             {tx.memberName && (
-                              <span className="text-[10px] text-muted-foreground">Doador: {tx.memberName}</span>
+                              <span className="text-[11px] text-muted-foreground">Doador: {tx.memberName}</span>
                             )}
                           </div>
-                        </td>
-                        <td className="py-3 px-4 text-muted-foreground">{tx.account}</td>
-                        <td className="py-3 px-4">{tx.paymentMethod}</td>
-                        <td className="py-3 px-4 text-muted-foreground">{tx.date}</td>
-                        <td className="py-3 px-4 text-right font-extrabold text-sm">
-                          <span
-                            className={
-                              tx.type === "receita"
-                                ? "text-emerald-600 dark:text-emerald-400"
-                                : "text-rose-600 dark:text-rose-400"
-                            }
-                          >
-                            {tx.type === "receita" ? "+" : "-"} R${" "}
-                            {tx.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setSelectedTxDetail(tx)}
-                            className="size-7 rounded-lg hover:bg-accent-soft/40 text-muted-foreground hover:text-accent"
-                            title="Ver detalhes/recibo"
-                          >
-                            <Receipt className="size-3.5" />
-                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-border/30 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-[10px] text-muted-foreground uppercase font-bold">{tx.account}</p>
+                            <p className="text-xs font-semibold text-foreground">{tx.paymentMethod}</p>
+                          </div>
+                          <div className="text-right">
+                            <p
+                              className={cn(
+                                "text-base font-extrabold",
+                                tx.type === "receita"
+                                  ? "text-emerald-600 dark:text-emerald-400"
+                                  : "text-rose-600 dark:text-rose-400"
+                              )}
+                            >
+                              {tx.type === "receita" ? "+" : "-"} R${" "}
+                              {tx.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedTxDetail(tx)}
+                          className="w-full h-8 rounded-xl text-xs gap-1.5 font-semibold"
+                        >
+                          <Receipt className="size-3.5 text-accent" /> Ver Detalhes / Recibo
+                        </Button>
+                      </div>
+                    </Card>
+                  ))
+                ) : (
+                  <div className="col-span-full py-8 text-center text-muted-foreground italic text-xs">
+                    Nenhum lançamento encontrado para os filtros selecionados.
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Tipo</th>
+                      <th className="py-3 px-4">Descrição & Categoria</th>
+                      <th className="py-3 px-4">Conta</th>
+                      <th className="py-3 px-4">Método</th>
+                      <th className="py-3 px-4">Data</th>
+                      <th className="py-3 px-4 text-right">Valor</th>
+                      <th className="py-3 px-4 text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border/30 font-medium">
+                    {filteredTransactions.length > 0 ? (
+                      filteredTransactions.map((tx) => (
+                        <tr key={tx.id} className="hover:bg-muted/20 transition-colors">
+                          <td className="py-3 px-4">
+                            {tx.type === "receita" ? (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                                <ArrowUpRight className="size-3" /> Receita
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold text-rose-600 dark:text-rose-400">
+                                <ArrowDownLeft className="size-3" /> Despesa
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4">
+                            <p className="font-bold text-foreground">{tx.description}</p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <Badge variant="outline" className="text-[9px] px-1.5 py-0 font-normal">
+                                {tx.category}
+                              </Badge>
+                              {tx.memberName && (
+                                <span className="text-[10px] text-muted-foreground">Doador: {tx.memberName}</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">{tx.account}</td>
+                          <td className="py-3 px-4">{tx.paymentMethod}</td>
+                          <td className="py-3 px-4 text-muted-foreground">{tx.date}</td>
+                          <td className="py-3 px-4 text-right font-extrabold text-sm">
+                            <span
+                              className={
+                                tx.type === "receita"
+                                  ? "text-emerald-600 dark:text-emerald-400"
+                                  : "text-rose-600 dark:text-rose-400"
+                              }
+                            >
+                              {tx.type === "receita" ? "+" : "-"} R${" "}
+                              {tx.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-center">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => setSelectedTxDetail(tx)}
+                              className="size-7 rounded-lg hover:bg-accent-soft/40 text-muted-foreground hover:text-accent"
+                              title="Ver detalhes/recibo"
+                            >
+                              <Receipt className="size-3.5" />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={7} className="py-8 text-center text-muted-foreground italic">
+                          Nenhum lançamento encontrado para os filtros selecionados.
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={7} className="py-8 text-center text-muted-foreground italic">
-                        Nenhum lançamento encontrado para os filtros selecionados.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

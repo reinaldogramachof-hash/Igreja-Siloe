@@ -23,6 +23,8 @@ import {
   Share2,
   Copy,
   ScanLine,
+  LayoutGrid,
+  List,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
@@ -48,6 +50,7 @@ export default function EventosPage() {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"eventos" | "inscritos" | "qr_scanner">("eventos")
+  const [viewMode, setViewMode] = useState<"table" | "cards">("cards")
 
   // State Lists
   const [eventsList, setEventsList] = useState<ChurchEvent[]>(() => [...initialEvents])
@@ -475,44 +478,41 @@ export default function EventosPage() {
                   </option>
                 ))}
               </select>
+
+              {/* TOGGLE CARDS / LISTA */}
+              <div className="flex items-center gap-1 rounded-xl bg-muted/60 p-1 border border-border/50 shrink-0">
+                <Button
+                  variant={viewMode === "table" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("table")}
+                  className="size-8 rounded-lg"
+                  title="Visualização em Lista/Tabela"
+                >
+                  <List className="size-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "cards" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("cards")}
+                  className="size-8 rounded-lg"
+                  title="Visualização em Cards"
+                >
+                  <LayoutGrid className="size-4" />
+                </Button>
+              </div>
             </div>
           </CardHeader>
 
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th className="py-3 px-4">Participante</th>
-                    <th className="py-3 px-4">Evento</th>
-                    <th className="py-3 px-4 text-center">Camiseta</th>
-                    <th className="py-3 px-4">Pagamento</th>
-                    <th className="py-3 px-4 text-center">Check-in</th>
-                    <th className="py-3 px-4 text-right">Ações</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/30 font-medium">
-                  {filteredRegistrations.map((reg) => (
-                    <tr key={reg.id} className="hover:bg-muted/20 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-foreground">{reg.participantName}</div>
-                        <div className="text-[10px] text-muted-foreground">{reg.participantEmail} · {reg.participantPhone}</div>
-                      </td>
-                      <td className="py-3.5 px-4 font-semibold text-foreground truncate max-w-xs">{reg.eventTitle}</td>
-                      <td className="py-3.5 px-4 text-center">
-                        <Badge variant="outline" className="text-[10px] font-bold">
-                          {reg.shirtSize || "N/A"}
+            {viewMode === "cards" ? (
+              <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {filteredRegistrations.map((reg) => (
+                  <Card key={reg.id} className="rounded-2xl border-border/40 bg-card/60 p-4 space-y-3 shadow-xs flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-0 text-[10px] font-bold">
+                          Pago (R$ {reg.amountPaid.toFixed(2)})
                         </Badge>
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-1.5">
-                          <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-0 text-[10px] font-bold">
-                            Pago ({reg.paymentMethod})
-                          </Badge>
-                          <span className="font-bold text-foreground">R$ {reg.amountPaid.toFixed(2)}</span>
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-4 text-center">
                         {reg.checkedIn ? (
                           <Badge className="bg-purple-500/15 text-purple-700 dark:text-purple-300 border-0 text-[10px] font-bold gap-1">
                             <CheckCircle2 className="size-3" /> Validado
@@ -522,27 +522,103 @@ export default function EventosPage() {
                             size="sm"
                             variant="ghost"
                             onClick={() => handleManualCheckIn(reg.id)}
-                            className="h-6 text-[10px] font-bold text-muted-foreground hover:text-accent"
+                            className="h-6 text-[10px] font-bold text-muted-foreground hover:text-accent p-0"
                           >
                             Dar Check-in
                           </Button>
                         )}
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => setSelectedTicketDetail(reg)}
-                          className="h-7 text-xs font-bold gap-1 rounded-lg"
-                        >
-                          <QrCode className="size-3.5 text-accent" /> Ingresso
-                        </Button>
-                      </td>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-base text-foreground">{reg.participantName}</h4>
+                        <p className="text-[11px] text-muted-foreground">{reg.participantEmail} · {reg.participantPhone}</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-border/30 space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-semibold text-foreground truncate max-w-[180px]">{reg.eventTitle}</span>
+                        <Badge variant="outline" className="text-[10px] font-bold">
+                          Camiseta {reg.shirtSize || "M"}
+                        </Badge>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setSelectedTicketDetail(reg)}
+                        className="w-full h-8 rounded-xl text-xs font-bold gap-1.5"
+                      >
+                        <QrCode className="size-3.5 text-accent" /> Ver QR Code / Ingresso
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Participante</th>
+                      <th className="py-3 px-4">Evento</th>
+                      <th className="py-3 px-4 text-center">Camiseta</th>
+                      <th className="py-3 px-4">Pagamento</th>
+                      <th className="py-3 px-4 text-center">Check-in</th>
+                      <th className="py-3 px-4 text-right">Ações</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-border/30 font-medium">
+                    {filteredRegistrations.map((reg) => (
+                      <tr key={reg.id} className="hover:bg-muted/20 transition-colors">
+                        <td className="py-3.5 px-4">
+                          <div className="font-bold text-foreground">{reg.participantName}</div>
+                          <div className="text-[10px] text-muted-foreground">{reg.participantEmail} · {reg.participantPhone}</div>
+                        </td>
+                        <td className="py-3.5 px-4 font-semibold text-foreground truncate max-w-xs">{reg.eventTitle}</td>
+                        <td className="py-3.5 px-4 text-center">
+                          <Badge variant="outline" className="text-[10px] font-bold">
+                            {reg.shirtSize || "N/A"}
+                          </Badge>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-1.5">
+                            <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-0 text-[10px] font-bold">
+                              Pago ({reg.paymentMethod})
+                            </Badge>
+                            <span className="font-bold text-foreground">R$ {reg.amountPaid.toFixed(2)}</span>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-4 text-center">
+                          {reg.checkedIn ? (
+                            <Badge className="bg-purple-500/15 text-purple-700 dark:text-purple-300 border-0 text-[10px] font-bold gap-1">
+                              <CheckCircle2 className="size-3" /> Validado
+                            </Badge>
+                          ) : (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleManualCheckIn(reg.id)}
+                              className="h-6 text-[10px] font-bold text-muted-foreground hover:text-accent"
+                            >
+                              Dar Check-in
+                            </Button>
+                          )}
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setSelectedTicketDetail(reg)}
+                            className="h-7 text-xs font-bold gap-1 rounded-lg"
+                          >
+                            <QrCode className="size-3.5 text-accent" /> Ingresso
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

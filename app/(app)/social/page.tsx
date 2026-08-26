@@ -21,6 +21,8 @@ import {
   ShoppingBag,
   Gift,
   ShieldAlert,
+  LayoutGrid,
+  List,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
@@ -55,6 +57,7 @@ export default function SocialPage() {
 
   // Tabs State
   const [activeTab, setActiveTab] = useState<"entregas" | "familias" | "visitas">("entregas")
+  const [viewMode, setViewMode] = useState<"table" | "cards">("cards")
 
   // State
   const [families, setFamilies] = useState<SocialFamily[]>(() => [...initialFamilies])
@@ -320,54 +323,114 @@ export default function SocialPage() {
                 Histórico de entregas de cestas básicas, vale-gás e suprimentos comunitários
               </CardDescription>
             </div>
-            <Button
-              onClick={() => setIsDeliveryModalOpen(true)}
-              size="sm"
-              className="gap-2 rounded-xl h-8 text-xs bg-accent hover:bg-accent/90 text-white font-semibold"
-            >
-              <Plus className="size-3.5" /> Lançar Entrega
-            </Button>
+            <div className="flex items-center gap-2">
+              {/* TOGGLE CARDS / LISTA */}
+              <div className="flex items-center gap-1 rounded-xl bg-muted/60 p-1 border border-border/50 shrink-0">
+                <Button
+                  variant={viewMode === "table" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("table")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Lista/Tabela"
+                >
+                  <List className="size-3.5" />
+                </Button>
+                <Button
+                  variant={viewMode === "cards" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("cards")}
+                  className="size-7 rounded-lg"
+                  title="Visualização em Cards"
+                >
+                  <LayoutGrid className="size-3.5" />
+                </Button>
+              </div>
+
+              <Button
+                onClick={() => setIsDeliveryModalOpen(true)}
+                size="sm"
+                className="gap-2 rounded-xl h-8 text-xs bg-accent hover:bg-accent/90 text-white font-semibold"
+              >
+                <Plus className="size-3.5" /> Lançar Entrega
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th className="py-3 px-4">Família Beneficiada</th>
-                    <th className="py-3 px-4">Item Entregue</th>
-                    <th className="py-3 px-4 text-center">Quantidade</th>
-                    <th className="py-3 px-4">Data da Entrega</th>
-                    <th className="py-3 px-4">Entregue Por (Voluntário/Líder)</th>
-                    <th className="py-3 px-4 text-center">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/30 font-medium">
-                  {distributions.map((dist) => (
-                    <tr key={dist.id} className="hover:bg-muted/20 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <p className="font-bold text-foreground">{dist.familyName}</p>
-                        <span className="text-[10px] text-muted-foreground">ID Família: {dist.familyId}</span>
-                      </td>
-                      <td className="py-3.5 px-4 text-foreground font-semibold">
-                        <span className="inline-flex items-center gap-1.5">
-                          <ShoppingBag className="size-3.5 text-accent shrink-0" />
-                          {dist.item}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4 text-center font-bold">{dist.quantity} un.</td>
-                      <td className="py-3.5 px-4 text-muted-foreground">{dist.deliveredAt}</td>
-                      <td className="py-3.5 px-4 font-semibold text-foreground">{dist.deliveredBy}</td>
-                      <td className="py-3.5 px-4 text-center">
+            {viewMode === "cards" ? (
+              <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {distributions.map((dist) => (
+                  <Card key={dist.id} className="rounded-2xl border-border/40 bg-card/60 p-4 space-y-3 shadow-xs flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
                         <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-0 text-[10px]">
                           ✓ Entregue
                         </Badge>
-                      </td>
+                        <span className="text-[11px] text-muted-foreground font-semibold">{dist.deliveredAt}</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-base text-foreground">{dist.familyName}</h4>
+                        <p className="text-[10px] text-muted-foreground">ID Família: {dist.familyId}</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-border/30 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
+                          <ShoppingBag className="size-3.5 text-accent shrink-0" />
+                          {dist.item}
+                        </span>
+                        <span className="text-xs font-extrabold text-foreground bg-accent-soft/40 px-2 py-0.5 rounded-md">
+                          {dist.quantity} un.
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground">
+                        Entregue por: <strong className="text-foreground">{dist.deliveredBy}</strong>
+                      </p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-muted/20 border-b border-border/30 text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Família Beneficiada</th>
+                      <th className="py-3 px-4">Item Entregue</th>
+                      <th className="py-3 px-4 text-center">Quantidade</th>
+                      <th className="py-3 px-4">Data da Entrega</th>
+                      <th className="py-3 px-4">Entregue Por (Voluntário/Líder)</th>
+                      <th className="py-3 px-4 text-center">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-border/30 font-medium">
+                    {distributions.map((dist) => (
+                      <tr key={dist.id} className="hover:bg-muted/20 transition-colors">
+                        <td className="py-3.5 px-4">
+                          <p className="font-bold text-foreground">{dist.familyName}</p>
+                          <span className="text-[10px] text-muted-foreground">ID Família: {dist.familyId}</span>
+                        </td>
+                        <td className="py-3.5 px-4 text-foreground font-semibold">
+                          <span className="inline-flex items-center gap-1.5">
+                            <ShoppingBag className="size-3.5 text-accent shrink-0" />
+                            {dist.item}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-center font-bold">{dist.quantity} un.</td>
+                        <td className="py-3.5 px-4 text-muted-foreground">{dist.deliveredAt}</td>
+                        <td className="py-3.5 px-4 font-semibold text-foreground">{dist.deliveredBy}</td>
+                        <td className="py-3.5 px-4 text-center">
+                          <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-0 text-[10px]">
+                            ✓ Entregue
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

@@ -62,7 +62,7 @@ export default function MembrosPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("todas")
   const [statusFilter, setStatusFilter] = useState<string>("todos")
-  const [viewMode, setViewMode] = useState<"tabela" | "grid">("tabela")
+  const [viewMode, setViewMode] = useState<"tabela" | "grid">("grid")
   const [onlyBirthdays, setOnlyBirthdays] = useState(false)
 
   // Selected Member for Profile & Membership Card Modal
@@ -570,12 +570,12 @@ export default function MembrosPage() {
                 </div>
 
                 {/* Sub-navegação do Perfil */}
-                <div className="flex items-center gap-1.5 pt-3 overflow-x-auto no-scrollbar">
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-1.5 pt-3 w-full">
                   <Button
                     variant={activeProfileTab === "dados" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setActiveProfileTab("dados")}
-                    className="h-7 text-xs font-bold rounded-lg px-2.5"
+                    className="h-8 text-xs font-bold rounded-lg px-2 w-full sm:w-auto"
                   >
                     Dados Pessoais
                   </Button>
@@ -583,15 +583,15 @@ export default function MembrosPage() {
                     variant={activeProfileTab === "trilha" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setActiveProfileTab("trilha")}
-                    className="h-7 text-xs font-bold rounded-lg px-2.5"
+                    className="h-8 text-xs font-bold rounded-lg px-2 w-full sm:w-auto"
                   >
-                    Trilha de Crescimento
+                    Trilha Crescimento
                   </Button>
                   <Button
                     variant={activeProfileTab === "cartao" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setActiveProfileTab("cartao")}
-                    className="h-7 text-xs font-bold rounded-lg px-2.5 text-accent"
+                    className="h-8 text-xs font-bold rounded-lg px-2 text-accent w-full sm:w-auto"
                   >
                     Cartão Digital
                   </Button>
@@ -599,7 +599,7 @@ export default function MembrosPage() {
                     variant={activeProfileTab === "certificados" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setActiveProfileTab("certificados")}
-                    className="h-7 text-xs font-bold rounded-lg px-2.5"
+                    className="h-8 text-xs font-bold rounded-lg px-2 w-full sm:w-auto"
                   >
                     Certificados
                   </Button>
@@ -609,22 +609,22 @@ export default function MembrosPage() {
               {/* ABA 1: DADOS PESSOAIS */}
               {activeProfileTab === "dados" && (
                 <div className="space-y-4 pt-2 text-xs">
-                  <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl border border-border/40 bg-muted/15">
-                    <div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 rounded-xl border border-border/40 bg-muted/15">
+                    <div className="min-w-0">
                       <p className="text-muted-foreground font-semibold">E-mail</p>
-                      <p className="font-bold text-foreground mt-0.5">{selectedMember.email}</p>
+                      <p className="font-bold text-foreground mt-0.5 truncate">{selectedMember.email}</p>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-muted-foreground font-semibold">Telefone / WhatsApp</p>
                       <p className="font-bold text-foreground mt-0.5">{selectedMember.phone || "Não informado"}</p>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-muted-foreground font-semibold">Data de Nascimento</p>
                       <p className="font-bold text-foreground mt-0.5">
                         {selectedMember.birthDate ? selectedMember.birthDate.split("-").reverse().join("/") : "—"}
                       </p>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-muted-foreground font-semibold">Data de Batismo</p>
                       <p className="font-bold text-foreground mt-0.5">
                         {selectedMember.baptismDate ? selectedMember.baptismDate.split("-").reverse().join("/") : "Não batizado"}
