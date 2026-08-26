@@ -39,7 +39,8 @@ const bookingStyles: Record<RoomBooking["status"], string> = {
 }
 
 export default function SalasPage() {
-  const { user } = useDemoUser()
+  const { user, role } = useDemoUser()
+  const isRoomManager = role === "admin" || role === "lider_salas"
 
   const [bookings, setBookings] = useState<RoomBooking[]>(() =>
     roomBookings.map((booking) => ({ ...booking, date: rebaseToCurrentWeek(booking.date) }))
@@ -52,6 +53,17 @@ export default function SalasPage() {
   const [endTime, setEndTime] = useState("20:00")
   const [purpose, setPurpose] = useState("")
   const [formError, setFormError] = useState<string | null>(null)
+
+  const pendingManageableBookings = useMemo(() => {
+    return bookings.filter((b) => b.status === "pendente")
+  }, [bookings])
+
+  function handleManagerApproveReject(id: string, newStatus: "aprovado" | "recusado") {
+    setBookings((current) =>
+      current.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
+    )
+    toast.success(newStatus === "aprovado" ? "Reserva aprovada com sucesso!" : "Reserva recusada.")
+  }
 
   const conflicts = useMemo(() => {
     if (!roomId || !date || !startTime || !endTime) return []
@@ -251,6 +263,55 @@ export default function SalasPage() {
           ))}
         </div>
       </section>
+
+      {/* Gestão de Reservas Pendentes (Visível apenas para Líder de Salas e Admin) */}
+      {isRoomManager && pendingManageableBookings.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center gap-2 pl-1">
+            <span className="flex size-2 rounded-full bg-warning animate-pulse" />
+            <h2 className="text-base font-bold text-foreground">Aprovações Pendentes de Salas ({pendingManageableBookings.length})</h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {pendingManageableBookings.map((b) => {
+              const targetRoom = rooms.find((r) => r.id === b.roomId)
+              return (
+                <Card key={b.id} className="rounded-2xl border-warning/30 bg-warning/5 p-4 shadow-sm backdrop-blur-md">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-bold text-accent uppercase tracking-wider">{targetRoom?.name || "Sala"}</p>
+                      <h4 className="text-sm font-bold text-foreground mt-0.5">{b.purpose}</h4>
+                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5 font-medium">
+                        <Clock className="size-3.5 text-warning" />
+                        {b.date} • {b.startTime} às {b.endTime}
+                      </p>
+                    </div>
+                    <Badge className="bg-warning/20 text-warning-foreground border-warning/30 text-[10px] uppercase font-bold">
+                      Pendente
+                    </Badge>
+                  </div>
+                  <div className="mt-4 flex items-center justify-end gap-2 border-t border-border/30 pt-3">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleManagerApproveReject(b.id, "recusado")}
+                      className="rounded-xl text-xs font-semibold text-danger border-danger/30 hover:bg-danger/10 hover:text-danger h-8"
+                    >
+                      Recusar
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => handleManagerApproveReject(b.id, "aprovado")}
+                      className="rounded-xl text-xs font-semibold bg-success hover:bg-success/90 text-white h-8"
+                    >
+                      Aprovar Reserva
+                    </Button>
+                  </div>
+                </Card>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Minhas solicitações */}
       <section className="space-y-4">

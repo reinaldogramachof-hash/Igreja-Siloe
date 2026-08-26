@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import { ApprovalFlowCard } from "@/components/shared/approval-flow-card"
 import { StatusBadge } from "@/components/shared/status-badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -171,7 +172,14 @@ export default function LouvorPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-wider text-accent">Ministério de Louvor</p>
+          <div className="flex items-center gap-2">
+            <p className="text-xs font-bold uppercase tracking-wider text-accent">Ministério de Louvor</p>
+            {isLeader && (
+              <Badge className="bg-accent/15 text-accent border-accent/30 text-[10px] font-bold rounded-full px-2.5 py-0.5">
+                Visão de Gestão
+              </Badge>
+            )}
+          </div>
           <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Escala & Repertório</h1>
           <p className="mt-1.5 text-sm text-muted-foreground">
             Acesse as músicas selecionadas, a escala do próximo culto e envie sugestões ao líder do louvor.

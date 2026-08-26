@@ -18,8 +18,11 @@ const shortcuts = [
 
 export default function DashboardPage() {
   const { user, role } = useDemoUser()
-  const pendingCount = buildApprovalItems().filter((item) => item.status === "pendente").length
-  const canReview = role === "admin" || role === "lider_louvor" || role === "lider_salas"
+  const allApprovalItems = buildApprovalItems()
+  const pendingCount = allApprovalItems.filter((item) => item.status === "pendente").length
+  const pendingLouvorCount = allApprovalItems.filter((item) => item.type === "song" && item.status === "pendente").length
+  const pendingSalasCount = allApprovalItems.filter((item) => item.type === "room" && item.status === "pendente").length
+
   const greeting = getGreeting()
 
   return (
@@ -29,10 +32,16 @@ export default function DashboardPage() {
         <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-br from-accent/10 via-transparent to-transparent p-6 sm:p-8 backdrop-blur-md shadow-sm">
           <div className="absolute right-0 top-0 -mr-6 -mt-6 size-48 rounded-full bg-accent/5 blur-3xl" />
           
-          <Badge className="mb-5 bg-accent-soft/60 text-accent hover:bg-accent-soft border-border/40 px-2.5 py-1 text-[11px] font-semibold gap-1.5 rounded-full">
-            <Sparkles className="size-3.5" />
-            Portal da Comunidade
-          </Badge>
+          <div className="flex items-center gap-2 mb-5">
+            <Badge className="bg-accent-soft/60 text-accent hover:bg-accent-soft border-border/40 px-2.5 py-1 text-[11px] font-semibold gap-1.5 rounded-full">
+              <Sparkles className="size-3.5" />
+              Portal da Comunidade Siloé
+            </Badge>
+
+            <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              Perfil: {role === "admin" ? "Administrador" : role === "lider_louvor" ? "Líder de Louvor" : role === "lider_salas" ? "Líder de Salas" : "Membro"}
+            </Badge>
+          </div>
           
           <h1 className="text-2xl font-bold tracking-tight sm:text-3.5xl text-foreground">
             {greeting}, <span className="text-accent">{user.name.split(" ")[0]}</span>
@@ -42,8 +51,8 @@ export default function DashboardPage() {
             Centralize pedidos de salas, escalas ministeriais e comunicação em uma experiência simples, moderna e integrada para toda a Igreja Siloé.
           </p>
 
-          {canReview && (
-            <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
+            {role === "admin" && (
               <Link 
                 href="/admin" 
                 className={cn(
@@ -52,11 +61,53 @@ export default function DashboardPage() {
                 )}
               >
                 <ShieldCheck className="size-4.5" />
-                Você tem {pendingCount} solicitações pendentes
+                {pendingCount > 0 ? `Você tem ${pendingCount} solicitações pendentes` : "Gerenciar Membros & Permissões"}
                 <ArrowRight className="size-4 ml-1" />
               </Link>
-            </div>
-          )}
+            )}
+
+            {role === "lider_louvor" && (
+              <Link 
+                href="/louvor" 
+                className={cn(
+                  buttonVariants({ size: "lg" }), 
+                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
+                )}
+              >
+                <Music2 className="size-4.5" />
+                {pendingLouvorCount > 0 ? `${pendingLouvorCount} sugestões de músicas pendentes` : "Gerenciar Escalas & Louvor"}
+                <ArrowRight className="size-4 ml-1" />
+              </Link>
+            )}
+
+            {role === "lider_salas" && (
+              <Link 
+                href="/salas" 
+                className={cn(
+                  buttonVariants({ size: "lg" }), 
+                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
+                )}
+              >
+                <DoorOpen className="size-4.5" />
+                {pendingSalasCount > 0 ? `${pendingSalasCount} solicitações de salas para aprovar` : "Gerenciar Agenda de Salas"}
+                <ArrowRight className="size-4 ml-1" />
+              </Link>
+            )}
+
+            {role === "membro" && (
+              <Link 
+                href="/salas" 
+                className={cn(
+                  buttonVariants({ size: "lg" }), 
+                  "bg-accent hover:bg-accent/90 text-white rounded-xl shadow-md shadow-accent/10 font-semibold gap-2 transition-all duration-300 hover:shadow-lg"
+                )}
+              >
+                <DoorOpen className="size-4.5" />
+                Solicitar Reserva de Sala
+                <ArrowRight className="size-4 ml-1" />
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Quick Shortcuts */}

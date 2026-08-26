@@ -17,7 +17,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/salas", label: "Salas", icon: DoorOpen },
   { href: "/louvor", label: "Louvor", icon: Music2 },
-  { href: "/admin", label: "Admin", icon: ShieldCheck },
+  { href: "/admin", label: "Admin", icon: ShieldCheck, adminOnly: true },
 ]
 
 export function Sidebar() {
@@ -26,6 +26,8 @@ export function Sidebar() {
   const { theme, setTheme } = useTheme()
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebar()
   const { user, role, setRole } = useDemoUser()
+
+  const filteredNavItems = navItems.filter((item) => !item.adminOnly || role === "admin")
 
   const initials = user.name
     .split(" ")
@@ -86,7 +88,7 @@ export function Sidebar() {
           
           {/* Nav Items (scrollable if viewport is short) */}
           <nav className="flex-1 space-y-1.5 px-3 py-4 overflow-y-auto scrollbar-none">
-            {navItems.map((item) => {
+            {filteredNavItems.map((item) => {
               const Icon = item.icon
               const active = pathname === item.href
 

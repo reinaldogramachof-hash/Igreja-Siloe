@@ -1,7 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Edit3, UsersRound, DoorOpen, Inbox, CheckCircle2, Search, Filter } from "lucide-react"
+import Link from "next/link"
+import { Edit3, UsersRound, DoorOpen, Inbox, CheckCircle2, Search, Filter, ShieldAlert } from "lucide-react"
 import { toast } from "sonner"
 import { ApprovalFlowCard } from "@/components/shared/approval-flow-card"
 import { StatusBadge } from "@/components/shared/status-badge"
@@ -14,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { buildApprovalItems, getRoleLabel, members, rooms } from "@/lib/mock-data"
+import { useDemoUser } from "@/lib/prototype-auth"
 import type { ApprovalItem, BookingStatus, Member } from "@/lib/types"
 
 function getInitials(name: string) {
@@ -25,10 +27,30 @@ function getInitials(name: string) {
 }
 
 export default function AdminPage() {
+  const { role } = useDemoUser()
   const [items, setItems] = useState<ApprovalItem[]>(() => buildApprovalItems())
   const pendingItems = useMemo(() => items.filter((item) => item.status === "pendente"), [items])
   const [memberList, setMemberList] = useState<Member[]>(() => members)
   const [searchTerm, setSearchTerm] = useState("")
+
+  if (role !== "admin") {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center p-6 animate-fade-in">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-danger/10 text-danger mb-4 shadow-sm border border-danger/20">
+          <ShieldAlert className="size-8" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">Acesso Restrito ao Administrador</h2>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
+          Você está navegando como <span className="font-semibold text-foreground">{getRoleLabel(role)}</span>. A gestão global de membros e aprovações do sistema é de acesso restrito.
+        </p>
+        <div className="mt-6">
+          <Link href="/dashboard" className="inline-flex h-10 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white shadow transition-colors hover:bg-accent/90">
+            Voltar ao Dashboard
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   // Edit states for member dialog mock
   const [editingMember, setEditingMember] = useState<Member | null>(null)
