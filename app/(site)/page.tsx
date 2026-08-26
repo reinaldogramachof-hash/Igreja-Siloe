@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, AtSign, Clock, Download, Droplets, LogIn, MapPin, Menu, MessageCircle, Sparkles } from "lucide-react"
@@ -22,6 +23,18 @@ import { usePWAInstall } from "@/lib/use-pwa-install"
 
 export default function SitePage() {
   const { showInstallButton, promptInstall } = usePWAInstall()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Travar o scroll da tela de fundo quando o menu lateral estiver aberto
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isMobileMenuOpen])
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -55,44 +68,64 @@ export default function SitePage() {
               Entrar
             </Link>
             
-            {/* Mobile Nav Menu */}
+            {/* Mobile Nav Menu com safe area top e bottom */}
             <div className="md:hidden">
-              <Sheet>
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger render={<Button variant="ghost" size="icon" className="size-9" />}>
                   <Menu className="size-5" />
                 </SheetTrigger>
-                <SheetContent side="right" className="w-72 flex flex-col justify-between">
+                <SheetContent 
+                  side="right" 
+                  className="w-72 flex flex-col justify-between"
+                  style={{
+                    paddingTop: 'max(1.5rem, env(safe-area-inset-top, 24px))',
+                    paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 24px))',
+                  }}
+                >
                   <div>
-                    <SheetHeader>
-                      <SheetTitle className="text-left text-sm font-semibold text-foreground">
+                    <SheetHeader className="pt-1">
+                      <SheetTitle className="text-left text-sm font-semibold text-foreground flex items-center gap-2">
+                        <Image src="/logo.svg" alt="Igreja Siloé" width={24} height={24} className="rounded-full" />
                         Igreja Siloé
                       </SheetTitle>
                     </SheetHeader>
                     <Separator className="my-4" />
                     <nav className="grid gap-2">
                       {siteNavItems.map((item) => (
-                        <a key={item.href} href={item.href} className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted">
+                        <a 
+                          key={item.href} 
+                          href={item.href} 
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted"
+                        >
                           {item.label}
                         </a>
                       ))}
                     </nav>
                   </div>
 
-                  <div className="space-y-4 pt-4 border-t border-border/40">
+                  <div className="space-y-4 pt-4 border-t border-border/40 pb-1">
                     <div className="flex items-center justify-between px-1">
                       <span className="text-xs font-semibold text-muted-foreground">Aparência</span>
                       <ThemeToggle />
                     </div>
                     {showInstallButton && (
                       <button
-                        onClick={promptInstall}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false)
+                          promptInstall()
+                        }}
                         className={cn(buttonVariants({ variant: "outline" }), "w-full gap-2 border-accent/40 text-accent hover:bg-accent hover:text-white")}
                       >
                         <Download className="size-4" />
                         Instalar App
                       </button>
                     )}
-                    <Link href="/login" className={cn(buttonVariants(), "w-full bg-accent text-white")}>
+                    <Link 
+                      href="/login" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(buttonVariants(), "w-full bg-accent text-white shadow-sm")}
+                    >
                       Entrar no Portal
                       <ArrowRight className="size-4" />
                     </Link>

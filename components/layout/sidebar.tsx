@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -72,6 +73,17 @@ export function Sidebar() {
   const { user, role, setRole } = useDemoUser()
   const { showInstallButton, promptInstall } = usePWAInstall()
 
+  // Travar o scroll da tela ao fundo quando o sidebar estiver aberto no mobile
+  useEffect(() => {
+    if (isMobileOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isMobileOpen])
+
   const initials = user.name
     .split(" ")
     .slice(0, 2)
@@ -94,17 +106,21 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar container */}
+      {/* Sidebar container com safe area top e bottom */}
       <aside 
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border/40 bg-sidebar/95 backdrop-blur-md text-sidebar-foreground transition-all duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:bg-sidebar/90",
           isCollapsed ? "lg:w-20" : "lg:w-64",
-          isMobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"
+          isMobileOpen ? "translate-x-0 w-72 h-[100dvh]" : "-translate-x-full lg:translate-x-0"
         )}
+        style={{
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}
       >
-        <div className="flex h-full flex-col">
+        <div className="flex h-full flex-col overflow-hidden">
           {/* Header area */}
-          <div className="flex h-20 items-center justify-between px-4 lg:px-6 shrink-0">
+          <div className="flex h-16 sm:h-20 items-center justify-between px-4 lg:px-6 shrink-0">
             <Link href="/dashboard" className="flex items-center gap-3 transition-opacity hover:opacity-90">
               <div className="relative flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-soft/40 shadow-inner">
                 <Image src="/logo.svg" alt="Igreja Siloé" width={32} height={32} className="object-contain" priority />
