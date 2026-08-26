@@ -195,7 +195,7 @@ export default function ReunioesPage() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger 
             render={
-              <Button className="w-full sm:w-auto gap-2 bg-accent hover:bg-accent/90 text-accent-foreground whitespace-nowrap shrink-0">
+              <Button size="sm" className="w-full sm:w-auto gap-2 rounded-xl h-10 px-4 bg-accent hover:bg-accent/90 text-white font-semibold shadow-md shadow-accent/10 whitespace-nowrap shrink-0">
                 <Plus className="size-4" />
                 Nova Reunião / Ata
               </Button>
@@ -321,7 +321,7 @@ export default function ReunioesPage() {
             onValueChange={setCategoryFilter}
             className="w-full sm:w-auto"
           >
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 sm:w-auto">
+            <TabsList className="flex w-full sm:w-auto overflow-x-auto scrollbar-none justify-start h-10">
               <TabsTrigger value="all">Todas</TabsTrigger>
               <TabsTrigger value="Pastoral">Pastoral</TabsTrigger>
               <TabsTrigger value="Conselho">Conselho</TabsTrigger>
