@@ -2,7 +2,7 @@
   "name": "Gestão Siloé",
   "short_name": "Siloé",
   "description": "Sistema de gestão ministerial da Igreja Siloé",
-  "start_url": "/",
+  "start_url": "/login",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0f1117",
