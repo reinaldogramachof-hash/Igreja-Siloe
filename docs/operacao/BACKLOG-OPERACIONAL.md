@@ -26,7 +26,7 @@ aprovado). Fora do fluxo: `Bloqueada`.
 | TAREFA-001 | Desvinculação da marca Igreja Siloé | 1 | A9 / QUA-01 | Arquiteto + Dev Frontend | Arquiteto | 1 | Especificacao | — | OT-TAREFA-001 (aguarda aprovação) |
 | SIL-01 | Especificar sistema completo e personalizações Siloé | 1 | 0 | Arquiteto + Reinaldo | Reinaldo | 1 | Backlog | insumos de Reinaldo | — |
 | NEG-01 | Detalhar Lite, níveis superiores e critérios de teste | 1 | 0 | Reinaldo | — | — | Backlog | — | — |
-| OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto | 1 | Backlog | insumos HostGator/Supabase de Reinaldo (não espera SIL-01 — CICLO-01) | — |
+| OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | 1 | Aprovada | OT-OPS-01 aprovada 2026-09-08; projeto Supabase = "Gestão Igreja Pro" (`wkovbmrvpzukszmgfctd`, schema `homolog`); subdomínio de homologação em provisionamento pelo agente do Chrome | OT-OPS-01 |
 | QUA-01 | Tratar lint, fonte, documentação e revisão mobile | 2 | 1 | Dev Frontend + Dev Backend | Arquiteto | — | Backlog | — | — |
 | SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | OPS-01 | — |
 | TEN-01 | Organizações, vínculos e isolamento entre igrejas | 1 | 4 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 | — |

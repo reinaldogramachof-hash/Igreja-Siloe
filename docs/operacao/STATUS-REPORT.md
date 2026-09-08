@@ -19,6 +19,91 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 6
+- **Tarefa / ID:** OPS-01 (preparação) — revalidação do acesso ao Supabase e
+  redação da OT
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador (todas resolvidas nesta sessão):**
+  1. Projeto Supabase — **Reinaldo: usar o base "Gestão Igreja Pro"
+     (`wkovbmrvpzukszmgfctd`)**, com objetos de teste no schema `homolog` e
+     removidos ao fim.
+  2. Aprovação de `OT-OPS-01` — **aprovada item a item em 2026-09-08.**
+  3. cPanel do Plano M — **Reinaldo executa via o agente Claude do Chrome**,
+     a partir do roteiro gerado nesta sessão.
+  4. `.mcp.json` — **Reinaldo autorizou versionar.** Registrado em DEC-021;
+     commitado no 2º PR de governança.
+  5. Merge do PR de governança — Arquiteto autorizado a commitar, dar push e
+     abrir o PR #2; o **merge é de Reinaldo** (DEC-006).
+- **Entregas:**
+  - Acesso ao Supabase **revalidado nesta sessão** (fechou a pendência da sessão
+    5). Servidor MCP `supabase` conectado; `mcp__supabase__*` carregados.
+  - `docs/operacao/ordens/OT-OPS-01.md` redigida e **aprovada**; ajustada para o
+    projeto-base "Gestão Igreja Pro", schema `homolog` isolado, cleanup no aceite
+    e tratamento do advisory `public.rls_auto_enable()`.
+  - Roteiro do subdomínio `homolog.plenaaplicativos.com.br` (cPanel) e passo a
+    passo do merge de governança entregues no chat da sessão.
+- **Evidência:**
+  - `get_project_url` → `https://wkovbmrvpzukszmgfctd.supabase.co`.
+  - `execute_sql` (`select version()`) → PostgreSQL 17.6, db `postgres`, usuário
+    `supabase_read_only_user` (conexão `read_only=true`).
+  - `list_tables(public)` → 0 tabelas; `list_migrations` → 0 migrations. **Mas**
+    `get_advisors(security)` acusa `public.rls_auto_enable()` (`SECURITY DEFINER`,
+    executável por `anon` e `authenticated` via `/rest/v1/rpc/`) — 2 WARN. Tratar
+    dentro do OPS-01 ou abrir item de backlog.
+  - `get_publishable_keys` → publishable `sb_publishable_amrp4s45eL5-8SBZYaz39g__odS7qiW`
+    (+ anon JWT legado). URL `https://wkovbmrvpzukszmgfctd.supabase.co`.
+  - Reinaldo informou o domínio disponível e validado na HostGator:
+    `www.plenaaplicativos.com.br`. Confirmou o projeto-base: "Gestão Igreja Pro".
+  - Git: PR #1 (`chore/cerebro-operacional-v1`) **já mesclado** em `origin/main`
+    (commit `04d75d6`). A branch tem mais 3 commits ainda não mesclados; `main`
+    local está 2 atrás de `origin/main`.
+- **Portão automático:** n/a (documentação + verificação de acesso).
+- **Pendências:**
+  - Confirmar a sugestão do `.mcp.json` (commitar + DEC-021).
+  - Executar o roteiro do subdomínio (agente do Chrome) e devolver os dados do
+    ambiente (document root, servidor, `mod_rewrite`).
+  - Definir o caminho de escrita no Supabase para a migração/Edge Function/bucket
+    (dashboard / CLI / conector com `apply_migration` na conta dona).
+  - Reinaldo commita e abre o 2º PR de governança e o mescla (DEC-006).
+- **Riscos / bloqueios:** `main` local desatualizada — fazer `git pull` antes de
+  seguir. Next.js desta versão tem breaking changes no export estático — ler
+  `node_modules/next/dist/docs/` antes de tocar `next.config.ts`. Prova rodando no
+  projeto-base: disciplina de isolamento (`schema homolog`) e cleanup obrigatórios.
+- **Próximo passo:** 2º PR de governança mesclado por Reinaldo; agente do Chrome
+  cria o subdomínio; então abre-se `tarefa/OPS-01-homologacao` (Arquiteto cuida de
+  `next.config.ts` e `.htaccess`; Dev Backend do schema `homolog`).
+- **Arquivos tocados:** `docs/operacao/ordens/OT-OPS-01.md` (novo), `.mcp.json`
+  (novo), `docs/operacao/DECISOES.md` (DEC-021), `docs/operacao/STATUS-REPORT.md`,
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/ciclos/CICLO-01.md`.
+
+## 2026-09-08 — Claude (Arquiteto) — sessão 5
+- **Tarefa / ID:** OPS-01 (preparação) — conexão ao Supabase
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** onde commitar o `.mcp.json`;
+  autenticação do MCP (só Reinaldo pode fazer).
+- **Entregas:** `.mcp.json` criado com o servidor MCP `supabase` project-scoped
+  (`project_ref=wkovbmrvpzukszmgfctd`, `read_only=true`) via `claude mcp add`.
+- **Evidência:** `.mcp.json` no working tree; `claude mcp add` retornou exit 0.
+- **Validação externa (2026-09-08):** chamadas de leitura ao projeto-alvo pelo
+  conector claude.ai Supabase — `get_project("wkovbmrvpzukszmgfctd")` e
+  `list_tables("wkovbmrvpzukszmgfctd")` — retornaram
+  `MCP error -32600: You do not have permission to perform this action`.
+  Esse conector está preso a outra conta e não serve para o projeto-alvo.
+- **Autenticação do servidor `supabase` (2026-09-08):** Reinaldo autenticou via
+  `claude /mcp`. `claude mcp list` mostra
+  `supabase: https://mcp.supabase.com/mcp?project_ref=wkovbmrvpzukszmgfctd... - ✔ Connected`.
+  Os tools `mcp__supabase__*` só carregam numa **nova sessão** (o servidor foi
+  adicionado com a sessão já em andamento). Revalidar o acesso na próxima sessão.
+- **Portão automático:** n/a.
+- **Pendências / bloqueios:** não autenticado — `claude /mcp` exige terminal
+  interativo (Reinaldo). O conector claude.ai Supabase pré-existente está logado
+  em OUTRA conta (org `djuzpjjyxvtsqnubwzzc`: "Plena Gastro Manager",
+  "Gestao Fit", "Plena Informática", "Tem No Bairro") e **não** enxerga o projeto
+  `wkovbmrvpzukszmgfctd`. Portanto, não há acesso ao projeto-alvo nesta sessão.
+- **Próximo passo:** Reinaldo autentica o MCP `supabase` com a conta dona do
+  projeto; decidir commit do `.mcp.json`.
+- **Arquivos tocados:** `.mcp.json`, `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 4
 - **Tarefa / ID:** CICLO-01 — onboarding dos devs e redação das OTs
 - **Tipo:** 1

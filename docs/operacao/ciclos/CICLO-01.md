@@ -19,7 +19,10 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 
 - [ ] `ordens/OT-PLAN-12.md` — redigida, aguardando aprovação
 - [ ] `ordens/OT-TAREFA-001.md` — redigida, aguardando aprovação
-- [ ] `ordens/OT-OPS-01.md` — bloqueada por insumos (ver abaixo)
+- [x] `ordens/OT-OPS-01.md` — **aprovada por Reinaldo em 2026-09-08** (sessão 6),
+      item a item. Projeto Supabase = "Gestão Igreja Pro" (`wkovbmrvpzukszmgfctd`,
+      schema `homolog`, removido ao fim). Subdomínio de homologação em
+      provisionamento pelo agente Claude do Chrome no cPanel.
 - [ ] `ordens/OT-SIL-01.md` — bloqueada por insumos (ver abaixo)
 - Tipo 2 aprovadas em lote em ____/____: —
 
@@ -27,6 +30,12 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 
 - Codex (Dev Backend) e Antigravity (Dev Frontend): ciência confirmada, read-back
   aceito pelo Arquiteto. Ambos aguardando OT aprovada.
+- **OPS-01 (sessão 6):** acesso ao Supabase revalidado (servidor MCP `supabase`
+  conectado, `read_only`). Reinaldo informou o domínio validado na HostGator:
+  `www.plenaaplicativos.com.br` — a prova usará o subdomínio
+  `homolog.plenaaplicativos.com.br`. `ordens/OT-OPS-01.md` redigida e aguardando
+  aprovação item a item. Falta ainda: decisão do projeto Supabase de homologação
+  (novo dedicado × existente) e acesso ao cPanel do Plano M.
 - **Dependência OPS-01 × SIL-01 (ruling do Arquiteto):** a prova técnica de
   compatibilidade do OPS-01 (build estático, deploy no Plano M, rotas após
   recarga, HTTPS/cabeçalhos, ida-e-volta de auth no Supabase, uma escrita
@@ -38,14 +47,22 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 ## Insumos pendentes de Reinaldo
 
 Para `OT-OPS-01`:
-- Acesso ou instruções do cPanel do HostGator Plano M.
-- Subdomínio de homologação (ex.: `homolog.<domínio-existente>`).
-- Supabase: criar projeto novo de homologação (recomendado) ou usar existente?
-  Há conta Supabase?
-- Confirmar a lista mínima de operações da prova: login, leitura por tenant,
-  escrita protegida, Edge Function, Storage, atualização do PWA/cache, recarga de
-  rotas, build estático.
-- Confirmar o ruling acima (OPS-01 não espera SIL-01).
+- ~~Domínio~~ — **RESOLVIDO em 2026-09-08:** `www.plenaaplicativos.com.br`,
+  disponível e validado na HostGator. Homologação em
+  `homolog.plenaaplicativos.com.br`.
+- ~~Confirmar o ruling (OPS-01 não espera SIL-01)~~ — **confirmado por Reinaldo
+  em 2026-09-08.**
+- Acesso ou instruções do cPanel do HostGator Plano M; criar o subdomínio de
+  homologação e ativar AutoSSL.
+- Supabase: criar projeto novo de homologação (recomendado pelo Arquiteto —
+  isola custo, dado e chaves; o projeto conectado hoje via MCP está vazio e a
+  conexão é `read_only`) ou usar o existente `wkovbmrvpzukszmgfctd`?
+- Caminho de escrita no Supabase para a migração/Edge Function/bucket da prova
+  (dashboard, CLI ou conector com `apply_migration` na conta dona do projeto).
+- Aprovar `ordens/OT-OPS-01.md` item a item (Tipo 1).
+- Confirmar a lista mínima de operações da prova descrita na OT: login, escrita
+  protegida por RLS (`homolog_ping`), negação de acesso cruzado A/B, Edge
+  Function, Storage, atualização do PWA/cache, recarga de rotas, build estático.
 
 Para `OT-SIL-01`:
 - O que a Igreja Siloé usa hoje (planilha, sistema, papel).
