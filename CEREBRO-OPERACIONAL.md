@@ -1,9 +1,9 @@
 # Cérebro Operacional — Gestão de Igrejas (SaaS)
 
-> **Versão:** 1.0 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-08
+> **Versão:** 1.1 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-08
 > (registro em `docs/operacao/DECISOES.md`).
 > **Alterações neste documento** seguem a mesma regra: proposta do Arquiteto,
-> aprovação expressa de Reinaldo, nova linha no §19 e no `DECISOES.md`.
+> aprovação expressa de Reinaldo, nova linha no §21 e no `DECISOES.md`.
 > **Substitui:** a seção 9.3.1 ("Organização proposta dos agentes") do
 > `docs/PLANO-ESTRATEGICO-SAAS-2026-09-06.md`. Onde este documento e o plano
 > divergirem sobre papéis, sessão, QA ou deploy, **este documento prevalece**.
@@ -540,10 +540,40 @@ controle mitiga.
 
 ---
 
-## 19. Histórico deste documento
+## 20. Artefatos de execução e distribuição
+
+Operacionalizam as seções 7, 8, 9 e 12. Todos em `docs/operacao/`.
+
+| Artefato | Papel |
+|---|---|
+| `BACKLOG-OPERACIONAL.md` | Board vivo: cada ID do §8.2 do plano com responsável, revisor, ciclo, estado e PR |
+| `agentes/ARQUITETO.md`, `DEV-BACKEND.md`, `DEV-FRONTEND.md`, `ORQUESTRADOR-QA.md` | Briefing operacional de cada papel — leitura de início de sessão junto com este documento |
+| `templates/ORDEM-DE-TRABALHO.md` | Modelo da OT que o Arquiteto redige e Reinaldo aprova antes da execução |
+| `templates/PULL-REQUEST.md` | Modelo de descrição de PR |
+| `templates/MODULO-README.md` | Modelo do `README.md` por módulo (§15.1) |
+| `templates/MODELAGEM-DE-AMEACA.md` | Modelo do parágrafo de ameaça (§17.7) |
+| `ordens/OT-<ID>.md` | OT versionada de cada tarefa |
+| `ciclos/CICLO-NN.md` | Plano e retrospecto de cada ciclo de duas semanas |
+| `deploys/DEPLOY-*.md` | Pacote de deploy datado (§9) |
+
+Fluxo de distribuição:
+
+1. Reinaldo seleciona IDs para o ciclo em `ciclos/CICLO-NN.md`.
+2. Arquiteto redige `ordens/OT-<ID>.md` a partir do template.
+3. Reinaldo aprova a OT (Tipo 1 item a item; Tipo 2 em lote).
+4. O agente responsável lê seu briefing, a OT e o `README.md` do módulo, e executa
+   na cópia isolada.
+5. O agente atualiza o estado no `BACKLOG-OPERACIONAL.md` e escreve no
+   `STATUS-REPORT.md`.
+6. Revisão, QA de Reinaldo, merge por Reinaldo; deploy só por pacote aprovado.
+
+---
+
+## 21. Histórico deste documento
 
 | Versão | Data | Mudança |
 |---|---|---|
 | 0.1 | 2026-09-08 | Rascunho inicial para validação de Reinaldo |
 | 0.2 | 2026-09-08 | Seções de Clean Code, estrutura modular + POO, prevenção de mojibake, segurança de dados/cibersegurança e manutenção por horizonte (§14–§18); DEC-015 a DEC-018 |
 | 1.0 | 2026-09-08 | Aprovado expressamente por Reinaldo. DEC-012 e DEC-014 confirmados. Criados `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md` e `docs/operacao/deploys/` |
+| 1.1 | 2026-09-08 | §20 (artefatos de execução e distribuição): `BACKLOG-OPERACIONAL.md`, `agentes/`, `templates/`, `ordens/`, `ciclos/`; DEC-019 |

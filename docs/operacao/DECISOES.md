@@ -163,3 +163,17 @@ consideradas, quem decidiu, impacto no plano estratégico.
   da TAREFA-001.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhum.
+
+## DEC-019 — Estrutura de execução e distribuição
+- **Data:** 2026-09-08
+- **Decisão:** criada a estrutura operacional em `docs/operacao/` —
+  `BACKLOG-OPERACIONAL.md` (board vivo), `agentes/` (briefing por papel),
+  `templates/` (ordem de trabalho, PR, README de módulo, modelagem de ameaça),
+  `ordens/` (OT versionada por tarefa) e `ciclos/` (plano e retrospecto por
+  ciclo). Documentada na §20 do `CEREBRO-OPERACIONAL.md` (v1.1).
+- **Contexto:** operacionalizar as seções 7 a 9 e 12 do Cérebro Operacional
+  aprovado, dando um fluxo concreto de distribuição de tarefas aos agentes.
+- **Alternativas:** usar GitHub Issues/Projects como board em vez de markdown
+  versionado no repositório.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum; implementa a governança já aprovada.

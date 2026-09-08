@@ -19,6 +19,26 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 2
+- **Tarefa / ID:** governança — estrutura de execução e distribuição (DEC-019)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** DEC-019 — aprovada por Reinaldo.
+- **Entregas:** `docs/operacao/BACKLOG-OPERACIONAL.md`;
+  `agentes/{ARQUITETO,DEV-BACKEND,DEV-FRONTEND,ORQUESTRADOR-QA}.md`;
+  `templates/{ORDEM-DE-TRABALHO,PULL-REQUEST,MODULO-README,MODELAGEM-DE-AMEACA}.md`;
+  `ordens/README.md`; `ciclos/README.md`; `ciclos/CICLO-01.md` (esqueleto);
+  `CEREBRO-OPERACIONAL.md` §20 e v1.1.
+- **Evidência:** working tree na branch `chore/cerebro-operacional-v1`.
+- **Portão automático:** n/a (documentação).
+- **Pendências:** Reinaldo prioriza e data o Ciclo 1 em `ciclos/CICLO-01.md`;
+  Arquiteto redige as OTs dos IDs escolhidos.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** aprovar/mesclar o PR; abrir o Ciclo 1.
+- **Arquivos tocados:** `CEREBRO-OPERACIONAL.md`, `docs/operacao/DECISOES.md`,
+  `docs/operacao/STATUS-REPORT.md`, `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/agentes/*`, `docs/operacao/templates/*`,
+  `docs/operacao/ordens/README.md`, `docs/operacao/ciclos/*`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 1
 - **Tarefa / ID:** governança — abertura do Cérebro Operacional
 - **Tipo:** 1
