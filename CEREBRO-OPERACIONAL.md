@@ -1,6 +1,6 @@
 # Cérebro Operacional — Gestão de Igrejas (SaaS)
 
-> **Versão:** 1.1 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-08
+> **Versão:** 1.2 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-08
 > (registro em `docs/operacao/DECISOES.md`).
 > **Alterações neste documento** seguem a mesma regra: proposta do Arquiteto,
 > aprovação expressa de Reinaldo, nova linha no §21 e no `DECISOES.md`.
@@ -546,8 +546,10 @@ Operacionalizam as seções 7, 8, 9 e 12. Todos em `docs/operacao/`.
 
 | Artefato | Papel |
 |---|---|
+| `ROADMAP-EXECUCAO.md` | Fases A–H com gates, alocação por ciclo e desvio de sequência aprovado (DEC-020) |
 | `BACKLOG-OPERACIONAL.md` | Board vivo: cada ID do §8.2 do plano com responsável, revisor, ciclo, estado e PR |
 | `agentes/ARQUITETO.md`, `DEV-BACKEND.md`, `DEV-FRONTEND.md`, `ORQUESTRADOR-QA.md` | Briefing operacional de cada papel — leitura de início de sessão junto com este documento |
+| `agentes/KICKOFF.md` | Prompts de onboarding dos devs (Codex e Antigravity) |
 | `templates/ORDEM-DE-TRABALHO.md` | Modelo da OT que o Arquiteto redige e Reinaldo aprova antes da execução |
 | `templates/PULL-REQUEST.md` | Modelo de descrição de PR |
 | `templates/MODULO-README.md` | Modelo do `README.md` por módulo (§15.1) |
@@ -577,3 +579,4 @@ Fluxo de distribuição:
 | 0.2 | 2026-09-08 | Seções de Clean Code, estrutura modular + POO, prevenção de mojibake, segurança de dados/cibersegurança e manutenção por horizonte (§14–§18); DEC-015 a DEC-018 |
 | 1.0 | 2026-09-08 | Aprovado expressamente por Reinaldo. DEC-012 e DEC-014 confirmados. Criados `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md` e `docs/operacao/deploys/` |
 | 1.1 | 2026-09-08 | §20 (artefatos de execução e distribuição): `BACKLOG-OPERACIONAL.md`, `agentes/`, `templates/`, `ordens/`, `ciclos/`; DEC-019 |
+| 1.2 | 2026-09-08 | `ROADMAP-EXECUCAO.md` e `agentes/KICKOFF.md` na §20; DEC-020 (roadmap A–H e desvio TEN-01 antes das rotinas) |

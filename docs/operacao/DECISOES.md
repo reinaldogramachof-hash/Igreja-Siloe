@@ -177,3 +177,20 @@ consideradas, quem decidiu, impacto no plano estratégico.
   versionado no repositório.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhum; implementa a governança já aprovada.
+
+## DEC-020 — Roadmap de execução e desvio de sequência
+- **Data:** 2026-09-08
+- **Decisão:** aprovado o `docs/operacao/ROADMAP-EXECUCAO.md` — fases A a H com
+  gates e alocação por ciclo. Inclui um **desvio de sequência**: TEN-01
+  (isolamento multi-tenant) é executado **antes** das rotinas MEM-01/CEL-01/
+  ROT-01/FIN-01, não depois.
+- **Contexto:** situar os agentes e destravar o Ciclo 1. O §8.2 do plano
+  permitia rotinas single-tenant para a Siloé com endurecimento posterior; a
+  DEC-014 (repo = linha SaaS, Siloé = tenant #1) torna o multi-tenant um
+  pré-requisito para evitar retrabalho.
+- **Alternativas:** seguir a ordem literal do §8.2, construindo as rotinas antes
+  de TEN-01.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** ajusta a ordem de execução das etapas 2 e 4; o escopo das
+  entregas permanece o do plano. A revisão v1.2 (PLAN-12) registra isso no
+  documento estratégico.

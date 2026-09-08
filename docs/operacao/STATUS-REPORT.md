@@ -19,6 +19,25 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 3
+- **Tarefa / ID:** governança — roadmap de execução (DEC-020)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** DEC-020 — roadmap A–H e desvio de
+  sequência (TEN-01 antes das rotinas); aprovada por Reinaldo.
+- **Entregas:** `docs/operacao/ROADMAP-EXECUCAO.md`; `docs/operacao/agentes/KICKOFF.md`
+  (prompts de onboarding de Codex e Antigravity); `CEREBRO-OPERACIONAL.md` §20
+  atualizada e v1.2; DEC-020 no `DECISOES.md`.
+- **Evidência:** working tree na branch `chore/cerebro-operacional-v1`.
+- **Portão automático:** n/a (documentação).
+- **Pendências:** merge do PR de governança; Reinaldo confirma o Ciclo 1 e envia
+  insumos de OPS-01 e SIL-01; Arquiteto redige as OTs do Ciclo 1.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** com o Ciclo 1 confirmado, redigir `OT-PLAN-12`,
+  `OT-TAREFA-001`, `OT-OPS-01`, `OT-SIL-01`.
+- **Arquivos tocados:** `CEREBRO-OPERACIONAL.md`, `docs/operacao/DECISOES.md`,
+  `docs/operacao/STATUS-REPORT.md`, `docs/operacao/ROADMAP-EXECUCAO.md`,
+  `docs/operacao/agentes/KICKOFF.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 2
 - **Tarefa / ID:** governança — estrutura de execução e distribuição (DEC-019)
 - **Tipo:** 1
