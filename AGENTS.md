@@ -7,3 +7,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Cérebro Operacional
+
+Antes de qualquer trabalho neste repositório, ler `CEREBRO-OPERACIONAL.md` na raiz
+— é a fonte de regras de papéis, decisões, início e fim de sessão, QA, deploy,
+Clean Code, estrutura modular, prevenção de mojibake e segurança. Seguir as
+regras de início de sessão do §5 a cada nova sessão.
