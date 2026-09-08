@@ -194,3 +194,25 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Impacto no plano:** ajusta a ordem de execução das etapas 2 e 4; o escopo das
   entregas permanece o do plano. A revisão v1.2 (PLAN-12) registra isso no
   documento estratégico.
+
+## DEC-021 — MCP `supabase` read-only versionado; projeto-base "Gestão Igreja Pro"
+- **Data:** 2026-09-08
+- **Decisão:** o arquivo `.mcp.json` na raiz é versionado. Ele declara um único
+  servidor MCP `supabase`, HTTP, project-scoped em
+  `project_ref=wkovbmrvpzukszmgfctd` (projeto "Gestão Igreja Pro") e
+  `read_only=true`. O projeto "Gestão Igreja Pro" é o projeto-base do produto;
+  a homologação do OPS-01 roda nele, isolada em um schema `homolog` e removida ao
+  fim. Qualquer escrita no Supabase (migração, Edge Function, bucket, policy)
+  continua sendo decisão Tipo 1, caso a caso.
+- **Contexto:** o conector claude.ai Supabase pré-existente está autenticado em
+  outra conta (org `djuzpjjyxvtsqnubwzzc`) e não enxerga o projeto-alvo. O
+  servidor `supabase` do `.mcp.json` foi autenticado por Reinaldo via
+  `claude /mcp` e validado em sessão nova (sessão 6): leitura OK, usuário
+  `supabase_read_only_user`.
+- **Alternativas:** manter `.mcp.json` fora do versionamento (`.gitignore` +
+  `.mcp.json.example`); criar um projeto Supabase novo e dedicado só para
+  homologação.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum no escopo; operacionaliza o acesso de leitura ao
+  Supabase para todos os agentes/sessões. A URL não contém segredo
+  (`project_ref` é público; autenticação é OAuth fora do repositório).
