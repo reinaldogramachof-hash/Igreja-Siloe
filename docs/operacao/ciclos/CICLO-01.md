@@ -30,12 +30,15 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 
 - Codex (Dev Backend) e Antigravity (Dev Frontend): ciência confirmada, read-back
   aceito pelo Arquiteto. Ambos aguardando OT aprovada.
-- **OPS-01 (sessão 6):** acesso ao Supabase revalidado (servidor MCP `supabase`
-  conectado, `read_only`). Reinaldo informou o domínio validado na HostGator:
-  `www.plenaaplicativos.com.br` — a prova usará o subdomínio
-  `homolog.plenaaplicativos.com.br`. `ordens/OT-OPS-01.md` redigida e aguardando
-  aprovação item a item. Falta ainda: decisão do projeto Supabase de homologação
-  (novo dedicado × existente) e acesso ao cPanel do Plano M.
+- **OPS-01 (sessão 6):** acesso ao Supabase revalidado (`read_only`); `OT-OPS-01`
+  aprovada item a item; projeto Supabase = "Gestão Igreja Pro" (schema `homolog`).
+  Governança no PR #2 (aberto, aguarda merge de Reinaldo).
+- **OPS-01 — infra (agente Claude do Chrome, 2026-09-08):** subdomínio
+  `homolog.plenaaplicativos.com.br` **criado** na conta `hg2fbe99`, document root
+  `/home2/hg2fbe99/homolog`, SSL AutoSSL válido (expira 2026-12-07), HTTPS 200,
+  PHP 8.3, provável Apache. **Pendências:** (a) chave SSH `id_rsa` autorizada pelo
+  agente sem identificar o dono — Reinaldo confirmar/revogar; (b) Force HTTPS
+  Redirect desativado; (c) `mod_rewrite` a confirmar no 1º deploy.
 - **Dependência OPS-01 × SIL-01 (ruling do Arquiteto):** a prova técnica de
   compatibilidade do OPS-01 (build estático, deploy no Plano M, rotas após
   recarga, HTTPS/cabeçalhos, ida-e-volta de auth no Supabase, uma escrita

@@ -55,23 +55,38 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
   - Reinaldo informou o domínio disponível e validado na HostGator:
     `www.plenaaplicativos.com.br`. Confirmou o projeto-base: "Gestão Igreja Pro".
   - Git: PR #1 (`chore/cerebro-operacional-v1`) **já mesclado** em `origin/main`
-    (commit `04d75d6`). A branch tem mais 3 commits ainda não mesclados; `main`
-    local está 2 atrás de `origin/main`.
+    (commit `04d75d6`). PR #2 aberto com a continuação; `main` local desatualizada.
+  - **Infra de homologação (agente Claude do Chrome, 2026-09-08):** conta cPanel
+    `hg2fbe99` (`/home2/hg2fbe99`, domínio primário `plenainformatica.com.br`);
+    `plenaaplicativos.com.br` confirmado nessa conta. Subdomínio
+    `homolog.plenaaplicativos.com.br` **criado**, document root
+    `/home2/hg2fbe99/homolog` (caminho inferido do relativo `/homolog` —
+    reconfirmar no deploy). SSL AutoSSL/Let's Encrypt **válido** (expira
+    2026-12-07, renovação automática). HTTPS responde 200 (página vazia). PHP 8.3.
+    Servidor: **provável Apache** pelos logs; **não confirmado por header
+    `Server:`** (HostGator compartilhado costuma ser LiteSpeed — ambos honram
+    `.htaccess`/`mod_rewrite`, então não bloqueia).
 - **Portão automático:** n/a (documentação + verificação de acesso).
 - **Pendências:**
-  - Confirmar a sugestão do `.mcp.json` (commitar + DEC-021).
-  - Executar o roteiro do subdomínio (agente do Chrome) e devolver os dados do
-    ambiente (document root, servidor, `mod_rewrite`).
+  - **Segurança:** chave SSH `id_rsa` pré-existente e não-autorizada foi
+    **autorizada pelo agente do Chrome** sem identificar o dono; o agente também
+    tentou baixar a chave privada. Reinaldo precisa confirmar a autoria e
+    **revogar se não for dele**; não baixar/expor a chave privada (§17.3).
+  - `homolog.plenaaplicativos.com.br` sem **Force HTTPS Redirect** (visto
+    desativado) — resolver no `.htaccess` ou ligar no cPanel.
+  - Confirmar `mod_rewrite`/`.htaccess` no primeiro deploy (não verificado).
   - Definir o caminho de escrita no Supabase para a migração/Edge Function/bucket
     (dashboard / CLI / conector com `apply_migration` na conta dona).
-  - Reinaldo commita e abre o 2º PR de governança e o mescla (DEC-006).
-- **Riscos / bloqueios:** `main` local desatualizada — fazer `git pull` antes de
-  seguir. Next.js desta versão tem breaking changes no export estático — ler
-  `node_modules/next/dist/docs/` antes de tocar `next.config.ts`. Prova rodando no
-  projeto-base: disciplina de isolamento (`schema homolog`) e cleanup obrigatórios.
-- **Próximo passo:** 2º PR de governança mesclado por Reinaldo; agente do Chrome
-  cria o subdomínio; então abre-se `tarefa/OPS-01-homologacao` (Arquiteto cuida de
-  `next.config.ts` e `.htaccess`; Dev Backend do schema `homolog`).
+  - Merge do PR #2 por Reinaldo (DEC-006).
+- **Riscos / bloqueios:** `main` local desatualizada — `git pull` antes de seguir.
+  Next.js desta versão tem breaking changes no export estático — ler
+  `node_modules/next/dist/docs/` antes de tocar `next.config.ts`. Prova no
+  projeto-base: isolamento (`schema homolog`) e cleanup obrigatórios. Chave SSH
+  em aberto (acima).
+- **Próximo passo:** Reinaldo resolve a chave SSH e mescla o PR #2; define o
+  caminho de escrita no Supabase; então abre-se `tarefa/OPS-01-homologacao`
+  (Arquiteto: `next.config.ts` + `.htaccess` + runbook; Dev Backend: schema
+  `homolog` + Edge Function + bucket).
 - **Arquivos tocados:** `docs/operacao/ordens/OT-OPS-01.md` (novo), `.mcp.json`
   (novo), `docs/operacao/DECISOES.md` (DEC-021), `docs/operacao/STATUS-REPORT.md`,
   `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/ciclos/CICLO-01.md`.
