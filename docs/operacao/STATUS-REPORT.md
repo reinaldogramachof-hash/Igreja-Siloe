@@ -19,6 +19,28 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 4
+- **Tarefa / ID:** CICLO-01 — onboarding dos devs e redação das OTs
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** aprovação de `OT-PLAN-12` e
+  `OT-TAREFA-001`; confirmação do ruling OPS-01 não depende de SIL-01; insumos
+  para `OT-OPS-01` e `OT-SIL-01`.
+- **Entregas:** revisão e aceite dos read-backs de Codex e Antigravity;
+  `ordens/OT-PLAN-12.md` e `ordens/OT-TAREFA-001.md` redigidas;
+  `ciclos/CICLO-01.md` atualizado (situação, ruling de dependência, insumos
+  pendentes); `BACKLOG-OPERACIONAL.md` — PLAN-12 e TAREFA-001 em `Especificacao`,
+  OPS-01 com dependência ajustada.
+- **Evidência:** working tree na branch `chore/cerebro-operacional-v1`.
+- **Portão automático:** n/a (documentação).
+- **Pendências:** aprovação das duas OTs por Reinaldo; insumos de OPS-01 e SIL-01;
+  merge do PR de governança.
+- **Riscos / bloqueios:** devs prontos e ociosos até a primeira OT aprovada.
+- **Próximo passo:** com `OT-TAREFA-001` aprovada, Antigravity e Arquiteto abrem
+  `tarefa/TAREFA-001-desmarcacao`; com insumos, redijo `OT-OPS-01` e `OT-SIL-01`.
+- **Arquivos tocados:** `docs/operacao/ordens/OT-PLAN-12.md`,
+  `docs/operacao/ordens/OT-TAREFA-001.md`, `docs/operacao/ciclos/CICLO-01.md`,
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 3
 - **Tarefa / ID:** governança — roadmap de execução (DEC-020)
 - **Tipo:** 1

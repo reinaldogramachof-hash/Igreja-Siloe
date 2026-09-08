@@ -22,11 +22,11 @@ aprovado). Fora do fluxo: `Bloqueada`.
 
 | ID | Trabalho | Tipo | Etapa plano | Responsável | Revisor | Ciclo | Estado | Depende de | PR / evidência |
 |---|---|---|---|---|---|---|---|---|---|
-| PLAN-12 | Revisão v1.2 do plano (Siloé vira tenant) | 1 | — | Arquiteto | Reinaldo | — | Backlog | DEC-014 | — |
-| TAREFA-001 | Desvinculação da marca Igreja Siloé | 1 | A9 / QUA-01 | Arquiteto + Dev Frontend | Arquiteto | — | Backlog | — | — |
-| SIL-01 | Especificar sistema completo e personalizações Siloé | 1 | 0 | Arquiteto + Reinaldo | Reinaldo | — | Backlog | — | — |
+| PLAN-12 | Revisão v1.2 do plano (Siloé vira tenant) | 1 | — | Arquiteto | Reinaldo | 1 | Especificacao | DEC-014 | OT-PLAN-12 (aguarda aprovação) |
+| TAREFA-001 | Desvinculação da marca Igreja Siloé | 1 | A9 / QUA-01 | Arquiteto + Dev Frontend | Arquiteto | 1 | Especificacao | — | OT-TAREFA-001 (aguarda aprovação) |
+| SIL-01 | Especificar sistema completo e personalizações Siloé | 1 | 0 | Arquiteto + Reinaldo | Reinaldo | 1 | Backlog | insumos de Reinaldo | — |
 | NEG-01 | Detalhar Lite, níveis superiores e critérios de teste | 1 | 0 | Reinaldo | — | — | Backlog | — | — |
-| OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto | — | Backlog | SIL-01 | — |
+| OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto | 1 | Backlog | insumos HostGator/Supabase de Reinaldo (não espera SIL-01 — CICLO-01) | — |
 | QUA-01 | Tratar lint, fonte, documentação e revisão mobile | 2 | 1 | Dev Frontend + Dev Backend | Arquiteto | — | Backlog | — | — |
 | SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | OPS-01 | — |
 | TEN-01 | Organizações, vínculos e isolamento entre igrejas | 1 | 4 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 | — |
