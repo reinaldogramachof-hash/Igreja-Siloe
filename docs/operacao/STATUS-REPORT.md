@@ -19,6 +19,59 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 8
+- **Tarefa / ID:** OPS-01 — validação do banco (schema `homolog`)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** autorização para 2 escritas no
+  "Gestão Igreja Pro" via conector MCP — deploy da Edge Function `homolog-echo`
+  e `revoke execute on function public.rls_auto_enable() from anon, authenticated,
+  public`. Aguardando.
+- **Entregas:**
+  - Conector claude.ai Supabase reautenticado por Reinaldo — agora enxerga a org
+    "Gestão Igrejas" / projeto "Gestão Igreja Pro". Escrita disponível.
+  - Verificado via MCP que a migração `homolog` **já estava aplicada e correta**.
+  - `supabase/validate/validate_homolog.sql` — script de validação (estrutura +
+    isolamento RLS A/B em transação revertida). Check de FK via `pg_constraint`
+    (ajuste do Codex — `information_schema` deu falso negativo cross-schema).
+  - Cópia solta `validate_homolog.sql` da raiz removida.
+- **Evidência (rodada pelo Codex via conector, equivalente ao psql):**
+  - Estrutura/RLS/grants/storage: **14/14 PASS**.
+  - Isolamento RLS A/B (transação com ROLLBACK): **6/6 PASS**; sem resíduo
+    (`homolog_ping_rows=0`, `homolog_test_users=0`).
+  - HTTP: `exposed-schema` → **406** (falta `homolog` em Exposed schemas);
+    `homolog-echo` → **404** (Edge Function ainda não deployada).
+  - `get_advisors(security)`: só os 2 WARN pré-existentes de
+    `public.rls_auto_enable()`.
+- **Portão automático:** n/a (validação de banco).
+- **Pendências:**
+  - Reinaldo: adicionar `homolog` em **Settings → API → Exposed schemas**.
+  - Autorizar as 2 escritas MCP (deploy `homolog-echo` + `revoke execute`).
+  - Arquiteto: `next.config.ts` export + `.htaccess` + rota de homologação +
+    runbook + `DEPLOY-*`; depois a prova A/B pelo frontend.
+- **Riscos / bloqueios:** **colisão de branch** — Codex trabalhou em
+  `tarefa/OPS-01-homologacao` (branch do Arquiteto/OPS-01) e deixou mudanças de
+  Auth **não commitadas** (`proxy.ts`, `lib/supabase/`, `app/auth/`,
+  `package.json`, `tsconfig.json`...). Isso é SEC-01, não OPS-01 (§3: uma branch
+  por dono). Precisa separar. Além disso, `proxy.ts` (middleware) **não roda em
+  static export** — decisão de arquitetura para a prova de auth no Plano M.
+- **Próximo passo:** Reinaldo separa a frente do Codex; autoriza as escritas;
+  Arquiteto segue com o export estático.
+- **Arquivos tocados:** `supabase/validate/validate_homolog.sql` (novo),
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/STATUS-REPORT.md`,
+  `supabase/README.md`.
+
+## 2026-09-08 — Codex (Dev Backend) — sessão 1
+- **Tarefa / ID:** Auth Supabase + rotas protegidas — continuação de OPS-01/SEC-01
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova além do pedido direto desta sessão; nenhuma escrita nova foi feita no Supabase.
+- **Entregas:** dependências oficiais `@supabase/ssr` e `@supabase/supabase-js`; clients Supabase browser/server/proxy; `proxy.ts` protegendo rotas internas; layout interno com checagem server-side de usuário; login/logout usando Supabase Auth; callback `/auth/callback`; `.env.example` versionável; `tsconfig` excluindo Edge Functions Deno do typecheck do app.
+- **Evidência:** projeto Supabase `Gestão Igreja Pro` (`wkovbmrvpzukszmgfctd`) ativo; tabela `homolog.homolog_ping` com RLS lida via conector; `npx tsc --noEmit --incremental false` ok; `npm run build` ok; dev server local validou `/dashboard` sem sessão redirecionando para `/login?next=%2Fdashboard` e `/login` respondendo 200.
+- **Portão automático:** lint falhou no baseline conhecido (27 erros/88 avisos); types ok; build ok; testes n/a; isolamento parcial por rota sem sessão ok.
+- **Pendências:** criar/validar usuários Auth reais no Supabase; definir modelo de organizações/vínculos/perfis com RLS em TEN-01/SEC-01; resolver advisory `public.rls_auto_enable()` executável por `anon`/`authenticated`; corrigir baseline de lint; tratar `npm audit` moderado em `qs`.
+- **Riscos / bloqueios:** `proxy.ts` não é suportado em static export puro; para HostGator estático, a proteção server-side não roda e será preciso desenho alternativo client/RLS ou hospedagem com runtime. Perfis do menu continuam demonstrativos em `localStorage`, não autorização de produção.
+- **Próximo passo:** revisar arquitetura de Auth/tenant com o Arquiteto e criar users/perfis de teste para prova A/B real.
+- **Arquivos tocados:** `.gitignore`, `.env.example`, `app/(app)/layout.tsx`, `app/(auth)/login/page.tsx`, `app/auth/callback/route.ts`, `components/layout/sidebar.tsx`, `lib/supabase/*`, `proxy.ts`, `package.json`, `package-lock.json`, `tsconfig.json`, `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 7
 - **Tarefa / ID:** OPS-01 — início da execução (artefatos de banco)
 - **Tipo:** 1

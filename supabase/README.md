@@ -9,6 +9,7 @@ Artefatos de banco versionados. Vinculado a `docs/operacao/ordens/OT-OPS-01.md`.
 | `migrations/20260908183000_homolog.sql` | OPS-01 — schema `homolog` descartável: tabela `homolog_ping` com RLS por `owner`, bucket privado `homolog` com policies. Idempotente. |
 | `rollback/20260908183000_homolog_rollback.sql` | Reversão da migração acima. **Fora de `migrations/`** de propósito (o CLI rodaria como subida). |
 | `functions/homolog-echo/index.ts` | OPS-01 — Edge Function descartável de prova (invocação autenticada). |
+| `validate/validate_homolog.sql` | OPS-01 — validação (estrutura + isolamento RLS A/B revertido). Rodado 2026-09-08: 14/14 + 6/6 PASS. |
 
 ## Como aplicar (projeto "Gestão Igreja Pro" — `wkovbmrvpzukszmgfctd`)
 
