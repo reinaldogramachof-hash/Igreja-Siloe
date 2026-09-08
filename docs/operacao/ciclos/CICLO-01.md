@@ -36,9 +36,14 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 - **OPS-01 — infra (agente Claude do Chrome, 2026-09-08):** subdomínio
   `homolog.plenaaplicativos.com.br` **criado** na conta `hg2fbe99`, document root
   `/home2/hg2fbe99/homolog`, SSL AutoSSL válido (expira 2026-12-07), HTTPS 200,
-  PHP 8.3, provável Apache. **Pendências:** (a) chave SSH `id_rsa` autorizada pelo
-  agente sem identificar o dono — Reinaldo confirmar/revogar; (b) Force HTTPS
-  Redirect desativado; (c) `mod_rewrite` a confirmar no 1º deploy.
+  PHP 8.3, provável Apache. Chave SSH `id_rsa` — Reinaldo confirmou que é dele
+  (mantida). Force HTTPS Redirect e `mod_rewrite` tratados no `.htaccess`.
+- **OPS-01 — execução (sessão 7):** conector claude.ai Supabase não alcança o
+  "Gestão Igreja Pro"; Reinaldo aplica o SQL manualmente. Branch
+  `tarefa/OPS-01-homologacao` com a migração `20260908183000_homolog.sql`, o
+  rollback, a Edge Function `homolog-echo` e o README em `supabase/`. Falta
+  aplicar no projeto e seguir com `next.config.ts`/`.htaccess`/runbook e a prova
+  A/B.
 - **Dependência OPS-01 × SIL-01 (ruling do Arquiteto):** a prova técnica de
   compatibilidade do OPS-01 (build estático, deploy no Plano M, rotas após
   recarga, HTTPS/cabeçalhos, ida-e-volta de auth no Supabase, uma escrita

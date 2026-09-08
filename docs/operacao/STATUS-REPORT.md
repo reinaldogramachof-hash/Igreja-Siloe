@@ -19,6 +19,49 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-08 — Claude (Arquiteto) — sessão 7
+- **Tarefa / ID:** OPS-01 — início da execução (artefatos de banco)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** caminho de escrita no Supabase —
+  Reinaldo pediu "via conector"; testado e **indisponível** (o conector claude.ai
+  Supabase só enxerga a org "Plena informática", não o "Gestão Igreja Pro" —
+  `get_project` → permission denied). Reinaldo optou por **aplicar o SQL
+  manualmente pelo SQL Editor**. Dependência do Supabase CLI (Tipo 1) fica adiada.
+- **Entregas:**
+  - PR #2 mesclado (`8891a15`); `main` local sincronizada; branch de governança
+    apagada.
+  - Branch `tarefa/OPS-01-homologacao` criada de `main`.
+  - `supabase/migrations/20260908183000_homolog.sql` — schema `homolog`
+    isolado, tabela `homolog_ping` (RLS por `owner = auth.uid()`, 4 policies,
+    grants só a `authenticated`), bucket privado `homolog` + 4 policies em
+    `storage.objects` escopadas a `bucket_id='homolog'`. Idempotente.
+  - `supabase/rollback/20260908183000_homolog_rollback.sql` — fora de
+    `migrations/` de propósito.
+  - `supabase/functions/homolog-echo/index.ts` — Edge Function de prova.
+  - `supabase/README.md` — como aplicar e reverter.
+- **Evidência:** working tree na branch `tarefa/OPS-01-homologacao`.
+- **Portão automático:** n/a (SQL/Deno; lint/tsc/build do projeto não cobrem
+  `supabase/`). Validação real = aplicar no projeto + prova A/B pelo frontend.
+- **Pendências:**
+  - Reinaldo aplica `20260908183000_homolog.sql` no SQL Editor; adiciona
+    `homolog` em Exposed schemas; faz deploy da `homolog-echo`.
+  - Arquiteto: `next.config.ts` com `output: 'export'`, `.htaccess` (rewrite SPA +
+    cabeçalhos + Force HTTPS), rota de homologação mínima, runbook
+    `OPS-01-HOMOLOGACAO.md`, pacote `DEPLOY-*`.
+  - Prova ponta a ponta com dois usuários (login, insert/select, negação A/B,
+    Edge Function, Storage, recarga de rota, update do PWA).
+  - Advisory `public.rls_auto_enable()` — decidir tratamento.
+- **Riscos / bloqueios:** insert pelo SQL Editor falha (`auth.uid()` nulo) — a
+  prova é pelo frontend. Servidor do subdomínio não confirmado (Apache × LiteSpeed
+  — ambos ok para `.htaccess`).
+- **Próximo passo:** aplicar o SQL; abrir PR da branch `tarefa/OPS-01-homologacao`;
+  seguir com `next.config.ts` + `.htaccess`.
+- **Arquivos tocados:** `supabase/migrations/20260908183000_homolog.sql` (novo),
+  `supabase/rollback/20260908183000_homolog_rollback.sql` (novo),
+  `supabase/functions/homolog-echo/index.ts` (novo), `supabase/README.md` (novo),
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/ciclos/CICLO-01.md`,
+  `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 6
 - **Tarefa / ID:** OPS-01 (preparação) — revalidação do acesso ao Supabase e
   redação da OT
