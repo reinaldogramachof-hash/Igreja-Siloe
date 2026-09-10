@@ -448,3 +448,16 @@ consideradas, quem decidiu, impacto no plano estratégico.
   **quem** executa quando chegar a hora, não **quando**.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhuma mudança de sequência; só de responsável.
+
+## DEC-036 — Nome da rota do console do proprietário: `/backoffice`
+- **Data:** 2026-09-10
+- **Decisão:** o console exclusivo do proprietário (`ADM-01`) fica em
+  `/backoffice`, distinto do `/admin` já existente (papel dentro do app de
+  uma igreja).
+- **Contexto:** resposta à pergunta 4 de `ADM-01-ESTRUTURA-PROPOSTA.md`
+  (última em aberto). Sugestão do Arquiteto, confirmada por Reinaldo.
+- **Alternativas:** `/proprietario` (equivalente em português) — não
+  escolhida.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** fecha as 4 perguntas de `ADM-01-ESTRUTURA-PROPOSTA.md`
+  — modelo de dados, segurança e estrutura de rotas totalmente aprovados.

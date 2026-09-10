@@ -30,13 +30,10 @@ sua API, em nenhuma hipótese.
 
 ## 3. Estrutura do console (rotas)
 
-Fora de `app/(app)/` (área das igrejas) — área própria, ex. `app/admin/`
-(nome definitivo a confirmar, evitando colisão com o `/admin` que já existe
-hoje dentro do protótipo interno — **achado**: já existe uma rota
-`app/(app)/admin/page.tsx` no app atual, que é *outra coisa* — hoje é uma
-tela demonstrativa dentro do papel "admin" de uma igreja. Vamos precisar
-renomear/desambiguar uma das duas antes de implementar, para não confundir
-"admin de igreja" com "admin do proprietário").
+Fora de `app/(app)/` (área das igrejas) — área própria em
+**`app/backoffice/`** (rota `/backoffice`, DEC-036). Distinto de
+`app/(app)/admin/page.tsx`, que continua sendo a tela demonstrativa do
+papel "admin" dentro de uma igreja — sem colisão de nome.
 
 Seções propostas:
 - **Visão geral** — clientes ativos, licenças vencendo, leads em aberto.
@@ -94,8 +91,11 @@ Seções propostas:
 3. ~~Mais alguém acessa o console?~~ — **Só Reinaldo por hora**, mas o
    desenho já prevê `console_users`/controle de acesso desde a v1 (não
    hardcoded para um único dono) — ver §4.
-4. **Ainda em aberto** — nome definitivo da rota do console (colisão com o
-   `/admin` existente). A conversar antes da Fase D.
+4. ~~Nome definitivo da rota~~ — **`/backoffice`** (DEC-036).
+
+**Todas as 4 perguntas fechadas.** Modelo de dados, segurança e estrutura
+de rotas aprovados por completo — pronto para a Fase D quando `TEN-01`
+destravar (DEC-028).
 
 ## Aprovação
 
