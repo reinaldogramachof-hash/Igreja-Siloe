@@ -365,3 +365,15 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Arquiteto, dentro da delegação de Reinaldo nesta sessão.
 - **Impacto no plano:** `ROADMAP-EXECUCAO.md` Fase D atualizada (kickoff do
   ADM-01 em paralelo ao desenho do TEN-01); Fase F mantém a conclusão.
+
+## DEC-029 — Preço do Modelo de Entrada vitalício
+- **Data:** 2026-09-10
+- **Decisão:** preço do "Modelo de Entrada" (LocalStorage, pagamento único,
+  licença vitalícia) fixado em **R$ 399,90**. Aplicado em `lib/plans.ts`
+  (branch `tarefa/TAREFA-002-landing`, commit `81ec3fd`).
+- **Contexto:** parte de `NEG-01`. Essencial e Premium (Gestão Online) ainda
+  não têm preço — Antigravity está pesquisando preço de concorrentes para
+  embasar (`ordens/OT-NEG-01-PESQUISA.md`) antes de Reinaldo fechar esses
+  dois valores.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum além do conteúdo da Landing Page.

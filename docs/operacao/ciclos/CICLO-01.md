@@ -72,19 +72,25 @@ Para `OT-OPS-01`:
   protegida por RLS (`homolog_ping`), negação de acesso cruzado A/B, Edge
   Function, Storage, atualização do PWA/cache, recarga de rotas, build estático.
 
-Para `NEG-01` (recebido de Reinaldo em 2026-09-10, **parcial** — mensagem
-cortada, falta completar antes de fechar a especificação):
+Para `NEG-01` (recebido de Reinaldo em 2026-09-10, **parcial** — falta
+completar antes de fechar a especificação):
 - Modelo de Entrada: LocalStorage (sem backend), pagamento único, licença
-  vitalícia.
+  vitalícia. **Preço fechado em 2026-09-10: R$ 399,90** (DEC-029). Aplicado
+  em `lib/plans.ts` (branch `tarefa/TAREFA-002-landing`).
 - Gestão Lite: módulos base online, R$ 69,90 (periodicidade a confirmar —
   provável mensal).
 - Gestão Online: mais módulos que o Lite, valores escalando, passando por um
   nível "Essencial" até um nível "Premium" (nomes, módulos incluídos em cada
-  nível e valores exatos de Essencial/Premium **ainda não informados**).
-- **Falta:** valores de Essencial e Premium; o que cada nível libera
-  (diferença de módulos); se "Gestão Online" é o nome comercial da faixa
-  toda ou só de um nível; critérios de teste/trial mencionados no título do
-  NEG-01.
+  nível **definidos** — ver `lib/plans.ts` — valores exatos **ainda não
+  informados**).
+- **Em andamento (2026-09-10):** Antigravity fazendo pesquisa de mercado de
+  preços de concorrentes para embasar Essencial e Premium — ver
+  `ordens/OT-NEG-01-PESQUISA.md`.
+- **Falta:** valores de Essencial e Premium (aguardando a pesquisa); se
+  "Gestão Online" é o nome comercial da faixa toda ou só de um nível;
+  critérios de teste/trial mencionados no título do NEG-01 — ver
+  `ordens/OT-CODEX-DEMO.md` (caminho de teste via Landing Page, em desenho
+  pelo Codex).
 
 Para `OT-SIL-01`:
 - O que a Igreja Siloé usa hoje (planilha, sistema, papel).
