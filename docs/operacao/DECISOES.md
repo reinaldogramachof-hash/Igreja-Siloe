@@ -461,3 +461,23 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** fecha as 4 perguntas de `ADM-01-ESTRUTURA-PROPOSTA.md`
   — modelo de dados, segurança e estrutura de rotas totalmente aprovados.
+
+## DEC-037 — Correção do achado crítico do SEC-01: papel fixo em "membro"
+- **Data:** 2026-09-10
+- **Decisão:** até o `TEN-01` trazer o modelo de papel via RLS
+  (usuário↔organização↔papel no banco), todo login real (com credenciais
+  Supabase) fixa o papel do usuário em `"membro"` — a seleção de papel na
+  tela de login é removida do fluxo de autenticação real. Codex autorizado a
+  executar (`OT-SEC-01-CORRECOES.md`), junto dos outros 4 achados da revisão
+  de segurança (open redirect, cadastro simulado, marca residual, link
+  morto).
+- **Contexto:** achado crítico da revisão de segurança do Arquiteto
+  (sessão 15) — papel era escolhido no cliente sem verificação de servidor,
+  violando §17.1.
+- **Alternativas:** esperar o `TEN-01` inteiro para liberar login real
+  (atrasaria o SEC-01 sem necessidade); implementar uma tabela de papel
+  simplificada só para o SEC-01 (rejeitada — risco de retrabalho quando o
+  TEN-01 chegar, mesmo raciocínio da DEC-028).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** destrava `SEC-01` de `Bloqueada` assim que a
+  correção for aplicada e revisada.
