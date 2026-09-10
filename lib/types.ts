@@ -1,4 +1,33 @@
-export type Role = "admin" | "lider_louvor" | "lider_salas" | "tesoureiro" | "secretaria" | "lider_celula" | "membro"
+export const ROLES = [
+  "admin",
+  "lider_louvor",
+  "lider_salas",
+  "tesoureiro",
+  "secretaria",
+  "lider_celula",
+  "membro",
+] as const
+
+export type Role = (typeof ROLES)[number]
+
+export function isRole(value: unknown): value is Role {
+  return typeof value === "string" && (ROLES as readonly string[]).includes(value)
+}
+
+export type OrganizationStatus = "trial" | "ativo" | "suspenso" | "cancelado"
+
+export type MembershipStatus = "ativo" | "convidado" | "suspenso"
+
+export type ResolvedMembership = {
+  userId: string
+  userEmail: string | null
+  userName: string | null
+  organizationId: string
+  organizationName: string
+  organizationSlug: string
+  organizationStatus: OrganizationStatus
+  role: Role
+}
 
 export type BookingStatus = "pendente" | "aprovado" | "recusado"
 

@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe, Vote, FileCheck2, PieChart, Download } from "lucide-react"
+import { ArrowLeft, DoorOpen, LayoutDashboard, Music2, ShieldCheck, X, LogOut, Sun, Moon, Landmark, Users, HeartHandshake, Network, Bell, Ticket, Globe, Vote, FileCheck2, PieChart, Download, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSidebar } from "./sidebar-context"
 import { Button } from "@/components/ui/button"
@@ -20,7 +20,7 @@ import { usePWAInstall } from "@/lib/use-pwa-install"
 type NavItem = {
   href: string
   label: string
-  icon: any
+  icon: LucideIcon
   rolesAllowed?: Role[]
 }
 
@@ -71,7 +71,7 @@ export function Sidebar() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebar()
-  const { user, role, setRole } = useDemoUser()
+  const { user, role } = useDemoUser()
   const { showInstallButton, promptInstall } = usePWAInstall()
 
   // Travar o scroll da tela ao fundo quando o sidebar estiver aberto no mobile

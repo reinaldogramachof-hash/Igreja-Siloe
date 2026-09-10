@@ -1,6 +1,8 @@
 import { Sidebar } from "@/components/layout/sidebar"
 import { Topbar } from "@/components/layout/topbar"
 import { SidebarProvider } from "@/components/layout/sidebar-context"
+import { AuthSessionProvider } from "@/lib/prototype-auth"
+import { resolveActiveMembership } from "@/lib/supabase/membership"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 
@@ -14,15 +16,23 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     redirect("/login")
   }
 
+  const membership = await resolveActiveMembership(supabase, user)
+
+  if (!membership) {
+    redirect("/login?error=membership_required")
+  }
+
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen bg-background">
-        <Sidebar />
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Topbar />
-          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+    <AuthSessionProvider session={membership}>
+      <SidebarProvider>
+        <div className="flex min-h-screen bg-background">
+          <Sidebar />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <Topbar />
+            <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </AuthSessionProvider>
   )
 }

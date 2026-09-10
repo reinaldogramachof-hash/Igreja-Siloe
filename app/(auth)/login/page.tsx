@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { setStoredRole } from "@/lib/prototype-auth"
 import { createClient } from "@/lib/supabase/client"
+import { isRole } from "@/lib/types"
 
 function getSafeNextPath(nextPath: string | null) {
   if (!nextPath || !nextPath.startsWith("/") || nextPath.startsWith("//")) {
@@ -45,7 +46,20 @@ export default function LoginPage() {
       return
     }
 
-    setStoredRole("membro")
+    const { data: membership, error: membershipError } = await supabase
+      .from("memberships")
+      .select("role")
+      .eq("status", "ativo")
+      .maybeSingle()
+
+    if (membershipError || !isRole(membership?.role)) {
+      await supabase.auth.signOut()
+      setIsSubmitting(false)
+      setAuthError("Seu usuario ainda nao possui uma organizacao ativa. Solicite o convite ao administrador.")
+      return
+    }
+
+    setStoredRole(membership.role)
     const nextPath = getSafeNextPath(new URLSearchParams(window.location.search).get("next"))
     router.push(nextPath)
     router.refresh()
@@ -168,7 +182,7 @@ export default function LoginPage() {
 
                   <div className="rounded-xl border border-border/40 bg-muted/20 p-3 text-xs">
                     <p className="text-[11px] text-muted-foreground">
-                      Contas autenticadas entram temporariamente com perfil de membro. Papéis administrativos serão definidos pelo servidor na fase de isolamento multi-tenant.
+                      O perfil de acesso e a organização são resolvidos pelo servidor a partir do vínculo ativo da conta.
                     </p>
                   </div>
 
