@@ -5,6 +5,7 @@ import {
   CalendarDays,
   Megaphone,
   Wallet,
+  Ticket,
   Check,
 } from "lucide-react"
 
@@ -82,6 +83,19 @@ const modules: ModuleItem[] = [
       "Elimine planilhas confusas e anotações soltas",
     ],
   },
+  {
+    icon: Ticket,
+    title: "Eventos & Conferências",
+    subtitle: "Inscrições organizadas, sem planilha",
+    description:
+      "Organize retiros, conferências e eventos especiais da sua igreja, com inscrição dos participantes e controle de vagas em um só lugar.",
+    features: [
+      "Inscrição online para eventos e retiros",
+      "Controle de vagas e lista de espera",
+      "Comunicação automática com inscritos",
+      "Relatório de participação para a liderança",
+    ],
+  },
 ]
 
 export function ModulesSection() {
@@ -103,14 +117,12 @@ export function ModulesSection() {
 
         {/* Modules Grid */}
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {modules.map((mod, index) => {
+          {modules.map((mod) => {
             const Icon = mod.icon
             return (
               <div
                 key={mod.title}
-                className={`flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/40 hover:shadow-md ${
-                  index === 4 ? "sm:col-span-2 lg:col-span-1" : ""
-                }`}
+                className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/40 hover:shadow-md"
               >
                 <div>
                   <div className="flex size-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
