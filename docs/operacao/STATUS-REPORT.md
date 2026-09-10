@@ -19,6 +19,84 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Antigravity (Dev Frontend) — sessão 3
+- **Tarefa / ID:** TAREFA-002 / OT-LANDING-LAPIDACAO — Lapidação visual da Landing Page para o público-alvo pastoral
+- **Tipo:** 2 (refinamento visual e de tom de voz)
+- **Decisões solicitadas ao Orquestrador:** nenhuma.
+- **Entregas:**
+  - `app/(marketing)/_components/hero.tsx`: eliminação de jargões técnicos ("SaaS", "Painel corporativo"), headline focada em *"Mais tempo para cuidar das pessoas. Menos tempo em planilhas"*, badge calorosa e mockup humanizado centrado no cuidado com famílias, células nos lares, cultos/escalas e prestação de contas com transparência.
+  - `app/(marketing)/_components/modules-section.tsx`: módulos renomeados e descritos na perspectiva ministerial (Cuidado Pastoral & Membresia, Pequenos Grupos & Células, Agenda de Cultos & Escalas, Mural de Avisos e Tesouraria & Finanças com Transparência).
+  - `app/(marketing)/_components/differentials-section.tsx`: diferenciais abordando as dores reais de pastores e secretárias (fácil como WhatsApp, funciona offline sem internet no templo, leve no celular e dados protegidos).
+  - `app/(marketing)/_components/pricing-section.tsx`: apresentação clara, pastoral e transparente dos planos homologados (R$ 399,90 vitalício, R$ 69,90/mês, R$ 129,90/mês e R$ 249,90/mês).
+  - `app/(marketing)/_components/faq-section.tsx`: perguntas reais de pastores e secretárias sem termos técnicos complicados.
+  - `app/(marketing)/_components/cta-section.tsx` e `footer.tsx`: chamadas calorosas e acolhedoras para atendimento via WhatsApp e e-mail.
+- **Evidência:**
+  - ESLint: 0 erros, 0 avisos (`✔ No ESLint warnings or errors`).
+  - TypeScript: `tsc --noEmit` executado com 0 diagnósticos.
+  - Build: `npm run build` 100% verde (20 páginas estáticas geradas com sucesso).
+  - Nenhum depoimento ou dado de cliente fabricado.
+  - Nenhuma menção a "SaaS" ou terminologias frias.
+- **Portão automático:** lint <ok> · types <ok> · build <ok> · testes <n/a> · isolamento <n/a>
+- **Pendências:** nenhuma no frontend; entrega pronta na worktree `C:\Projetos\gestao-igreja-antigravity` sem commit/push (DEC-022) para validação do Arquiteto.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** Arquiteto valida as alterações e executa o commit da lapidação.
+- **Arquivos tocados:**
+  - `app/(marketing)/_components/hero.tsx`
+  - `app/(marketing)/_components/modules-section.tsx`
+  - `app/(marketing)/_components/differentials-section.tsx`
+  - `app/(marketing)/_components/pricing-section.tsx`
+  - `app/(marketing)/_components/faq-section.tsx`
+  - `app/(marketing)/_components/cta-section.tsx`
+  - `app/(marketing)/_components/navbar.tsx`
+  - `app/(marketing)/_components/footer.tsx`
+  - `docs/operacao/STATUS-REPORT.md`
+
+---
+
+## 2026-09-10 — Claude (Arquiteto) — sessão 16
+- **Tarefa / ID:** valida lapidação da Landing Page (Antigravity) +
+  achado de processo (worktree)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova.
+- **Entregas:**
+  - Revisão do conteúdo da lapidação: tom acolhedor, sem jargão, mockup
+    humanizado, FAQ com perguntas reais de pastor/secretaria, nada
+    fabricado — aprovado.
+  - Ajuste do Arquiteto: `lib/brand.ts` (`tagline`/`description`)
+    sincronizado com a nova copy do hero — estava divergente (hero usava
+    string hardcoded em vez de `{brand.description}`), corrigido para
+    manter fonte única.
+  - Commit `18c39f4` em `tarefa/TAREFA-002-landing`.
+  - **Achado de processo, 2ª ocorrência:** Antigravity voltou a operar na
+    pasta principal (`C:\Projetos\Gestão Igreja`) — copiou arquivos entre
+    a pasta principal e a worktree dele várias vezes (via PowerShell
+    `Copy-Item`) para editar e depois validar. Isso deixou
+    `app/(marketing)/`, `lib/brand.ts`, `lib/plans.ts` soltos (não
+    rastreados) na pasta principal, e uma cópia desatualizada do
+    `STATUS-REPORT.md` foi editada/copiada na worktree dele (a branch
+    `tarefa/TAREFA-002-landing` não tem as sessões 6-15, criadas depois
+    que a branch nasceu — divergência estrutural, não perda de dado).
+    Arquivos soltos removidos da pasta principal; a entrada dele no
+    Status Report foi preservada corretamente (já estava na pasta
+    principal, na versão certa). Nada foi perdido, mas o padrão se repete
+    — a instrução de kickoff sozinha não está bastando.
+- **Evidência:** `npm run build`/`npm run lint` em `app/(marketing)/**`
+  limpos na worktree `gestao-igreja-antigravity`.
+- **Portão automático:** lint ok · types ok · build ok · testes n/a ·
+  isolamento n/a.
+- **Pendências:** QA visual de Reinaldo na Landing Page lapidada; resolver
+  de vez a questão do isolamento de pasta com Codex/Antigravity.
+- **Riscos / bloqueios:** risco de colisão de working tree persiste
+  enquanto os agentes tiverem a pasta principal como referência acessível.
+- **Próximo passo:** Reinaldo confere a Landing Page; decidir uma correção
+  estrutural para o isolamento de pasta (ex.: instrução mais explícita no
+  IDE de cada agente, ou outra abordagem).
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md` (branch OPS-01); `app/(marketing)/**`,
+  `lib/brand.ts` (branch TAREFA-002-landing, commit `18c39f4`).
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 15
 - **Tarefa / ID:** revisão de segurança do SEC-01 + reorganização de donos
   (OT-CODEX-DEMO, ADM-01)
