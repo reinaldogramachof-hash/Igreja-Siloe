@@ -377,3 +377,34 @@ consideradas, quem decidiu, impacto no plano estratégico.
   dois valores.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhum além do conteúdo da Landing Page.
+
+## DEC-030 — Gateway de pagamento: Mercado Pago
+- **Data:** 2026-09-10
+- **Decisão:** `FAT-01` (assinaturas, cobrança, webhooks) é desenhado em
+  cima da API do Mercado Pago.
+- **Contexto:** resposta à pergunta 1 de `ADM-01-ESTRUTURA-PROPOSTA.md`.
+  Define o formato de referência externa em `licenses` e o contrato do
+  webhook a especificar na OT do `FAT-01`.
+- **Alternativas:** Stripe, Pagar.me — não escolhidas.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** direciona a implementação futura do `FAT-01`.
+
+## DEC-031 — Todo plano gera licença rastreada, inclusive o Modelo de Entrada
+- **Data:** 2026-09-10
+- **Decisão:** o Modelo de Entrada (vitalício) também gera um registro em
+  `licenses` — não é venda avulsa sem acompanhamento. `licenses` distingue
+  tipo vitalícia (sem ciclo de renovação) de recorrente (com ciclo).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** modelo de dados do `ADM-01`/`TEN-01` já contempla
+  isso (ver `ADM-01-ESTRUTURA-PROPOSTA.md` §2).
+
+## DEC-032 — Console do proprietário: controle de acesso desde a v1
+- **Data:** 2026-09-10
+- **Decisão:** mesmo com só Reinaldo usando o console hoje, o desenho já
+  prevê `console_users`/controle de acesso extensível (não um papel único
+  hardcoded) — para permitir, no futuro, mais gente (sócio, suporte) sem
+  redesenhar o modelo de permissão.
+- **Contexto:** resposta à pergunta 3 de `ADM-01-ESTRUTURA-PROPOSTA.md`.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhuma tela nova agora — só o modelo de dados já
+  nasce preparado (mesmo raciocínio da DEC-028: construir certo uma vez).
