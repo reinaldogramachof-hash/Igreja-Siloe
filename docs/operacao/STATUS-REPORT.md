@@ -19,6 +19,44 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 17
+- **Tarefa / ID:** SEC-01 — valida correções dos 5 achados de segurança
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova.
+- **Entregas:**
+  - Revisão independente da correção do Codex (`OT-SEC-01-CORRECOES.md`):
+    todos os 5 achados corrigidos corretamente. Crítico: seleção de papel
+    removida do formulário de login real, `setStoredRole("membro")` fixo,
+    com nota transparente na UI explicando a limitação temporária até o
+    `TEN-01`. Alto: `getSafeNextPath` valida `next` (rejeita vazio,
+    absoluto, `//...`) tanto em `/auth/callback` quanto no próprio login.
+    Médios: cadastro trocado por botão desabilitado ("Cadastro por convite
+    em breve"), marca Siloé removida (confirmado por `grep`, zero
+    ocorrências). Baixo: "Esqueceu a senha" virou texto informativo, não
+    mais link morto.
+  - Validado pelo Arquiteto (independente do relato do Codex, DEC-022):
+    `npm run build` ok, `grep` confirma zero resíduo de Siloé nos arquivos
+    tocados.
+  - Commit `aad13a3` em `tarefa/SEC-01-auth`.
+  - `BACKLOG-OPERACIONAL.md`: `SEC-01` → `Revisao`, pronto para o QA de
+    Reinaldo.
+- **Evidência:** build e grep acima; leitura completa do arquivo
+  `app/(auth)/login/page.tsx` e `app/auth/callback/route.ts`.
+- **Portão automático:** build ok · lint focado nos arquivos alterados ok
+  (lint global segue com baseline pré-existente QUA-01, fora de escopo) ·
+  types ok (parte do build) · testes n/a · isolamento n/a.
+- **Pendências:** QA de Reinaldo no SEC-01; recuperação de senha e convite
+  reais continuam fora de escopo até `TEN-01`.
+- **Riscos / bloqueios:** nenhum novo.
+- **Próximo passo:** Reinaldo faz o QA do SEC-01 (login real, ida e volta
+  de sessão) quando conveniente.
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md` (branch OPS-01);
+  `app/(auth)/login/page.tsx`, `app/auth/callback/route.ts` (branch
+  SEC-01-auth, commit `aad13a3`).
+
+---
+
 ## 2026-09-10 — Antigravity (Dev Frontend) — sessão 3
 - **Tarefa / ID:** TAREFA-002 / OT-LANDING-LAPIDACAO — Lapidação visual da Landing Page para o público-alvo pastoral
 - **Tipo:** 2 (refinamento visual e de tom de voz)
