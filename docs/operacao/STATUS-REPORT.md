@@ -19,6 +19,33 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 14
+- **Tarefa / ID:** NEG-01 — fecha preços de Essencial e Premium
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova — Reinaldo já
+  decidiu nesta sessão (DEC-033).
+- **Entregas:**
+  - `lib/plans.ts` (branch `tarefa/TAREFA-002-landing`): Essencial
+    R$ 129,90/mês, Premium R$ 249,90/mês — sem mais `[EM DEFINIÇÃO]`.
+    Commit `28bd65e`.
+  - `DECISOES.md`: DEC-033. `BACKLOG-OPERACIONAL.md`: `NEG-01` → **Aceita**;
+    `TAREFA-002` fica só esperando o QA de Reinaldo para virar `Aceita`.
+- **Evidência:** `npm run build`/`npm run lint` no baseline pré-existente
+  (27 erros/88 avisos, QUA-01, sem regressão).
+- **Portão automático:** lint ok (baseline) · types ok · build ok · testes
+  n/a · isolamento n/a.
+- **Pendências:** QA visual de Reinaldo na Landing Page com os 4 preços
+  reais; nome da rota do console ADM-01 (pergunta 4, ainda em aberto);
+  implementação do caminho de teste (3 partes já divididas).
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** Reinaldo confere a Landing Page publicada/local; segue
+  a implementação do modo demo.
+- **Arquivos tocados:** `docs/operacao/DECISOES.md`,
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/STATUS-REPORT.md`
+  (branch OPS-01); `lib/plans.ts` (branch TAREFA-002-landing).
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 13
 - **Tarefa / ID:** validação das entregas de Codex e Antigravity + kickoff
   de implementação do caminho de teste

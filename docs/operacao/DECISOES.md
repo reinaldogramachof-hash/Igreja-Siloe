@@ -408,3 +408,18 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhuma tela nova agora — só o modelo de dados já
   nasce preparado (mesmo raciocínio da DEC-028: construir certo uma vez).
+
+## DEC-033 — Preços de Gestão Online (Essencial e Premium) fechados
+- **Data:** 2026-09-10
+- **Decisão:** **Essencial: R$ 129,90/mês. Premium: R$ 249,90/mês.**
+  Aplicado em `lib/plans.ts` (branch `tarefa/TAREFA-002-landing`, commit
+  `28bd65e`). `NEG-01` fica com os 4 níveis do portfólio precificados:
+  Entrada R$ 399,90 (vitalício), Lite R$ 69,90/mês, Essencial R$ 129,90/mês,
+  Premium R$ 249,90/mês.
+- **Contexto:** com base na pesquisa de mercado do Antigravity
+  (`docs/operacao/pesquisas/NEG-01-PRECOS.md`, 9 concorrentes mapeados com
+  fontes públicas), que sugeriu R$ 129,90 e R$ 249,90 como pontos centrais
+  das faixas levantadas.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** fecha `NEG-01`. Libera a Landing Page para
+  publicação (sem mais campo `[EM DEFINIÇÃO]` em `lib/plans.ts`).
