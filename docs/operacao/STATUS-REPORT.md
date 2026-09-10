@@ -19,6 +19,62 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 15
+- **Tarefa / ID:** revisão de segurança do SEC-01 + reorganização de donos
+  (OT-CODEX-DEMO, ADM-01)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** como corrigir o achado crítico
+  do SEC-01 (papel client-side) sem esperar o `TEN-01` inteiro — aguardando
+  resposta de Reinaldo.
+- **Entregas:**
+  - **Achado stray:** `docs/operacao/pesquisas/NEG-01-PRECOS.md` estava sem
+    commit desde a entrega do Antigravity (falha do Arquiteto) — commitado
+    nesta sessão.
+  - **Achado de processo:** Antigravity entregou a pesquisa de preços
+    direto em `C:\Projetos\Gestão Igreja` (pasta do Arquiteto), não na
+    worktree isolada — não migrou como pedido no kickoff. Sinalizado a
+    Reinaldo para confirmar.
+  - **Revisão de segurança do SEC-01** (branch `tarefa/SEC-01-auth`, leitura
+    completa de `proxy.ts`, `lib/supabase/*`, `app/(app)/layout.tsx`,
+    `app/(auth)/login/page.tsx`, `app/auth/callback/route.ts`):
+    - 🔴 **Crítico:** papel do usuário (`admin`, `secretaria`...) é
+      escolhido na tela de login e gravado só em `localStorage`
+      (`setStoredRole`) — sem checagem de servidor. Qualquer conta Supabase
+      real pode se auto-elevar a "admin" na UI. Viola §17.1.
+    - 🟠 **Alto:** open redirect em `app/auth/callback/route.ts` — parâmetro
+      `next` da query string vai direto para
+      `NextResponse.redirect(new URL(next, request.url))` sem validar que é
+      caminho relativo.
+    - 🟡 **Médio:** botão "Solicitar Cadastro" não chama
+      `supabase.auth.signUp`, só simula sucesso (§10).
+    - 🟡 **Médio:** tela de login ainda cita "Igreja Evangélica Siloé"
+      (branch anterior à DEC-026).
+    - 🟢 **Baixo:** "Esqueceu a senha?" sem ação (recuperação não
+      implementada, já sabido).
+  - `BACKLOG-OPERACIONAL.md`: SEC-01 → `Bloqueada` até a correção do
+    crítico. `OT-CODEX-DEMO.md`: execução única do Codex, incluindo
+    `proxy.ts`/`layout.tsx` (DEC-034 — Reinaldo simplificou a divisão em
+    três). `ADM-01`: Arquiteto estrutura, Antigravity executa quando
+    `TEN-01` destravar (DEC-035).
+- **Evidência:** leitura direta dos arquivos citados na worktree
+  `gestao-igreja-codex`.
+- **Portão automático:** n/a (revisão de código, sem alteração ainda).
+- **Pendências:**
+  - Reinaldo: decidir a correção do achado crítico (proposta do Arquiteto:
+    fixar papel em "membro" no login real até o TEN-01 trazer papel de
+    verdade via RLS) e confirmar nome da rota do console ADM-01.
+  - Codex: corrigir os achados quando autorizado.
+  - Confirmar se Antigravity já está na worktree isolada.
+- **Riscos / bloqueios:** SEC-01 não avança para QA enquanto o crítico não
+  for corrigido.
+- **Próximo passo:** aguardar decisão de Reinaldo sobre a correção;
+  encaminhar ao Codex.
+- **Arquivos tocados:** `docs/operacao/pesquisas/NEG-01-PRECOS.md`,
+  `docs/operacao/DECISOES.md`, `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/ordens/OT-CODEX-DEMO.md`, `docs/operacao/STATUS-REPORT.md`.
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 14
 - **Tarefa / ID:** NEG-01 — fecha preços de Essencial e Premium
 - **Tipo:** 1

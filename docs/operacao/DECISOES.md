@@ -423,3 +423,28 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** fecha `NEG-01`. Libera a Landing Page para
   publicação (sem mais campo `[EM DEFINIÇÃO]` em `lib/plans.ts`).
+
+## DEC-034 — Caminho de teste (OT-CODEX-DEMO): execução única pelo Codex
+- **Data:** 2026-09-10
+- **Decisão:** em vez da divisão em três (Arquiteto/Codex/Antigravity)
+  proposta originalmente, Reinaldo concentra toda a implementação do
+  caminho de teste via Landing Page no Codex — inclusive `proxy.ts` e
+  `app/(app)/layout.tsx` (normalmente domínio do Arquiteto, §3). O
+  Arquiteto segue como responsável de integração: revisa e valida antes de
+  commitar, mesmo não escrevendo o código.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** `OT-CODEX-DEMO.md` atualizada com o escopo completo
+  para o Codex.
+
+## DEC-035 — ADM-01: Arquiteto estrutura, Antigravity executa
+- **Data:** 2026-09-10
+- **Decisão:** para o painel administrativo (`ADM-01`), o Arquiteto produz a
+  estrutura técnica (modelo de dados, rotas, contratos) e o Antigravity
+  executa a implementação — divisão diferente do padrão usual (`ADM-01` é
+  backend-pesado, tipicamente domínio do Codex, mas Reinaldo optou por
+  Antigravity como executor).
+- **Contexto:** a execução em si continua represada pela DEC-028 (ADM-01
+  depende de `TEN-01`, que depende de `SEC-01` fechar) — esta decisão define
+  **quem** executa quando chegar a hora, não **quando**.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhuma mudança de sequência; só de responsável.

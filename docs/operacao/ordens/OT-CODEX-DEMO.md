@@ -112,23 +112,34 @@ sobrepor a sessão real. Regra: sessão Supabase real, quando presente, **sempre
 vence** o cookie de demo — o middleware checa sessão real primeiro; só cai no
 modo demo se não houver sessão real.
 
-## Divisão de dono para a implementação (§3)
+## Divisão de dono para a implementação — atualizado por Reinaldo (2026-09-10)
 
-`proxy.ts` e `app/(app)/layout.tsx` são "camada de auth" — arquivo
-compartilhado/fundação, dono é o Arquiteto (tabela do §3). Divisão:
+**Execução única: Codex.** Reinaldo decidiu concentrar toda a implementação
+do caminho de teste no Codex, em vez da divisão em três — inclusive
+`proxy.ts` e `app/(app)/layout.tsx` (normalmente arquivo do Arquiteto, §3).
+O Arquiteto continua responsável de integração: revisa e valida antes de
+commitar (§3 — mudança em arquivo compartilhado sempre passa pelo
+Arquiteto como integrador, mesmo quando outro agente escreve o código).
 
-- **Arquiteto:** ajuste em `proxy.ts` e `app/(app)/layout.tsx` (precedência
-  sessão real > cookie demo; reconhecer e validar o cookie).
-- **Codex:** rota `/teste` (seleção de papel, emissão do cookie
-  `app-demo-mode`/`app-demo-role`, reset), renome do token
-  (`siloe-demo-role` → `app-demo-role`), teste que falha em chamada a
-  `*.supabase.co` durante navegação demo.
-- **Antigravity:** banner "Modo teste — dados fictícios" no shell interno
-  (com ação de sair/resetar) e o link/CTA na Landing Page apontando para
-  `/teste`.
+Escopo completo para o Codex:
+- Rota `/teste` (seleção de papel, emissão do cookie
+  `app-demo-mode`/`app-demo-role`, reset).
+- `proxy.ts` e `app/(app)/layout.tsx`: reconhecer e validar o cookie de
+  demo, com a regra de precedência já definida (sessão Supabase real
+  **sempre** vence o cookie de demo).
+- Renome do token (`siloe-demo-role` → `app-demo-role`,
+  `siloe-demo-role-change` → `app-demo-role-change`).
+- Banner "Modo teste — dados fictícios" no shell interno, com ação de
+  sair/resetar.
+- CTA na Landing Page apontando para `/teste` (toca `app/(marketing)/`,
+  domínio normalmente do Antigravity — como ele não está com trabalho
+  simultâneo ali agora, sem risco de colisão; avisar o Arquiteto se isso
+  mudar).
+- Teste que falha se houver qualquer chamada a `*.supabase.co` durante
+  navegação em modo demo.
 
-Cada um entrega pronto na própria worktree, sem commit/push (DEC-022); o
-Arquiteto integra os três pedaços e valida o conjunto antes de commitar.
+Entrega pronta na worktree `C:\Projetos\gestao-igreja-codex`, sem
+commit/push (DEC-022); o Arquiteto integra e valida antes de commitar.
 
 ## Aprovação
 
