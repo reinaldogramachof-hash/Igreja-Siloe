@@ -240,3 +240,56 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhum no escopo do produto; atualiza a governança do
   `CEREBRO-OPERACIONAL.md` v1.3 (§2, §3, §6, §8, §10).
+
+## DEC-023 — OPS-01 e SEC-01 seguem em paralelo
+- **Data:** 2026-09-10
+- **Decisão:** a dependência do quadro (`SEC-01` esperar `OPS-01` **Aceita**)
+  é suspensa para este par: `tarefa/SEC-01-auth` segue para revisão em
+  paralelo ao fechamento do OPS-01, em vez de ficar parada.
+- **Contexto:** o código de Auth já existe (implementado fora de ordem na
+  sessão 8) e já passou pelo portão automático do Arquiteto (DEC-022). Manter
+  a branch parada só adiaria a revisão sem reduzir risco.
+- **Alternativas:** manter a ordem original (SEC-01 só entra em revisão após
+  OPS-01 Aceita).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** revisão de segurança do SEC-01 (Arquiteto + agente
+  distinto do implementador, §12/DEC-007) ainda pendente antes do QA — não
+  dispensada, só deixa de bloquear no tempo.
+
+## DEC-024 — Tratamento do advisory `public.rls_auto_enable()` e escritas do OPS-01
+- **Data:** 2026-09-10
+- **Decisão:** revogar `EXECUTE` de `anon`, `authenticated` e `public` na
+  função `public.rls_auto_enable()` (em vez de mudar para `SECURITY
+  INVOKER`). Codex autorizado a executar as duas escritas pendentes no
+  Supabase do projeto-base "Gestão Igreja Pro": deploy da Edge Function
+  `homolog-echo` e o `revoke execute` acima.
+- **Contexto:** advisory de segurança pré-existente (`get_advisors(security)`),
+  registrado desde a sessão 6/`OT-OPS-01`, com a decisão de tratamento em
+  aberto. Codex confirmou acesso de escrita ao projeto via terminal.
+- **Alternativas:** `SECURITY INVOKER` na função (rejeitada — muda
+  comportamento da função sem necessidade clara; revoke é mudança mínima e
+  reversível).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** fecha um item de aceite pendente da `OT-OPS-01`.
+
+## DEC-025 — Landing Page comercial adiantada para o Ciclo 1
+- **Data:** 2026-09-10
+- **Decisão:** Antigravity começa a construção da Landing Page do produto
+  (conteúdo comercial, planos e preços) agora, adiantando o essencial de
+  `TAREFA-002` (site comercial do SaaS, originalmente Fase F do roadmap) para
+  o Ciclo 1 — sem esperar `TAREFA-001` (desvinculação da marca) nem as fases
+  B–E completas.
+- **Contexto:** Reinaldo forneceu a primeira definição dos planos comerciais
+  (ver `NEG-01` no backlog) e quer a página pronta cedo. Tecnicamente, a
+  Landing Page depende de `lib/brand.ts` existir (fundação do Arquiteto,
+  escopo já descrito em `TAREFA-001`/`CEREBRO-OPERACIONAL.md` §13) — o
+  Arquiteto cria uma versão mínima dele como parte desta OT, sem esperar
+  `TAREFA-001` inteira.
+- **Alternativas:** manter a sequência original do roadmap (Landing Page só
+  na Fase F, depois de TAREFA-001 e do MVP).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** desvio de sequência análogo ao DEC-020 (TEN-01
+  antecipado); `ROADMAP-EXECUCAO.md` e `BACKLOG-OPERACIONAL.md` atualizados
+  para registrar. `NEG-01` (preços e níveis) ainda precisa ser fechado por
+  Reinaldo antes do conteúdo final da página — ver pendência no Status
+  Report.
