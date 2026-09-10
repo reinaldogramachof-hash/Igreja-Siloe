@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Church } from "lucide-react"
+import Image from "next/image"
 import { brand } from "@/lib/brand"
 
 export function Footer() {
@@ -12,9 +12,7 @@ export function Footer() {
           {/* Brand Info */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Church className="size-4" aria-hidden="true" />
-              </div>
+              <Image src="/logo.svg" alt="" width={32} height={32} className="size-8" aria-hidden="true" />
               <span className="font-heading text-base font-bold text-foreground">
                 {brand.name}
               </span>

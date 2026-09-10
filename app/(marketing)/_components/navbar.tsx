@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Church, Menu, X, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { Menu, X, ArrowRight } from "lucide-react"
 import { brand } from "@/lib/brand"
 
 export function Navbar() {
@@ -25,9 +26,7 @@ export function Navbar() {
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           aria-label={`${brand.name} - Página inicial`}
         >
-          <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/20">
-            <Church className="size-5" aria-hidden="true" />
-          </div>
+          <Image src="/logo.svg" alt="" width={36} height={36} className="size-9" aria-hidden="true" />
           <span className="font-heading text-lg font-bold tracking-tight text-foreground sm:text-xl">
             {brand.name}
           </span>
