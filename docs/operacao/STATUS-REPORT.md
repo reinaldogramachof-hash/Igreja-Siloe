@@ -19,6 +19,76 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 13
+- **Tarefa / ID:** validação das entregas de Codex e Antigravity + kickoff
+  de implementação do caminho de teste
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** preço final de Essencial e
+  Premium (Gestão Online) — ver pendências.
+- **Entregas:**
+  - **Validação independente das 2 escritas do Codex (DEC-024):**
+    `get_advisors(security)` → `[]` (era 2 WARN); `homolog-echo` → HTTP 401
+    sem sessão (era 404). Confirmado pelo Arquiteto via conector read-only +
+    `curl`, não só pelo relato do Codex. `BACKLOG-OPERACIONAL.md` (OPS-01)
+    atualizado.
+  - **Revisão da spec `OT-CODEX-DEMO.md`:** aprovada, com um refinamento —
+    sessão Supabase real sempre tem precedência sobre o cookie de modo demo
+    (nunca o modo teste sobrepõe um usuário real logado). Definida a divisão
+    de dono pra implementação: Arquiteto faz `proxy.ts` +
+    `app/(app)/layout.tsx` (fronteira de auth, §3); Codex faz a rota
+    `/teste`, o cookie e o renome do token; Antigravity faz o banner "Modo
+    teste" e o CTA na Landing Page. Liberado para implementação.
+  - **Pesquisa de preços do Antigravity (`NEG-01-PRECOS.md`):** 9
+    concorrentes mapeados; sugestão Essencial R$ 119,90–149,90 (ponto
+    central R$ 129,90) e Premium R$ 229,90–299,90 (ponto central R$ 249,90).
+    Levada para decisão de Reinaldo — não decidida pelo Arquiteto (Tipo 1).
+  - **Achado de processo:** Codex reportou que sua worktree está com os
+    docs operacionais desatualizados (`CEREBRO-OPERACIONAL.md` ainda v1.2,
+    `OT-CODEX-DEMO.md` nem existia lá) — branch `tarefa/SEC-01-auth` foi
+    criada antes das atualizações de governança desta sessão, e worktrees
+    não sincronizam sozinhos. Ele usou corretamente a versão lida na pasta
+    do Arquiteto como fonte vigente. **Ainda sem correção estrutural** — a
+    prática por ora é: agentes sempre conferem docs operacionais na pasta
+    do Arquiteto (ou pedem o conteúdo), não confiam na cópia da própria
+    branch.
+- **Evidência:** `get_advisors`/`curl` acima; `docs/operacao/pesquisas/NEG-01-PRECOS.md`.
+- **Portão automático:** n/a (validação + revisão de documentação).
+- **Pendências:**
+  - Reinaldo: decidir preço final de Essencial e Premium (ou ajustar a
+    sugestão do Antigravity).
+  - Implementação do caminho de teste (3 partes, conforme divisão acima).
+  - Corrigir a sincronização de docs operacionais entre worktrees/branches.
+- **Riscos / bloqueios:** nenhum novo.
+- **Próximo passo:** aguardar decisão de preço; iniciar implementação do
+  `proxy.ts`/`layout.tsx` (Arquiteto) assim que Codex/Antigravity
+  confirmarem início das partes deles.
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/ordens/OT-CODEX-DEMO.md`, `docs/operacao/STATUS-REPORT.md`.
+
+---
+
+## 2026-09-10 — Antigravity (Dev Frontend) — sessão 2
+- **Tarefa / ID:** NEG-01 (insumo) — Pesquisa de mercado de preços de concorrentes (OT-NEG-01-PESQUISA)
+- **Tipo:** 2 (pesquisa/insumo documental)
+- **Decisões solicitadas ao Orquestrador (Tipo 1):**
+  1. Definir os preços finais dos planos **Gestão Online — Essencial** e **Gestão Online — Premium** para substituir os literais `[EM DEFINIÇÃO]` em `lib/plans.ts`. Faixas sugeridas na pesquisa:
+     - **Essencial:** R$ 119,90 a R$ 149,90/mês (Ponto central sugerido: **R$ 129,90/mês**).
+     - **Premium:** R$ 229,90 a R$ 299,90/mês (Ponto central sugerido: **R$ 249,90/mês**).
+- **Entregas:**
+  - `docs/operacao/pesquisas/NEG-01-PRECOS.md`: levantamento com 9 concorrentes (Enuves, Igreja Digital, Sigreja/Sige Igrejas, Eklesia, Igreja Conectada, ePastor, Atos6, inChurch e ChurchTrac como benchmark internacional), análise comparativa, posicionamento das nossas ofertas (Modelo de Entrada vitalício a R$ 399,90 e Gestão Lite a R$ 69,90/mês) e justificativas econômicas para os níveis Essencial e Premium.
+- **Evidência:**
+  - Documento gerado com fontes públicas e dados atualizados de 2026.
+  - Conformidade com §14 (Clean Code/documentação limpa), §16 (UTF-8 sem BOM) e §10 (nenhum dado pessoal/confidencial).
+- **Portão automático:** lint <ok> · types <ok> · build <ok> · testes <n/a> · isolamento <n/a>
+- **Pendências:** aguarda decisão de Reinaldo (Tipo 1) sobre os preços finais homologados para posterior atualização de `lib/plans.ts`.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** Arquiteto valida a pesquisa e apresenta os valores para aprovação de Reinaldo.
+- **Arquivos tocados:**
+  - `docs/operacao/pesquisas/NEG-01-PRECOS.md` (novo)
+  - `docs/operacao/STATUS-REPORT.md`
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 12
 - **Tarefa / ID:** OPS-01 (export/.htaccess) + governança (worktrees) +
   DEC-026/027 (saída da Siloé, escopo do ADM-01)

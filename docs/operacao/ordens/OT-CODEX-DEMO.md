@@ -79,6 +79,59 @@ se aprovado, abre a OT de implementação.
 - Nenhum dado pessoal real em nenhuma hipótese no fluxo de teste.
 - Não implementar ainda — esta OT é só a spec.
 
+## Spec entregue pelo Codex (2026-09-10)
+
+1. **Rota de entrada:** `/teste`, pública, vinda da Landing Page, com
+   seleção explícita de papel — não reaproveita `/login`.
+2. **Convivência com `proxy.ts`:** não abrir `/dashboard` só por
+   `localStorage`. Cookie de servidor `app-demo-mode`/`app-demo-role`,
+   validado por whitelist de papéis, reconhecido pelo middleware antes da
+   checagem Supabase. `app/(app)/layout.tsx` também precisa reconhecer o
+   modo demo e pular `supabase.auth.getUser()` — o proxy sozinho não basta.
+3. **Isolamento de dado:** nenhuma chamada Supabase nas rotas internas
+   quando em modo demo — só `lib/mock-data.ts` + `localStorage`. Sugere
+   teste que falha se houver qualquer chamada a `*.supabase.co` durante
+   navegação demo.
+4. **Sinalização visual:** banner persistente "Modo teste — dados
+   fictícios" em todo o shell interno, com ação de sair/resetar.
+5. **Expiração/reset:** sem prazo comercial; sessão técnica via cookie de
+   24h, renovável reentrando por `/teste`; reset limpa cookie e
+   `localStorage`.
+6. **Renome do token:** `siloe-demo-role` → `app-demo-role`,
+   `siloe-demo-role-change` → `app-demo-role-change`. Scan encontrou outras
+   referências `siloe` fora de docs (cruza com `TAREFA-001`) — Codex
+   propositalmente não mexeu nelas sem aprovação explícita.
+
+## Revisão do Arquiteto — aprovado com um refinamento
+
+Spec sólida, aprovada para implementação. Um ponto a fechar antes de
+codificar: **precedência quando os dois cookies coexistem** — um usuário
+com sessão Supabase real (tenant de verdade, já logado) que também tem um
+cookie `app-demo-mode` antigo no navegador **nunca** pode ver o modo demo
+sobrepor a sessão real. Regra: sessão Supabase real, quando presente, **sempre
+vence** o cookie de demo — o middleware checa sessão real primeiro; só cai no
+modo demo se não houver sessão real.
+
+## Divisão de dono para a implementação (§3)
+
+`proxy.ts` e `app/(app)/layout.tsx` são "camada de auth" — arquivo
+compartilhado/fundação, dono é o Arquiteto (tabela do §3). Divisão:
+
+- **Arquiteto:** ajuste em `proxy.ts` e `app/(app)/layout.tsx` (precedência
+  sessão real > cookie demo; reconhecer e validar o cookie).
+- **Codex:** rota `/teste` (seleção de papel, emissão do cookie
+  `app-demo-mode`/`app-demo-role`, reset), renome do token
+  (`siloe-demo-role` → `app-demo-role`), teste que falha em chamada a
+  `*.supabase.co` durante navegação demo.
+- **Antigravity:** banner "Modo teste — dados fictícios" no shell interno
+  (com ação de sair/resetar) e o link/CTA na Landing Page apontando para
+  `/teste`.
+
+Cada um entrega pronto na própria worktree, sem commit/push (DEC-022); o
+Arquiteto integra os três pedaços e valida o conjunto antes de commitar.
+
 ## Aprovação
 
 - **Reinaldo:** [x] aprovada em 10/09/2026 (autorização direta na sessão)
+- **Spec de implementação:** [x] aprovada pelo Arquiteto em 10/09/2026, com
+  o refinamento de precedência acima
