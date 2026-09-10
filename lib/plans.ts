@@ -67,7 +67,7 @@ export const commercialPlans: Plan[] = [
     id: "online-essencial",
     name: "Gestão Online — Essencial",
     subtitle: "Para igrejas estruturadas em múltiplos ministérios",
-    price: "[EM DEFINIÇÃO]",
+    price: "R$ 129,90",
     period: "/mês",
     description: "Flexibilidade e capacidade expandida para liderança compartilhada e múltiplas células.",
     features: [
@@ -86,7 +86,7 @@ export const commercialPlans: Plan[] = [
     id: "online-premium",
     name: "Gestão Online — Premium",
     subtitle: "Estrutura completa para grandes ministérios e redes",
-    price: "[EM DEFINIÇÃO]",
+    price: "R$ 249,90",
     period: "/mês",
     description: "A solução definitiva com recursos avançados, suporte prioritário e capacidade total.",
     features: [
