@@ -30,7 +30,7 @@ aprovado). Fora do fluxo: `Bloqueada`.
 | QUA-01 | Tratar lint, fonte, documentação e revisão mobile | 2 | 1 | Dev Frontend + Dev Backend | Arquiteto | — | Backlog | — | — |
 | SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | 1 | Revisao | OPS-01 (dependência **suspensa em paralelo**, DEC-023) — falta revisão de segurança por agente distinto do implementador (§12/DEC-007) antes do QA | branch tarefa/SEC-01-auth (commit `04e32d1`, autoria Codex, separado em 2026-09-10 via DEC-022) |
 | TEN-01 | Organizações, vínculos e isolamento entre igrejas | 1 | 4 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 | — |
-| ADM-01 | Console exclusivo do proprietário: vendas, licenças, clientes (tenants) e módulos contratados + MFA (escopo expandido, DEC-027) | 1 | 4 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 (dependência técnica a confirmar — ver DEC-027) | — |
+| ADM-01 | Console exclusivo do proprietário: vendas, licenças, clientes (tenants) e módulos contratados + MFA (escopo expandido, DEC-027) | 1 | 4 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 — mantém a dependência (DEC-028); kickoff/spec do ADM-01 roda em paralelo ao desenho do TEN-01 (Fase D), conclusão na Fase F | — |
 | MEM-01 | Membros e importação com validação | 2 | 1 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | TEN-01 | — |
 | CEL-01 | Gestão de células e membros reais | 2 | 2 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01, MEM-01 | — |
 | ROT-01 | Agenda, reserva, aprovação e avisos reais | 2 | 2 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01, MEM-01 | — |
