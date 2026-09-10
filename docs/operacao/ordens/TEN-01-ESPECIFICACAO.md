@@ -47,6 +47,14 @@ create table memberships (
   created_at      timestamptz not null default now(),
   unique (user_id, organization_id)
 );
+
+-- Uma organizacao por usuario no MVP (DEC-041): garante no banco, nao so
+-- na aplicacao. Permite linhas historicas (status != 'ativo') para o
+-- mesmo usuario, mas so uma 'ativo' por vez - elimina ambiguidade de
+-- "organizacao atual" sem impedir o modelo crescer para multiplas depois.
+create unique index memberships_uma_ativa_por_usuario
+  on memberships (user_id)
+  where status = 'ativo';
 ```
 
 **Regra de isolamento:** toda tabela de dado de negócio (membros, células,
@@ -73,32 +81,23 @@ tabela/coluna quando o papel importar (ex.: só `admin`/`tesoureiro` editam
 financeiro) — desenhado tabela a tabela conforme cada módulo
 (MEM-01/CEL-01/ROT-01/FIN-01) entrar, não tudo de uma vez aqui.
 
-## 3. Decisão que preciso da sua confirmação
+## 3. Uma organização por usuário — decidido (DEC-041)
 
-**Um usuário pertence a uma organização só, ou pode pertencer a várias?**
-Isso muda o modelo: `memberships` como está acima já suporta várias (um
-`user_id` pode ter múltiplas linhas, uma por organização), mas a UI/sessão
-precisa saber qual está "ativa" no momento se permitirmos várias. Minha
-recomendação: **uma organização por usuário no MVP** (mais simples,
-resolve o SEC-01 hoje sem ambiguidade) — um pastor que lidera duas igrejas
-diferentes usaria duas contas. Pode crescer para múltiplas depois sem
-quebrar o modelo (`memberships` já é uma tabela própria, não uma coluna em
-`auth.users`). Concorda com essa restrição pro MVP?
+**Confirmado por Reinaldo:** uma organização por usuário no MVP, garantida
+no banco por índice único parcial (`memberships_uma_ativa_por_usuario`,
+§2) — não só validação na aplicação. Um pastor que lidera duas igrejas usa
+duas contas. `memberships` continua sendo tabela própria (não coluna em
+`auth.users`), então crescer para múltiplas organizações por usuário mais
+tarde não quebra o modelo, só relaxa o índice.
 
-## 4. Como uma organização nasce (bootstrap)
+## 4. Bootstrap manual via `/backoffice` — decidido (DEC-042)
 
-Duas origens possíveis, não mutuamente exclusivas:
-- **Console do proprietário (`/backoffice`, ADM-01):** você cria a
-  organização manualmente após uma venda, e convida o primeiro admin por
-  e-mail (destrava também o botão "Cadastro por convite em breve" que o
-  Codex já deixou pronto no SEC-01).
-- **Self-service (mais tarde, fora do escopo do TEN-01):** fluxo de
-  cadastro público após pagamento — depende do `FAT-01` (Mercado Pago) e é
-  uma frente própria.
-
-**Para o TEN-01/MVP:** só o caminho manual via `/backoffice` — mais simples
-e já é o que o `ADM-01` precisa de qualquer forma. Confirma essa ordem, ou
-quer o self-service já nesta frente?
+**Confirmado por Reinaldo:** sem self-service neste ciclo. Fluxo:
+proprietário (via `/backoffice`) cria a `organization`, vincula o primeiro
+usuário em `memberships` (destrava o botão "Cadastro por convite em breve"
+que o Codex já deixou pronto no SEC-01) — login resolve tenant/papel a
+partir disso. Self-service (cadastro público pós-pagamento, depende do
+`FAT-01`/Mercado Pago) fica para uma frente própria, mais tarde.
 
 ## 5. Migração do SEC-01
 
@@ -132,24 +131,25 @@ diferentes:
   aqui é lógico (RLS), não de infraestrutura. Entra com `PUB-01`/`FAT-01`
   se for necessário mais à frente.
 
-## 8. Fases de implementação (dentro do TEN-01)
+## 8. Fases de implementação (dentro do TEN-01) — dono por fase
 
-1. Migração `organizations` + `memberships` + RLS base (Dev Backend).
-2. `proxy.ts`/`layout.tsx` passam a resolver papel via `memberships`
-   (Arquiteto, é fronteira de auth — mesmo padrão do DEC-034 se você
-   preferir concentrar no Codex, a definir).
+1. Migração `organizations` + `memberships` + RLS base — **Codex**.
+2. `proxy.ts`/`app/(app)/layout.tsx` passam a resolver papel via
+   `memberships` — **Codex, por exceção nominal ao §3 (DEC-043)**: o
+   dono padrão de fronteira de auth é o Arquiteto, mas o TEN-01 cruza
+   banco/RLS, resolução de tenant e proteção de rota — manter os três num
+   dono só reduz risco de contrato incompleto entre a política de RLS e o
+   código que a consome. **Não muda a regra geral do §3** — é escopo
+   específico desta frente; qualquer outro arquivo compartilhado continua
+   passando pelo Arquiteto como responsável de integração.
 3. Tela mínima em `/backoffice` para o proprietário criar organização e
-   convidar o primeiro admin (liga com ADM-01).
-4. Casos de teste do §8.3 executados e documentados.
-
-## Perguntas para Reinaldo antes de abrir a OT de execução
-
-1. Uma organização por usuário no MVP — confirma? (§3)
-2. Bootstrap só manual via `/backoffice` por enquanto — confirma? (§4)
-3. Quem implementa o ajuste em `proxy.ts`/`layout.tsx` desta vez — Codex
-   (como no modo de teste, DEC-034) ou eu, como fronteira de auth
-   tradicionalmente é (§3 do Cérebro)?
+   convidar o primeiro admin (liga com ADM-01) — **Codex** (dados) +
+   **Antigravity** (tela), o Arquiteto estrutura como já previsto em
+   DEC-035.
+4. Casos de teste do §8.3 executados e documentados — **Codex** implementa,
+   **Arquiteto** revisa (§12/DEC-007, é segurança).
 
 ## Aprovação
 
-- **Reinaldo:** [ ] aprovado em ____/____/____
+- **Reinaldo:** [x] aprovado em 10/09/2026 — as 3 perguntas respondidas
+  (DEC-041, DEC-042, DEC-043). Liberado para execução.

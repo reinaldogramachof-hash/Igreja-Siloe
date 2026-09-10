@@ -529,3 +529,48 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Impacto no plano:** nenhum pendente — pronto para uso em outros pontos
   do sistema (tela de login já referenciava `/logo.svg`, herda
   automaticamente; demais pontos entram conforme cada tela avançar).
+
+## DEC-041 — TEN-01: uma organização por usuário no MVP
+- **Data:** 2026-09-10
+- **Decisão:** um usuário pertence a **uma única organização ativa** por
+  vez, garantido no banco por índice único parcial em `memberships`
+  (`unique (user_id) where status = 'ativo'`) — não só validação na
+  aplicação. Um pastor com duas igrejas usa duas contas.
+- **Contexto:** resposta à pergunta 1 de `TEN-01-ESPECIFICACAO.md`.
+  Simplifica RLS, sessão e onboarding; elimina ambiguidade de "organização
+  atual". `memberships` é tabela própria, então o modelo cresce para
+  múltiplas organizações por usuário depois sem redesenho, só relaxando o
+  índice.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** fecha parte da especificação do `TEN-01`.
+
+## DEC-042 — TEN-01: bootstrap de organização só manual via `/backoffice`
+- **Data:** 2026-09-10
+- **Decisão:** neste ciclo, uma `organization` só nasce manualmente pelo
+  proprietário via `/backoffice` (cria a organização, vincula o primeiro
+  usuário em `memberships`) — sem self-service (cadastro público
+  pós-pagamento fica para frente própria, depende do `FAT-01`/Mercado
+  Pago).
+- **Contexto:** resposta à pergunta 2 de `TEN-01-ESPECIFICACAO.md`.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** fecha parte da especificação do `TEN-01`; reforça a
+  dependência natural com `ADM-01`.
+
+## DEC-043 — TEN-01: exceção nominal ao §3 — Codex concentra proxy.ts/layout.tsx
+- **Data:** 2026-09-10
+- **Decisão:** no escopo do `TEN-01`, o Codex implementa também o ajuste em
+  `proxy.ts` e `app/(app)/layout.tsx` (resolução de papel via
+  `memberships`) — normalmente arquivo do Arquiteto por serem fronteira de
+  auth (§3). **Esta é uma exceção nominal, restrita a esta frente** — não
+  altera a regra geral do §3; qualquer outro arquivo compartilhado
+  continua passando pelo Arquiteto como responsável de integração.
+- **Contexto:** resposta à pergunta 3 de `TEN-01-ESPECIFICACAO.md`. Razão
+  técnica: o TEN-01 cruza banco/RLS, resolução de tenant e proteção de
+  rota num fluxo só — manter os três com um dono único reduz risco de
+  contrato incompleto entre a política de RLS e o código que a consome.
+  Mesma lógica da DEC-034 (modo de teste), aplicada aqui por decisão
+  explícita, não por precedente automático.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** libera a execução do `TEN-01`; Arquiteto segue
+  como revisor/integrador (valida e commita, DEC-022), só não escreve o
+  código desta fronteira nesta frente específica.
