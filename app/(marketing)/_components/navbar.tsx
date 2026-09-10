@@ -9,9 +9,9 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
   const navLinks = [
-    { label: "Módulos", href: "#modulos" },
-    { label: "Diferenciais", href: "#diferenciais" },
-    { label: "Planos & Preços", href: "#planos" },
+    { label: "Áreas da Igreja", href: "#modulos" },
+    { label: "Como Funciona", href: "#diferenciais" },
+    { label: "Planos", href: "#planos" },
     { label: "Dúvidas", href: "#faq" },
     { label: "Contato", href: "#contato" },
   ]

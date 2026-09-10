@@ -6,9 +6,9 @@
 export const brand = {
   name: "Gestao de Igrejas",
   shortName: "Gestao de Igrejas",
-  tagline: "Gestao simples para a rotina da sua igreja",
+  tagline: "Mais tempo para cuidar das pessoas. Menos tempo em planilhas.",
   description:
-    "Plataforma de gestao para igrejas: membros, celulas, agenda, avisos e financeiro em um so lugar.",
+    "Uma plataforma acolhedora e descomplicada para apoiar pastores, secretarias e lideres na organizacao de membros, celulas nos lares, cultos, avisos e dizimos.",
   contactEmail: "[EM DEFINICAO]",
   supportEmail: "[EM DEFINICAO]",
   whatsappHref: "[EM DEFINICAO]",

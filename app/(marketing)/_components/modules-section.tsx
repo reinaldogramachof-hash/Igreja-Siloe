@@ -1,7 +1,7 @@
 import * as React from "react"
 import {
   Users,
-  Layers,
+  Home,
   CalendarDays,
   Megaphone,
   Wallet,
@@ -19,41 +19,41 @@ interface ModuleItem {
 const modules: ModuleItem[] = [
   {
     icon: Users,
-    title: "Gestão de Membros & Famílias",
-    subtitle: "Cuidado pastoral estruturado e centralizado",
+    title: "Cuidado Pastoral & Membresia",
+    subtitle: "Acompanhamento pessoal e familiar",
     description:
-      "Mantenha o cadastro da sua membresia completo e sempre acessível. Acompanhe aniversariantes do mês, datas de batismo e dados familiares com facilidade.",
+      "Mantenha o cadastro da sua congregação completo e com carinho. Acompanhe aniversariantes do mês, datas de batismo e o histórico dos membros da sua comunidade.",
     features: [
-      "Cadastro com foto e dados de contato",
-      "Controle de aniversariantes e notificações",
+      "Cadastro com foto, dados de contato e família",
+      "Lembrete de aniversariantes para parabenizar",
       "Histórico de batismos e integração",
-      "Busca rápida e filtros personalizados",
+      "Busca rápida e fichas organizadas",
     ],
   },
   {
-    icon: Layers,
-    title: "Células & Pequenos Grupos",
-    subtitle: "Supervisão e acompanhamento do crescimento",
+    icon: Home,
+    title: "Pequenos Grupos & Células",
+    subtitle: "Comunhão e acompanhamento nos lares",
     description:
-      "Acompanhe a dinâmica dos pequenos grupos, reuniões nos lares, líderes responsáveis e novos participantes que chegam à sua igreja.",
+      "Acompanhe a vida dos pequenos grupos, líderes responsáveis, frequência dos encontros e o acolhimento com amor aos novos visitantes.",
     features: [
-      "Mapeamento de células e líderes",
-      "Controle de presença e novos visitantes",
-      "Acompanhamento de relatórios de encontro",
-      "Visão consolidada para os supervisores",
+      "Cadastro de células e líderes nos lares",
+      "Presença nos encontros e novos visitantes",
+      "Relatórios simples para os supervisores",
+      "Visão do crescimento e comunhão",
     ],
   },
   {
     icon: CalendarDays,
-    title: "Agenda & Calendário Ministerial",
-    subtitle: "Planejamento claro para toda a igreja",
+    title: "Agenda de Cultos & Escalas",
+    subtitle: "Planejamento claro para voluntários",
     description:
-      "Organize cultos, conferências, ensaios e reuniões de liderança em uma agenda única para evitar conflitos de datas e sobrecarga de voluntários.",
+      "Organize cultos, conferências, ensaios e reuniões de liderança sem conflito de datas e sem sobrecarregar seus voluntários.",
     features: [
       "Calendário de cultos e eventos especiais",
-      "Escalas ministeriais (louvor, recepção, etc.)",
-      "Visão mensal e semanal simplificada",
-      "Acesso rápido em qualquer dispositivo",
+      "Escalas de ministérios (louvor, recepção, etc.)",
+      "Visão mensal e semanal fácil de entender",
+      "Acesso rápido direto no celular",
     ],
   },
   {
@@ -61,25 +61,25 @@ const modules: ModuleItem[] = [
     title: "Mural de Avisos & Comunicados",
     subtitle: "Comunicação assertiva para o ministério",
     description:
-      "Publique avisos internos, orientações para lideranças e informações importantes diretamente no painel ministerial com clareza e agilidade.",
+      "Divulgue recados internos, orientações para lideranças e informações importantes diretamente no painel da igreja com rapidez.",
     features: [
-      "Mural de recados e orientações",
-      "Segmentação para equipes e líderes",
-      "Fixação de comunicados prioritários",
-      "Histórico de avisos arquivados",
+      "Mural de recados e orientações ministeriais",
+      "Avisos direcionados para líderes e equipes",
+      "Fixação de comunicados importantes",
+      "Acesso simples para toda a liderança",
     ],
   },
   {
     icon: Wallet,
-    title: "Gestão Financeira & Dízimos",
-    subtitle: "Prestação de contas transparente e rigorosa",
+    title: "Tesouraria & Finanças com Transparência",
+    subtitle: "Prestação de contas com retidão",
     description:
-      "Controle entradas de dízimos e ofertas, despesas ministeriais e emissão de relatórios claros para a diretoria e conselho fiscal.",
+      "Lançamento simples de dízimos, ofertas e despesas da igreja, gerando relatórios claros para a diretoria, conselho fiscal e assembleia.",
     features: [
       "Lançamento rápido de dízimos e ofertas",
-      "Classificação por categorias de despesas",
-      "Relatórios de conciliação por período",
-      "Prestação de contas sem planilhas confusas",
+      "Separação por categorias de despesas",
+      "Prestação de contas mensal sem complicação",
+      "Elimine planilhas confusas e anotações soltas",
     ],
   },
 ]
@@ -91,13 +91,13 @@ export function ModulesSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-primary">
-            Módulos Integrados
+            Pensado para a vida real da igreja
           </h2>
           <p className="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-            Tudo o que sua igreja precisa em um único lugar
+            Organização simples para cada área do seu ministério
           </p>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Desenvolvido para simplificar a administração e dar mais tempo para o que realmente importa: o cuidado pastoral e a comunhão.
+            Ferramentas práticas para apoiar pastores, secretárias, líderes de células e tesoureiros no cuidado diário da membresia.
           </p>
         </div>
 

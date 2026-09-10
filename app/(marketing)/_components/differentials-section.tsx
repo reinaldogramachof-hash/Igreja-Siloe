@@ -1,36 +1,36 @@
 import * as React from "react"
 import {
   Smartphone,
-  Lock,
+  ShieldCheck,
   WifiOff,
-  Zap,
+  Smile,
 } from "lucide-react"
 
 export function DifferentialsSection() {
   const differentials = [
     {
-      icon: Smartphone,
-      title: "Aplicativo PWA Leve & Ágil",
+      icon: Smile,
+      title: "Fácil como usar o WhatsApp",
       description:
-        "Instale direto no celular ou computador sem lojas de aplicativos pesadas. Abre em segundos e não sobrecarrega a memória do aparelho.",
+        "Telas limpas e botões grandes. Toda a equipe e os voluntários aprendem a usar em poucos minutos, sem complicação.",
     },
     {
       icon: WifiOff,
-      title: "Pronto para Uso Offline",
+      title: "Funciona mesmo sem internet",
       description:
-        "No Modelo de Entrada com LocalStorage, seus dados funcionam localmente no dispositivo sem necessidade constante de conexão à internet.",
+        "No Modelo de Entrada, seus registros ficam salvos com segurança no seu computador ou celular, sem depender de sinal no templo.",
     },
     {
-      icon: Zap,
-      title: "Interface Intuitiva",
+      icon: Smartphone,
+      title: "Leve no celular ou computador",
       description:
-        "Projetado para pastores, secretárias e voluntários. Sem telas confusas ou dezenas de menus desnecessários.",
+        "Abre na hora pelo navegador e pode ser adicionado à tela inicial em 1 clique, sem precisar baixar aplicativos pesados.",
     },
     {
-      icon: Lock,
-      title: "Privacidade e Segurança",
+      icon: ShieldCheck,
+      title: "Dados seguros e protegidos",
       description:
-        "Controle rigoroso de permissões e privacidade dos dados da congregação, seguindo os mais altos padrões de proteção.",
+        "As informações dos seus membros e dízimos pertencem apenas à sua igreja, com total privacidade e sem riscos de perda.",
     },
   ]
 
@@ -39,13 +39,13 @@ export function DifferentialsSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-primary">
-            Por que Escolher a Plataforma
+            Feito para o seu dia a dia
           </h2>
           <p className="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-            Tecnologia moderna focada na realidade da igreja
+            Simplicidade real para quem cuida da igreja
           </p>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Elimine planilhas manuais, anotações perdidas em cadernos e ferramentas complicadas que ninguém usa.
+            Chega de cadernos com anotações perdidas, planilhas manuais e sistemas complicados que ninguém consegue usar.
           </p>
         </div>
 

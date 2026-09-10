@@ -17,10 +17,11 @@ export function CtaSection() {
           />
 
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-            Pronto para transformar a gestão da sua igreja?
+            Mais tempo para pastorear e cuidar.{" "}
+            <span className="text-primary">Deixe a rotina organizada.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground sm:text-base">
-            Converse com nossa equipe, tire dúvidas sobre implantação e escolha o plano perfeito para a sua comunidade.
+            Converse com a nossa equipe pelo WhatsApp. Teremos muita alegria em te ouvir, apresentar o sistema funcionando e te apoiar na escolha do melhor plano.
           </p>
 
           {/* Contact Cards Grid */}
@@ -33,9 +34,9 @@ export function CtaSection() {
                 </div>
                 <div>
                   <h3 className="font-heading text-sm font-bold text-foreground">
-                    Atendimento Comercial
+                    Conversar no WhatsApp
                   </h3>
-                  <p className="text-xs text-muted-foreground">WhatsApp & Demonstração</p>
+                  <p className="text-xs text-muted-foreground">Atendimento & Demonstração</p>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-border/60">
@@ -67,7 +68,7 @@ export function CtaSection() {
                   <h3 className="font-heading text-sm font-bold text-foreground">
                     Contato por E-mail
                   </h3>
-                  <p className="text-xs text-muted-foreground">Propostas e informações</p>
+                  <p className="text-xs text-muted-foreground">Dúvidas e propostas</p>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-border/60">
@@ -95,9 +96,9 @@ export function CtaSection() {
                 </div>
                 <div>
                   <h3 className="font-heading text-sm font-bold text-foreground">
-                    Suporte Técnico
+                    Acompanhamento & Suporte
                   </h3>
-                  <p className="text-xs text-muted-foreground">Para clientes e usuários</p>
+                  <p className="text-xs text-muted-foreground">Para líderes e secretarias</p>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-border/60">

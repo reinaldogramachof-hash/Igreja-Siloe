@@ -35,22 +35,22 @@ export function Footer() {
             <ul className="mt-3 space-y-2 text-xs">
               <li>
                 <a href="#modulos" className="transition-colors hover:text-foreground">
-                  Módulos do Sistema
+                  Áreas do Ministério
                 </a>
               </li>
               <li>
                 <a href="#diferenciais" className="transition-colors hover:text-foreground">
-                  Diferenciais & PWA
+                  Como Funciona
                 </a>
               </li>
               <li>
                 <a href="#planos" className="transition-colors hover:text-foreground">
-                  Planos e Preços
+                  Planos e Valores
                 </a>
               </li>
               <li>
                 <a href="#faq" className="transition-colors hover:text-foreground">
-                  Perguntas Frequentes
+                  Dúvidas Frequentes
                 </a>
               </li>
             </ul>
@@ -59,11 +59,11 @@ export function Footer() {
           {/* Product & Legal */}
           <div>
             <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
-              Contato & Suporte
+              Contato & Atendimento
             </h4>
             <ul className="mt-3 space-y-2 text-xs">
               <li>
-                <span className="text-muted-foreground">Comercial: </span>
+                <span className="text-muted-foreground">Atendimento: </span>
                 <span className="font-mono">{brand.contactEmail}</span>
               </li>
               <li>
@@ -72,7 +72,7 @@ export function Footer() {
               </li>
               <li>
                 <a href="#contato" className="transition-colors hover:text-foreground">
-                  Falar com Consultor
+                  Falar no WhatsApp
                 </a>
               </li>
             </ul>
@@ -85,7 +85,7 @@ export function Footer() {
             © {currentYear} {brand.name}. Todos os direitos reservados.
           </p>
           <p className="text-muted-foreground/80">
-            Plataforma SaaS de Gestão Ministerial
+            Feito com dedicação para o ministério pastoral e eclesiástico
           </p>
         </div>
       </div>

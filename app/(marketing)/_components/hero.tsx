@@ -1,13 +1,13 @@
 import * as React from "react"
 import {
   ArrowRight,
-  Sparkles,
+  Heart,
   Users,
   Calendar,
-  Layers,
-  CircleDollarSign,
-  Smartphone,
+  Home,
+  ShieldCheck,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react"
 import { brand } from "@/lib/brand"
 
@@ -22,18 +22,19 @@ export function Hero() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
-          {/* Top Pill / Badge */}
+          {/* Top Pill / Badge Acolhedora */}
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            <span>Solução SaaS para Igrejas e Ministérios</span>
+            <Heart className="size-3.5 fill-primary/20" aria-hidden="true" />
+            <span>Feito com carinho para o dia a dia da sua igreja</span>
           </div>
 
-          {/* Main Headline */}
+          {/* Main Headline Pastoral */}
           <h1 className="mt-6 max-w-4xl font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            {brand.tagline}
+            Mais tempo para cuidar das pessoas.{" "}
+            <span className="text-primary">Menos tempo em planilhas.</span>
           </h1>
 
-          {/* Subtitle / Value Proposition */}
+          {/* Subtitle / Value Proposition Humana */}
           <p className="mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">
             {brand.description}
           </p>
@@ -51,85 +52,113 @@ export function Hero() {
               href="#modulos"
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-6 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto"
             >
-              <span>Ver Funcionalidades</span>
+              <span>Como Funciona</span>
             </a>
           </div>
 
-          {/* Value Badges */}
+          {/* Value Badges Pastorais */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-primary" aria-hidden="true" />
-              <span>Instalação PWA no celular e PC</span>
+              <span>Fácil de usar por qualquer voluntário</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-primary" aria-hidden="true" />
-              <span>Opção com armazenamento local (offline)</span>
+              <span>Opção sem internet para o dia a dia</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-primary" aria-hidden="true" />
-              <span>Sem complicações ou burocracia</span>
+              <span>Direto no celular ou computador</span>
             </div>
           </div>
 
-          {/* Dashboard Preview / App Showcase */}
+          {/* Dashboard Preview / Vida Real da Igreja */}
           <div className="relative mt-14 w-full max-w-5xl rounded-2xl border border-border/80 bg-card/60 p-3 shadow-2xl backdrop-blur-sm sm:p-5">
             <div className="relative overflow-hidden rounded-xl border border-border bg-background p-4 sm:p-6">
-              {/* Mock Window Header */}
+              {/* Window Header */}
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div className="flex items-center gap-2">
                   <div className="size-3 rounded-full bg-red-500/80" />
                   <div className="size-3 rounded-full bg-yellow-500/80" />
                   <div className="size-3 rounded-full bg-green-500/80" />
                   <span className="ml-2 text-xs font-medium text-muted-foreground">
-                    {brand.name} • Painel de Gestão
+                    {brand.name} • Cuidado pastoral e organização
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Smartphone className="size-3.5" aria-hidden="true" />
-                  <span className="hidden sm:inline">PWA Pronto</span>
+                <div className="flex items-center gap-2 text-xs font-medium text-primary">
+                  <Sparkles className="size-3.5" aria-hidden="true" />
+                  <span className="hidden sm:inline">Tudo em dia para o próximo culto</span>
                 </div>
               </div>
 
-              {/* Mock Dashboard Grid */}
+              {/* Mock Cards Grid - Contexto de Comunidade */}
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {/* Metric 1 */}
-                <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Membros & Famílias</span>
-                    <Users className="size-4 text-primary" aria-hidden="true" />
+                {/* Card 1: Membros & Aniversariantes */}
+                <div className="flex flex-col justify-between rounded-lg border border-border bg-card p-4 text-left">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">Cuidado Pastoral</span>
+                      <Users className="size-4 text-primary" aria-hidden="true" />
+                    </div>
+                    <div className="mt-2 text-lg font-bold text-foreground">Famílias & Membros</div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      3 aniversariantes esta semana com mensagem pronta para enviar
+                    </p>
                   </div>
-                  <div className="text-2xl font-bold text-foreground">Organizados</div>
-                  <p className="text-xs text-muted-foreground">Cadastro, aniversários e fichas</p>
+                  <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
+                    <span>Parabenizar membros</span>
+                  </div>
                 </div>
 
-                {/* Metric 2 */}
-                <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Células / Grupos</span>
-                    <Layers className="size-4 text-primary" aria-hidden="true" />
+                {/* Card 2: Células nos Lares */}
+                <div className="flex flex-col justify-between rounded-lg border border-border bg-card p-4 text-left">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">Pequenos Grupos</span>
+                      <Home className="size-4 text-primary" aria-hidden="true" />
+                    </div>
+                    <div className="mt-2 text-lg font-bold text-foreground">Células nos Lares</div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Encontros confirmados e acolhimento dos novos visitantes
+                    </p>
                   </div>
-                  <div className="text-2xl font-bold text-foreground">Em Dia</div>
-                  <p className="text-xs text-muted-foreground">Supervisão, líderes e encontros</p>
+                  <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
+                    <span>Acompanhar presença</span>
+                  </div>
                 </div>
 
-                {/* Metric 3 */}
-                <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Agenda & Escalas</span>
-                    <Calendar className="size-4 text-primary" aria-hidden="true" />
+                {/* Card 3: Cultos & Escalas */}
+                <div className="flex flex-col justify-between rounded-lg border border-border bg-card p-4 text-left">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">Agenda Ministerial</span>
+                      <Calendar className="size-4 text-primary" aria-hidden="true" />
+                    </div>
+                    <div className="mt-2 text-lg font-bold text-foreground">Culto de Domingo</div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Equipes de louvor, recepção e ministério infantil já escaladas
+                    </p>
                   </div>
-                  <div className="text-2xl font-bold text-foreground">Integrada</div>
-                  <p className="text-xs text-muted-foreground">Cultos, eventos e ministérios</p>
+                  <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
+                    <span>Ver escala completa</span>
+                  </div>
                 </div>
 
-                {/* Metric 4 */}
-                <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Caixa & Relatórios</span>
-                    <CircleDollarSign className="size-4 text-primary" aria-hidden="true" />
+                {/* Card 4: Tesouraria & Transparência */}
+                <div className="flex flex-col justify-between rounded-lg border border-border bg-card p-4 text-left">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">Tesouraria</span>
+                      <ShieldCheck className="size-4 text-primary" aria-hidden="true" />
+                    </div>
+                    <div className="mt-2 text-lg font-bold text-foreground">Dízimos & Ofertas</div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Entradas e despesas organizadas para prestação de contas clara
+                    </p>
                   </div>
-                  <div className="text-2xl font-bold text-foreground">Transparente</div>
-                  <p className="text-xs text-muted-foreground">Dízimos, ofertas e conciliação</p>
+                  <div className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
+                    <span>Relatório transparente</span>
+                  </div>
                 </div>
               </div>
             </div>

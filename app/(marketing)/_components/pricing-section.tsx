@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Check, Minus, HelpCircle, ArrowRight } from "lucide-react"
+import { Check, Minus, MessageCircle, ArrowRight } from "lucide-react"
 import { commercialPlans } from "@/lib/plans"
 
 export function PricingSection() {
@@ -9,13 +9,13 @@ export function PricingSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-primary">
-            Planos & Investimento
+            Investimento Claro e Acessível
           </h2>
           <p className="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-            Escolha o modelo ideal para a sua igreja
+            Planos simples que cabem na realidade da sua igreja
           </p>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Opções flexíveis: desde controle local sem mensalidade até planos completos em nuvem com sincronização contínua.
+            Sem fidelidade forçada, sem termos confusos e sem taxas escondidas. Escolha a opção ideal para a sua comunidade.
           </p>
         </div>
 
@@ -59,16 +59,18 @@ export function PricingSection() {
                           {plan.price}
                         </span>
                         <span className="mt-1 block text-xs text-muted-foreground">
-                          Em definição comercial ({plan.period})
+                          Em homologação ({plan.period})
                         </span>
                       </div>
                     ) : plan.id === "entrada" ? (
                       <div>
-                        <div className="font-heading text-lg font-extrabold text-foreground sm:text-xl">
-                          {plan.price}
+                        <div className="flex items-baseline gap-1">
+                          <span className="font-heading text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+                            {plan.price}
+                          </span>
                         </div>
-                        <span className="text-xs text-muted-foreground">
-                          {plan.period}
+                        <span className="mt-0.5 block text-xs font-medium text-primary">
+                          Pagamento único • Acesso vitalício
                         </span>
                       </div>
                     ) : (
@@ -143,9 +145,9 @@ export function PricingSection() {
         {/* Clarification Note */}
         <div className="mt-10 rounded-xl border border-border bg-card p-4 text-center sm:p-5">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-muted-foreground">
-            <HelpCircle className="size-4 shrink-0 text-primary" aria-hidden="true" />
+            <MessageCircle className="size-4 shrink-0 text-primary" aria-hidden="true" />
             <span>
-              Tem dúvidas sobre qual plano atende o tamanho da sua congregação? Fale com a nossa equipe sem compromisso.
+              Tem dúvidas sobre qual plano atende melhor o momento da sua congregação? Fale com a nossa equipe pelo WhatsApp.
             </span>
           </div>
         </div>
