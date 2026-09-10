@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { getRoleLabel } from "@/lib/mock-data"
 import { useDemoUser } from "@/lib/prototype-auth"
+import { createClient } from "@/lib/supabase/client"
 import { useTheme } from "@/components/providers/theme-provider"
 import { toast } from "sonner"
 import type { Role } from "@/lib/types"
@@ -90,10 +91,19 @@ export function Sidebar() {
     .map((part) => part[0])
     .join("")
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     closeMobile()
+    const supabase = createClient()
+    const { error } = await supabase.auth.signOut()
+
+    if (error) {
+      toast.error("Não foi possível encerrar a sessão.")
+      return
+    }
+
     toast.success("Sessão encerrada com sucesso!")
     router.push("/login")
+    router.refresh()
   }
 
   return (

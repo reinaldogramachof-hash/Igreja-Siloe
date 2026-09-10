@@ -24,6 +24,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { setStoredRole } from "@/lib/prototype-auth"
+import { createClient } from "@/lib/supabase/client"
 import type { Role } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -41,12 +42,34 @@ export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false)
   const [role, setRole] = useState<Role>("membro")
   const [registerSubmitted, setRegisterSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
   const router = useRouter()
 
-  function handleLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setAuthError(null)
+    setIsSubmitting(true)
+
+    const formData = new FormData(event.currentTarget)
+    const email = String(formData.get("email") ?? "")
+    const password = String(formData.get("password") ?? "")
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      setIsSubmitting(false)
+      setAuthError(error.message)
+      return
+    }
+
     setStoredRole(role)
-    router.push("/dashboard")
+    const nextPath = new URLSearchParams(window.location.search).get("next") ?? "/dashboard"
+    router.push(nextPath)
+    router.refresh()
   }
 
   function handleRegisterSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -156,9 +179,10 @@ export default function LoginPage() {
                       </Label>
                       <Input
                         id="email"
+                        name="email"
                         type="email"
                         placeholder="membro@siloe.org.br"
-                        defaultValue="membro@siloe.org.br"
+                        autoComplete="email"
                         required
                         className="h-11 rounded-lg border-border/80 bg-background/60 focus-visible:ring-accent/30 focus-visible:border-accent"
                       />
@@ -174,13 +198,20 @@ export default function LoginPage() {
                       </div>
                       <Input
                         id="password"
+                        name="password"
                         type="password"
                         placeholder="••••••••"
-                        defaultValue="123456"
+                        autoComplete="current-password"
                         required
                         className="h-11 rounded-lg border-border/80 bg-background/60 focus-visible:ring-accent/30 focus-visible:border-accent"
                       />
                     </div>
+
+                    {authError && (
+                      <div className="rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-xs font-semibold text-danger">
+                        {authError}
+                      </div>
+                    )}
 
                     <div className="space-y-3 pt-1">
                       <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -289,9 +320,10 @@ export default function LoginPage() {
                     <Button
                       className="h-11 w-full bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all font-semibold text-sm rounded-lg"
                       type="submit"
+                      disabled={isSubmitting}
                     >
                       <LogIn className="size-4 mr-2" />
-                      Entrar no Portal
+                      {isSubmitting ? "Entrando..." : "Entrar no Portal"}
                     </Button>
                   </form>
 
