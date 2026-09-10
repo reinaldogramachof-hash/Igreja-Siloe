@@ -1,6 +1,6 @@
 # Cérebro Operacional — Gestão de Igrejas (SaaS)
 
-> **Versão:** 1.3 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-10
+> **Versão:** 1.4 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-10
 > (registro em `docs/operacao/DECISOES.md`).
 > **Alterações neste documento** seguem a mesma regra: proposta do Arquiteto,
 > aprovação expressa de Reinaldo, nova linha no §21 e no `DECISOES.md`.
@@ -82,6 +82,27 @@ aplicável.
 **Não faz:** o mesmo conjunto de restrições de §2.2, incluindo commit e push
 (DEC-022). Mesmo operando com vários sub-agentes, **cada entrega tem um único
 dono responsável nomeado**.
+
+**Regra dura de isolamento de pasta — obrigatória desde 2026-09-10 (DEC-038).**
+Duas vezes na mesma sessão o Antigravity operou fora da worktree isolada,
+inclusive copiando arquivo entre a pasta do Arquiteto e a própria via
+`Copy-Item`/similar. Isso é bloqueante — a partir de agora:
+
+1. Antigravity trabalha **exclusivamente** em
+   `C:\Projetos\gestao-igreja-antigravity`. Nunca abre, lê, edita ou executa
+   comando em `C:\Projetos\Gestão Igreja` (pasta do Arquiteto) nem em
+   qualquer outra pasta do repositório.
+2. **Proibido copiar arquivo entre pastas** (`Copy-Item`, `cp`, ou qualquer
+   outro meio) para "sincronizar" conteúdo entre a pasta principal e a
+   worktree. Precisa de um doc atualizado que não está na sua branch? Pede
+   ao Arquiteto — nunca copia por conta própria.
+3. **Primeira ação de toda sessão**, antes de ler ou editar qualquer coisa:
+   confirmar o diretório de trabalho atual (`pwd` / `Get-Location`) e
+   garantir que é `C:\Projetos\gestao-igreja-antigravity`. Se não for,
+   corrigir antes de prosseguir — nunca segue trabalhando na pasta errada.
+4. Entrega feita, no todo ou em parte, fora da worktree isolada **não é
+   aceita** até o desvio ser corrigido e a entrega refeita/revalidada na
+   pasta certa.
 
 ### 2.4 Reinaldo — Orquestrador Geral + QA Validador
 
@@ -604,3 +625,4 @@ Fluxo de distribuição:
 | 1.1 | 2026-09-08 | §20 (artefatos de execução e distribuição): `BACKLOG-OPERACIONAL.md`, `agentes/`, `templates/`, `ordens/`, `ciclos/`; DEC-019 |
 | 1.2 | 2026-09-08 | `ROADMAP-EXECUCAO.md` e `agentes/KICKOFF.md` na §20; DEC-020 (roadmap A–H e desvio TEN-01 antes das rotinas) |
 | 1.3 | 2026-09-10 | Commit centralizado no Arquiteto (DEC-022): Codex e Antigravity entregam pronto sem commitar nem dar push; o Arquiteto valida (revisão + portão automático) e commita tudo, preservando a autoria de cada agente. §2, §3, §6, §8, §10 |
+| 1.4 | 2026-09-10 | Regra dura de isolamento de pasta para o Antigravity (DEC-038): worktree exclusiva, proibido copiar arquivo entre pastas, confirmação de diretório como primeira ação de cada sessão, entrega fora da pasta certa não é aceita. §2.3 |

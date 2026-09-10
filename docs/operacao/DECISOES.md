@@ -481,3 +481,25 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** destrava `SEC-01` de `Bloqueada` assim que a
   correção for aplicada e revisada.
+
+## DEC-038 — Regra dura de isolamento de pasta para o Antigravity
+- **Data:** 2026-09-10
+- **Decisão:** regra expressa e obrigatória, registrada em
+  `CEREBRO-OPERACIONAL.md` v1.4 §2.3: Antigravity trabalha exclusivamente em
+  `C:\Projetos\gestao-igreja-antigravity`; proibido copiar arquivo entre a
+  pasta principal e a worktree por qualquer meio; confirmação do diretório
+  de trabalho é a primeira ação de toda sessão; entrega feita fora da pasta
+  certa não é aceita até ser corrigida e refeita na worktree.
+- **Contexto:** duas ocorrências na mesma sessão de trabalho do Antigravity
+  na pasta principal (`C:\Projetos\Gestão Igreja`), a segunda envolvendo
+  cópia manual de arquivo entre as duas pastas (`Copy-Item`) para editar e
+  depois validar — nada foi perdido nas duas vezes, mas o risco de colisão
+  de working tree que a DEC-022/worktrees deveriam ter eliminado continuou
+  presente. Uma instrução no kickoff não bastou; a regra formal e o
+  bloqueio de aceite são o próximo degrau de reforço.
+- **Alternativas:** aceitar o padrão de "editar na pasta principal, Arquiteto
+  revisa e limpa depois" como fluxo real de trabalho do Antigravity — não
+  escolhida, mantém o risco de colisão em aberto indefinidamente.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum no escopo do produto; reforça a governança
+  de isolamento já estabelecida (worktrees, sessão desta mesma data).

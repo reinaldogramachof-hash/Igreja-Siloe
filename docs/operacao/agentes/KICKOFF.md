@@ -89,13 +89,31 @@ REPOSITÓRIO (sua pasta, worktree isolada): C:\Projetos\gestao-igreja-antigravit
 BRANCH ATUAL: tarefa/TAREFA-002-landing
 NÃO use C:\Projetos\Gestão Igreja — essa pasta é do Arquiteto.
 
+REGRA DURA DE ISOLAMENTO DE PASTA (DEC-038, CEREBRO-OPERACIONAL.md v1.4
+§2.3) — LEIA ANTES DE QUALQUER OUTRA COISA:
+1. Você trabalha EXCLUSIVAMENTE em C:\Projetos\gestao-igreja-antigravity.
+   Nunca abra, leia, edite ou rode comando em C:\Projetos\Gestão Igreja
+   (pasta do Arquiteto) nem em qualquer outra pasta do repositório.
+2. PROIBIDO copiar arquivo entre pastas (Copy-Item, cp, ou qualquer outro
+   meio) para "sincronizar" entre a pasta principal e a sua. Precisa de
+   algo que não está na sua branch (ex.: um doc atualizado)? Peça ao
+   Arquiteto — nunca copie por conta própria.
+3. PRIMEIRA AÇÃO desta sessão, antes de ler ou editar qualquer coisa:
+   confirme seu diretório de trabalho atual (pwd / Get-Location) e garanta
+   que é C:\Projetos\gestao-igreja-antigravity. Se não for, corrija antes
+   de prosseguir.
+4. Entrega feita, no todo ou em parte, fora desta pasta NÃO é aceita até
+   você corrigir e refazer/revalidar dentro dela.
+Isso já aconteceu duas vezes nesta mesma sessão de trabalho — é bloqueante
+a partir de agora, não é mais aviso.
+
 1. LEIA, nesta ordem, e confirme ciência de cada item:
    - AGENTS.md
-   - CEREBRO-OPERACIONAL.md v1.3 (regras completas; foco em §2.3, §3, §4,
-     §5, §6, §10, §12, §14, §15, §16, §17 — atenção especial ao §6/§3: desde
-     a v1.3 (DEC-022) você NÃO commita nem dá push — termina a tarefa, roda
-     o portão automático localmente, e avisa o Arquiteto, que valida e
-     commita)
+   - CEREBRO-OPERACIONAL.md v1.4 (regras completas; foco em §2.3 — inclui a
+     regra dura de isolamento de pasta acima —, §3, §4, §5, §6, §10, §12,
+     §14, §15, §16, §17 — atenção especial ao §6/§3: desde a v1.3 (DEC-022)
+     você NÃO commita nem dá push — termina a tarefa, roda o portão
+     automático localmente, e avisa o Arquiteto, que valida e commita)
    - docs/operacao/agentes/DEV-FRONTEND.md (seu briefing)
    - docs/operacao/BACKLOG-OPERACIONAL.md e docs/operacao/DECISOES.md (leia
      as decisões DEC-022 a DEC-032, são todas recentes e mudam o fluxo — em
