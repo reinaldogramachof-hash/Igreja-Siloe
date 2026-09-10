@@ -35,15 +35,27 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
   - `docs/operacao/DECISOES.md`: DEC-022 registrada com contexto (mistura de
     escopo Codex/Claude na branch `tarefa/OPS-01-homologacao` na sessão 8) e
     alternativas consideradas.
-- **Evidência:** diff dos arquivos listados abaixo.
-- **Portão automático:** n/a (mudança de documentação/governança).
+  - **OPS-01:** Reinaldo adicionou `homolog` em Exposed schemas (Data API →
+    Settings) no Supabase. Verificado pelo Arquiteto via `curl` com a chave
+    publicável: `Accept-Profile: homolog` deixou de dar 406 ("Invalid
+    schema") e passou a dar 401/`42501 permission denied for schema homolog`
+    — esperado, pois a migração só dá grant ao papel `authenticated` (sem
+    login, é o comportamento correto). `homolog-echo` segue 404 (Edge
+    Function ainda não deployada — depende do Codex).
+- **Evidência:** diff dos arquivos listados abaixo; saída dos `curl` de
+  verificação (não commitada, comando ad-hoc).
+- **Portão automático:** n/a (mudança de documentação/governança + checagem
+  de API).
 - **Pendências:** a colisão de branch da sessão 8 (mudanças de Auth do Codex
   não commitadas em `tarefa/OPS-01-homologacao`) ainda não foi resolvida —
   próxima sessão aplica a regra nova: Arquiteto valida e commita esse
-  trabalho em branch própria de SEC-01.
+  trabalho em branch própria de SEC-01. Deploy de `homolog-echo` e `revoke
+  execute` em `public.rls_auto_enable()` — a cargo do Codex, aguardando ele
+  executar.
 - **Riscos / bloqueios:** nenhum novo.
 - **Próximo passo:** separar e commitar o trabalho de Auth do Codex (SEC-01)
-  numa branch própria, seguindo a regra v1.3; seguir com `next.config.ts` +
+  numa branch própria, seguindo a regra v1.3; Codex prossegue com o deploy da
+  Edge Function e o `revoke execute`; Arquiteto segue com `next.config.ts` +
   `.htaccess` do OPS-01.
 - **Arquivos tocados:** `CEREBRO-OPERACIONAL.md`,
   `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md`.
