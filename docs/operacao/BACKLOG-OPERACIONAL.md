@@ -39,6 +39,7 @@ aprovado). Fora do fluxo: `Bloqueada`.
 | PUB-01 | Identidade e página pública configurada (por tenant, genérica — feature já existe em `app/(app)/site/`) | 2 | 3 | Dev Frontend | Arquiteto | — | Backlog | TEN-01 | — |
 | TAREFA-002 | Site comercial do SaaS — Landing Page adiantada (DEC-025) | 1 | 4 | Dev Frontend | Arquiteto | 1 | **Aceita** | `lib/brand.ts` — ok; NEG-01 — fechado (DEC-033); lapidação visual — **aprovada por Reinaldo**; 6º card (Eventos & Conferências) aplicado | OT-TAREFA-002 · branch tarefa/TAREFA-002-landing (commit `0f767ba`) |
 | MARCA-LOGO | Criação do logotipo vetorial do produto | 1 | — | Dev Backend | Arquiteto + Reinaldo | 1 | **Aceita** | Aprovado por Reinaldo em contexto real na Landing Page (navbar + rodapé) | OT-CODEX-LOGO · branch tarefa/MARCA-LOGO (`9f549b7`) + tarefa/TAREFA-002-landing (`6ceb78b`) |
+| DEMO-TESTE | Caminho de teste do sistema via Landing Page (dados mockados) | 1 | — | Codex (execução única, DEC-034) | Arquiteto | 1 | Aprovada | spec fechada e aprovada (`OT-CODEX-DEMO.md`); **execução ainda não iniciada** — Codex ficou em SEC-01/TEN-01 | OT-CODEX-DEMO.md |
 | REC-01 | Backup e recuperação de banco e arquivos | 1 | 1 | Arquiteto + Dev Backend | Arquiteto | — | Backlog | OPS-01 | — |
 | SIL-02 | ~~Homologar entrega completa Siloé~~ | 1 | 3 | Reinaldo + Arquiteto | Reinaldo | — | **Cancelada (DEC-026)** | — | obsoleta |
 | PIL-01 | Liberar licenças externas de teste após MVP | 1 | 6 | Reinaldo + Dev Backend | Arquiteto | — | Backlog | fundação comercial (ADM-01/FAT-01) | — |

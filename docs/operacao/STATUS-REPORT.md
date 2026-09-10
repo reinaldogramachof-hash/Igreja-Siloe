@@ -19,6 +19,76 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 21 (HANDOFF de fim de dia)
+- **Tarefa / ID:** encerramento da sessão de 10/09 — nota de handoff para
+  retomada amanhã (§6.4 do Cérebro Operacional)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova — ver "Próximos
+  passos" abaixo para o que precisa de decisão/ação ao retomar.
+
+### Onde cada frente parou
+
+- **OPS-01** (`Execucao`) — subdomínio, SSL, migração `homolog`, Exposed
+  schemas, `homolog-echo`, revoke execute, `next.config.ts` export,
+  `.htaccess`, página `/homolog` — todos **ok**. Falta: runbook
+  `OPS-01-HOMOLOGACAO.md`, prova A/B ponta a ponta no ambiente publicado
+  (`homolog.plenaaplicativos.com.br`), pacote `DEPLOY-*`, cleanup final do
+  schema `homolog`.
+- **SEC-01** (`Revisao`) — auth real, achado crítico (papel client-side)
+  corrigido, 4 outros achados também. Falta **só o QA de Reinaldo**.
+- **TEN-01** (`QA`) — organizações/memberships/RLS aplicados no Supabase
+  real, isolamento 5/5 confirmado de forma independente. Falta a tela
+  mínima do `/backoffice` (fase 3, liga com ADM-01) e o **QA de Reinaldo**.
+- **TAREFA-002 / Landing Page** (`Aceita`) — lapidação de tom pastoral,
+  6 cards, preços reais, logotipo aplicado. Fechada.
+- **MARCA-LOGO** (`Aceita`) — logotipo vetorial aprovado em contexto real.
+  Fechada.
+- **NEG-01** (`Aceita`) — 4 preços fechados. Fechada.
+- **DEMO-TESTE** (`Aprovada`, não iniciada) — spec pronta
+  (`OT-CODEX-DEMO.md`), Codex ainda não começou a implementar (ficou em
+  SEC-01 e depois TEN-01).
+- **ADM-01** (`Backlog`, spec 100% aprovada) — modelo de dados, rotas
+  (`/backoffice`), segurança, gateway (Mercado Pago) todos fechados
+  (DEC-027 a DEC-036). Execução represada em `TEN-01` (DEC-028) — agora que
+  `TEN-01` está em `QA`, a fase 3 dele (tela do `/backoffice`) já pode
+  começar a qualquer momento.
+- **PLAN-12, SIL-01, SIL-02** — cancelados (DEC-026, Siloé saiu do repo).
+- **TAREFA-001** — escopo reduzido, ainda em `Especificacao`, não
+  retomada hoje.
+
+### Estrutura de trabalho vigente (para retomar amanhã)
+
+- Worktrees isoladas: `C:\Projetos\Gestão Igreja` (Arquiteto),
+  `C:\Projetos\gestao-igreja-codex` (Codex), `C:\Projetos\gestao-igreja-antigravity`
+  (Antigravity) — regra dura para o Antigravity desde DEC-038
+  (`CEREBRO-OPERACIONAL.md` v1.4 §2.3).
+- DEC-022: só o Arquiteto commita/dá push; devs entregam pronto e avisam.
+- Branches ativas: `tarefa/OPS-01-homologacao` (docs/governança + OPS-01),
+  `tarefa/SEC-01-auth`, `tarefa/TEN-01`, `tarefa/TAREFA-002-landing`,
+  `tarefa/MARCA-LOGO` — nenhuma mesclada em `main` ainda.
+- Decisões desta sessão: DEC-022 até DEC-043 (`docs/operacao/DECISOES.md`).
+
+### Próximos passos (ordem sugerida, a confirmar com Reinaldo ao retomar)
+
+1. **QA de Reinaldo** em SEC-01 e TEN-01 — são os dois maiores blocos
+   prontos esperando validação humana.
+2. Retomar **DEMO-TESTE** com o Codex (spec já aprovada, só falta
+   executar).
+3. Decidir quem/quando faz a **fase 3 do TEN-01** (tela mínima do
+   `/backoffice`) — Antigravity, por DEC-035.
+4. OPS-01: runbook + prova A/B + pacote de deploy, para fechar de vez.
+5. Revisar `OT-TAREFA-001.md` (escopo mudou com a saída da Siloé) antes de
+   aprovar.
+
+- **Riscos / bloqueios em aberto:** nenhum bloqueante técnico. Risco de
+  processo já mitigado (worktrees + DEC-038), mas vale confirmar amanhã que
+  o Antigravity de fato está usando a pasta certa antes de liberar nova
+  tarefa a ele.
+- **Arquivos tocados nesta entrada:** `docs/operacao/BACKLOG-OPERACIONAL.md`
+  (nova linha `DEMO-TESTE`), `docs/operacao/STATUS-REPORT.md`.
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 20
 - **Tarefa / ID:** TEN-01 — confirma isolamento real no Supabase (independente)
 - **Tipo:** 1
