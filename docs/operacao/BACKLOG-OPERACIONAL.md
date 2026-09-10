@@ -37,7 +37,8 @@ aprovado). Fora do fluxo: `Bloqueada`.
 | FIN-01 | Livro-caixa e prestação agregada | 1 | 2 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 | — |
 | FAT-01 | Assinaturas, limites e eventos do gateway | 1 | 4 | Dev Backend | Arquiteto + Dev Frontend | — | Backlog | ADM-01 | — |
 | PUB-01 | Identidade e página pública configurada (por tenant, genérica — feature já existe em `app/(app)/site/`) | 2 | 3 | Dev Frontend | Arquiteto | — | Backlog | TEN-01 | — |
-| TAREFA-002 | Site comercial do SaaS — Landing Page adiantada (DEC-025) | 1 | 4 | Dev Frontend | Arquiteto | 1 | Revisao | `lib/brand.ts` — ok; NEG-01 — fechado (DEC-033); lapidação visual pro público pastoral **entregue e validada** (`OT-LANDING-LAPIDACAO.md`); falta só o QA de Reinaldo | OT-TAREFA-002 · branch tarefa/TAREFA-002-landing (commit `18c39f4`) |
+| TAREFA-002 | Site comercial do SaaS — Landing Page adiantada (DEC-025) | 1 | 4 | Dev Frontend | Arquiteto | 1 | **Aceita** | `lib/brand.ts` — ok; NEG-01 — fechado (DEC-033); lapidação visual — **aprovada por Reinaldo**; 6º card (Eventos & Conferências) aplicado | OT-TAREFA-002 · branch tarefa/TAREFA-002-landing (commit `0f767ba`) |
+| MARCA-LOGO | Criação do logotipo vetorial do produto | 1 | — | Dev Backend | Arquiteto + Reinaldo | 1 | Execucao | `logo.svg` atual é imagem PNG em base64, não vetorial — Codex gera novo via `OT-CODEX-LOGO.md` | OT-CODEX-LOGO |
 | REC-01 | Backup e recuperação de banco e arquivos | 1 | 1 | Arquiteto + Dev Backend | Arquiteto | — | Backlog | OPS-01 | — |
 | SIL-02 | ~~Homologar entrega completa Siloé~~ | 1 | 3 | Reinaldo + Arquiteto | Reinaldo | — | **Cancelada (DEC-026)** | — | obsoleta |
 | PIL-01 | Liberar licenças externas de teste após MVP | 1 | 6 | Reinaldo + Dev Backend | Arquiteto | — | Backlog | fundação comercial (ADM-01/FAT-01) | — |

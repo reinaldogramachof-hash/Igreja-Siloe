@@ -503,3 +503,19 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Quem decidiu:** Reinaldo.
 - **Impacto no plano:** nenhum no escopo do produto; reforça a governança
   de isolamento já estabelecida (worktrees, sessão desta mesma data).
+
+## DEC-039 — QA da Landing Page aprovado; início da criação do logotipo
+- **Data:** 2026-09-10
+- **Decisão:** `TAREFA-002` (Landing Page) aprovada no QA de Reinaldo, com
+  um ajuste: 6º card ("Eventos & Conferências") em Áreas da Igreja, para
+  fechar a grade 3×2. Aplicado e validado (commit `0f767ba`). Reinaldo
+  também autoriza o início da criação de um logotipo vetorial real para o
+  produto — `logo.svg` atual é uma imagem PNG antiga em base64, não um
+  logotipo de verdade.
+- **Contexto:** a identidade visual final era considerada fora de escopo
+  em DEC-013 ("depende da definição de marca"). Reinaldo decide avançar
+  nisso agora, via Codex gerando o SVG (`OT-CODEX-LOGO.md`).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** `TAREFA-002` → `Aceita`. Nova frente `MARCA-LOGO`
+  no backlog. Resultado visual do logotipo ainda pendente de aprovação
+  final de Reinaldo (decisão de marca, §4).
