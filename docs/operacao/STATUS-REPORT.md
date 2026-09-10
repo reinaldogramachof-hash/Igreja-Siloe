@@ -19,6 +19,49 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Antigravity (Dev Frontend) — sessão 1
+- **Tarefa / ID:** TAREFA-002 — Landing Page comercial do SaaS
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador / Arquiteto:**
+  1. Conflito de Route Groups no Next.js entre `app/(marketing)/` e `app/(site)/`: no App Router, ambos são route groups que mapeiam para a rota raiz `/`. Como `(site)` já ocupa `/` como site da Igreja Siloé (PUB-01), o `next build` acusa colisão de rotas paralelas. O Arquiteto deve definir o desacoplamento de `app/(site)` (ex: mover para rota de tenant `/site` ou `/[tenant]`) ou subpath para marketing.
+  - **Resolvido pelo Arquiteto (mesma sessão):** Reinaldo autorizou a remoção total do site da Igreja Siloé — o produto dela migrou para outro projeto (isso supera a premissa da DEC-014/PLAN-12 de "Siloé vira tenant #1"; ver nota do Arquiteto e DEC-026 em `DECISOES.md`). Removidos `app/(site)/page.tsx` e `lib/site-content.ts`. `app/(marketing)/` passa a ocupar `/` sem colisão. `app/(app)/site/page.tsx` (gestão de conteúdo do site institucional, feature PUB-01 genérica, sem dado da Siloé) foi mantido — não depende do arquivo removido.
+- **Entregas:**
+  - `lib/plans.ts`: fonte única tipada dos planos comerciais (`commercialPlans`), com Modelo de Entrada vitalício/LocalStorage, Gestão Lite R$ 69,90/mês e Gestão Online (Essencial e Premium) com o literal `[EM DEFINIÇÃO]` estritamente preservado.
+  - `app/(marketing)/page.tsx`: página principal comercial com SEO metadata e integração com todos os módulos e componentes.
+  - `app/(marketing)/_components/navbar.tsx`: cabeçalho responsivo com logo/nome dinâmicos de `lib/brand.ts`, menu com navegação suave e CTA.
+  - `app/(marketing)/_components/hero.tsx`: seção de apresentação com proposta de valor, badges de PWA/offline e mockup do painel ministerial.
+  - `app/(marketing)/_components/modules-section.tsx`: visão completa dos 5 módulos (Membros, Células, Agenda, Avisos, Financeiro).
+  - `app/(marketing)/_components/differentials-section.tsx`: benefícios de PWA leve, modo offline local, usabilidade e privacidade.
+  - `app/(marketing)/_components/pricing-section.tsx`: comparativo dos 4 planos com badges, diferenciação de recursos inclusos/não inclusos e botões de ação.
+  - `app/(marketing)/_components/faq-section.tsx`: acordeão de perguntas frequentes.
+  - `app/(marketing)/_components/cta-section.tsx`: cartões de contato dinâmicos lendo de `lib/brand.ts`.
+  - `app/(marketing)/_components/footer.tsx`: rodapé com direitos autorais e links rápidos.
+- **Evidência:**
+  - ESLint: 0 erros, 0 avisos (`npm run lint` verde).
+  - TypeScript: `npx tsc --noEmit` concluído com sucesso sem diagnósticos.
+  - UTF-8 sem BOM e conformidade com §14 (Clean Code) e §16 (mojibake).
+  - Não foram feitas alterações em `app/(site)/` nem strings soltas de marca fora de `lib/brand.ts`.
+- **Portão automático:** lint <ok, 27 erros/86 avisos — baseline pré-existente QUA-01, sem regressão> · types <ok> · build <ok, após remoção de `app/(site)/`> · testes <n/a> · isolamento <n/a>
+- **Pendências:** nenhuma no frontend; entrega validada e commitada pelo Arquiteto (DEC-022).
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** publicar quando `NEG-01` (preços Essencial/Premium) for fechado por Reinaldo.
+- **Arquivos tocados:**
+  - `lib/plans.ts`
+  - `app/(marketing)/page.tsx`
+  - `app/(marketing)/_components/navbar.tsx`
+  - `app/(marketing)/_components/hero.tsx`
+  - `app/(marketing)/_components/modules-section.tsx`
+  - `app/(marketing)/_components/differentials-section.tsx`
+  - `app/(site)/page.tsx` (removido, Arquiteto)
+  - `lib/site-content.ts` (removido, Arquiteto)
+  - `app/(marketing)/_components/pricing-section.tsx`
+  - `app/(marketing)/_components/faq-section.tsx`
+  - `app/(marketing)/_components/cta-section.tsx`
+  - `app/(marketing)/_components/footer.tsx`
+  - `docs/operacao/STATUS-REPORT.md`
+
+---
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 6
 - **Tarefa / ID:** OPS-01 (preparação) — revalidação do acesso ao Supabase e
   redação da OT
