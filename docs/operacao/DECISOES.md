@@ -341,3 +341,27 @@ consideradas, quem decidiu, impacto no plano estratégico.
   **Ainda em aberto:** se o console entra antes ou depois de `TEN-01`/`SEC-01`
   fecharem — dependência técnica real (licença e cliente pressupõem alguma
   noção de tenant/organização) a decidir com Reinaldo antes de abrir a OT.
+
+## DEC-028 — Sequência do ADM-01 expandido: mantém dependência de TEN-01
+- **Data:** 2026-09-10
+- **Decisão:** Reinaldo delegou ao Arquiteto a definição da sequência
+  ("conforme melhor definição para o projeto"). Decisão: `ADM-01` **continua
+  dependendo de `TEN-01`** — não pula a fila. Em vez disso, o **kickoff do
+  `ADM-01`** (especificação e modelo de dados) entra junto da Fase D, em
+  paralelo ao desenho do `TEN-01`, para que o modelo de organização/tenant já
+  nasça contemplando cliente, licença e módulo contratado. A conclusão de
+  `ADM-01` (telas, fluxos, MFA) permanece na Fase F.
+- **Contexto:** "cliente" no sentido comercial (quem compra licença) e
+  "tenant" no sentido técnico (organização isolada por RLS) são, na prática,
+  a mesma entidade neste produto. Especificar `ADM-01` antes de `TEN-01`
+  existir arriscaria desenhar esse modelo duas vezes — exatamente o
+  retrabalho que a DEC-020 (TEN-01 antes das rotinas) já evitou para
+  MEM-01/CEL-01/ROT-01/FIN-01. Tratar os dois em paralelo na especificação
+  (sem esperar TEN-01 pronto para começar a pensar em ADM-01) equilibra
+  urgência comercial com risco técnico.
+- **Alternativas:** implementar ADM-01 completo antes de TEN-01 (modelo de
+  tenant improvisado, risco de retrabalho); esperar ADM-01 inteiro para a
+  Fase F sem paralelizar a especificação (perde tempo de calendário à toa).
+- **Quem decidiu:** Arquiteto, dentro da delegação de Reinaldo nesta sessão.
+- **Impacto no plano:** `ROADMAP-EXECUCAO.md` Fase D atualizada (kickoff do
+  ADM-01 em paralelo ao desenho do TEN-01); Fase F mantém a conclusão.
