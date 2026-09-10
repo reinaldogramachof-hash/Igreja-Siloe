@@ -19,6 +19,44 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 10
+- **Tarefa / ID:** governança — separação da colisão de branch (SEC-01 × OPS-01)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova.
+- **Entregas:**
+  - `tarefa/OPS-01-homologacao` limpa: commit `c8c9ab2` (atualização de
+    backlog/status do OPS-01) fica só nela.
+  - Criada `tarefa/SEC-01-auth` a partir de `origin/main` (não de OPS-01, para
+    não misturar histórico). Trabalho de Auth do Codex (sessão 8) movido para
+    lá via `git stash` seletivo por caminho.
+  - Validado antes de commitar (DEC-022): `tsc --noEmit` limpo; `npm run
+    build` ok (rotas passam a **dinâmicas** por causa do `proxy.ts` —
+    middleware não roda em export estático, risco já registrado na sessão 8);
+    `npm run lint` no mesmo baseline pré-existente (27 erros / 88 avisos,
+    dívida do QUA-01, sem regressão nova).
+  - Commit `04e32d1` em `tarefa/SEC-01-auth`, autoria de Codex identificada na
+    mensagem, co-autoria do Arquiteto conforme regra.
+  - `docs/operacao/BACKLOG-OPERACIONAL.md`: linha SEC-01 atualizada — branch
+    existe, mas **não segue para revisão/QA até OPS-01 ser Aceita** (a
+    dependência SEC-01 → OPS-01 do quadro não foi satisfeita; o código já
+    existe por ter sido implementado fora de ordem na sessão 8).
+- **Evidência:** saída de `tsc`/`build`/`lint` acima; `git log` das duas
+  branches.
+- **Portão automático:** lint n/a (baseline pré-existente, não bloqueante
+  aqui) · types ok · build ok · testes n/a (sem suíte automatizada ainda) ·
+  isolamento n/a.
+- **Pendências:** nenhuma branch foi enviada ao `origin` ainda — aguardando
+  autorização de Reinaldo para o push (§10). Decisão a confirmar: SEC-01
+  formalmente entra em Execução agora (fora de ordem) ou a branch fica
+  parada até OPS-01 ser aceita, conforme o quadro do backlog manda.
+- **Riscos / bloqueios:** nenhum novo; risco de arquitetura do `proxy.ts` ×
+  export estático permanece registrado, a resolver no desenho do
+  `next.config.ts` do OPS-01.
+- **Próximo passo:** confirmar com Reinaldo se `tarefa/SEC-01-auth` pode ir a
+  `origin`; soltar as próximas tarefas para Codex e Antigravity.
+- **Arquivos tocados (nesta branch):** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 9
 - **Tarefa / ID:** governança — commit centralizado no Arquiteto (DEC-022)
 - **Tipo:** 1

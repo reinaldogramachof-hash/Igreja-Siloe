@@ -28,7 +28,7 @@ aprovado). Fora do fluxo: `Bloqueada`.
 | NEG-01 | Detalhar Lite, níveis superiores e critérios de teste | 1 | 0 | Reinaldo | — | — | Backlog | — | — |
 | OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | 1 | Execucao | subdomínio + SSL ok; migração `homolog` **aplicada e validada** (`supabase/validate/` — 14/14 + 6/6 PASS); `homolog` em Exposed schemas **ok** (verificado via API em 2026-09-10). Falta: deploy `homolog-echo` · `revoke execute` em `rls_auto_enable()` · `next.config.ts` export + `.htaccess` + runbook · prova A/B frontend | OT-OPS-01 · branch tarefa/OPS-01-homologacao |
 | QUA-01 | Tratar lint, fonte, documentação e revisão mobile | 2 | 1 | Dev Frontend + Dev Backend | Arquiteto | — | Backlog | — | — |
-| SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | OPS-01 | — |
+| SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | OPS-01 (ainda **não Aceita** — branch existe mas trabalho não segue para revisão/QA até OPS-01 ser aceito) | branch tarefa/SEC-01-auth (commit inicial de Codex separado da branch de OPS-01 em 2026-09-10, DEC-022) |
 | TEN-01 | Organizações, vínculos e isolamento entre igrejas | 1 | 4 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 | — |
 | ADM-01 | Console exclusivo do proprietário + MFA | 1 | 4 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 | — |
 | MEM-01 | Membros e importação com validação | 2 | 1 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01 (Siloé) / TEN-01 (SaaS) | — |
