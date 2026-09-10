@@ -293,3 +293,51 @@ consideradas, quem decidiu, impacto no plano estratégico.
   para registrar. `NEG-01` (preços e níveis) ainda precisa ser fechado por
   Reinaldo antes do conteúdo final da página — ver pendência no Status
   Report.
+
+## DEC-026 — Igreja Siloé sai do repositório; produto volta a ser SaaS puro
+- **Data:** 2026-09-10
+- **Decisão:** o produto da Igreja Siloé **migrou para outro projeto**. Este
+  repositório deixa de carregar qualquer conteúdo/rota específica da Siloé.
+  Removidos `app/(site)/page.tsx` (site público da Siloé) e
+  `lib/site-content.ts`. `app/(app)/site/page.tsx` (gestão de conteúdo de
+  site institucional, feature genérica `PUB-01`, sem dado da Siloé) foi
+  mantido.
+- **Contexto:** supera a premissa da DEC-013/DEC-014 ("Siloé vira tenant #1
+  do SaaS, produto único"). Não há mais tenant Siloé para especificar ou
+  homologar neste repositório.
+- **Alternativas:** manter a Siloé como tenant #1 conforme DEC-014 (a
+  premissa que motivou `PLAN-12` e `SIL-01`).
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:**
+  - `PLAN-12` (revisão v1.2 do plano, "Siloé vira tenant") fica **obsoleta**
+    — cancelada, não mais redigida/aprovada. `OT-PLAN-12.md` não segue.
+  - `SIL-01` (especificar sistema/personalizações da Siloé) fica **obsoleta**
+    — cancelada.
+  - `SIL-02` (homologar entrega Siloé) e o restante das dependências que
+    citavam "Siloé (tenant #1)" no `BACKLOG-OPERACIONAL.md` ficam sem objeto
+    — a via "SaaS" de cada dependência passa a ser a única.
+  - `TAREFA-001` (desvinculação da marca) muda de escopo: já não é
+    "neutralizar strings/assets para não identificar a Siloé", é limpeza de
+    dado fictício remanescente (mock-data, holidays) — revisão a fazer numa
+    OT futura.
+  - Reforça, sem alternativa, que o repositório é a única linha de produto
+    (o que a DEC-014 já apontava, agora sem ambiguidade de tenant).
+
+## DEC-027 — Escopo do console do proprietário (ADM-01) expandido e adiantado
+- **Data:** 2026-09-10
+- **Decisão:** o console exclusivo do proprietário (`ADM-01` no backlog)
+  passa a cobrir, explicitamente: gestão completa de vendas, controle de
+  licenças, gestão de clientes (tenants) e gestão de módulos contratados por
+  cliente — além do MFA já previsto. Entra na conversa de priorização do
+  Ciclo 1/2, ao lado da Landing Page, em vez de esperar a Fase F inteira.
+- **Contexto:** Reinaldo definiu que, com a Landing Page, o produto também
+  precisa do lado operacional/comercial (o dono vender, controlar licença e
+  cliente) cedo — não só a vitrine.
+- **Alternativas:** manter `ADM-01` como estava, dependente de `TEN-01`
+  (isolamento multi-tenant) e só entrando na Fase F do roadmap.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** `BACKLOG-OPERACIONAL.md` (descrição de `ADM-01`
+  ampliada) e `ROADMAP-EXECUCAO.md` (prioridade a recalibrar) atualizados.
+  **Ainda em aberto:** se o console entra antes ou depois de `TEN-01`/`SEC-01`
+  fecharem — dependência técnica real (licença e cliente pressupõem alguma
+  noção de tenant/organização) a decidir com Reinaldo antes de abrir a OT.

@@ -19,6 +19,75 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 12
+- **Tarefa / ID:** OPS-01 (export/.htaccess) + governança (worktrees) +
+  DEC-026/027 (saída da Siloé, escopo do ADM-01)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova — Reinaldo decidiu
+  tudo nesta sessão (Siloé sai do repo; escopo do console do proprietário).
+- **Entregas:**
+  - **Colisão de working tree (achado crítico):** Codex e Antigravity
+    operam na mesma pasta física (`C:\Projetos\Gestão Igreja`) que o
+    Arquiteto. Um `git checkout` concorrente do Antigravity, no meio desta
+    sessão, trocou a branch da pasta principal sem eu saber, quase
+    misturando o trabalho dele com o do OPS-01. Nenhum dado foi perdido
+    (feito backup antes de qualquer ação de risco), mas o modelo de "cópia
+    isolada = branch" não isola de verdade numa pasta compartilhada.
+  - **Correção:** `git worktree` — cada agente ganha pasta própria, todas
+    ligadas ao mesmo `.git`:
+    - `C:\Projetos\Gestão Igreja` — Arquiteto (esta sessão), branch conforme
+      a tarefa corrente.
+    - `C:\Projetos\gestao-igreja-codex` — Codex, branch `tarefa/SEC-01-auth`
+      (deps já instaladas via `npm install`).
+    - `C:\Projetos\gestao-igreja-antigravity` — Antigravity, branch
+      `tarefa/TAREFA-002-landing` (deps já instaladas).
+    Nomes de pasta em ASCII (§16). Reinaldo precisa apontar os terminais do
+    Codex e do Antigravity para as pastas novas.
+  - **OPS-01:** `next.config.ts` (`output: "export"`, `trailingSlash: true`,
+    `images.unoptimized`), `tsconfig.json` (exclui `supabase/functions/**`
+    do typecheck do app — Deno é runtime separado), `public/.htaccess`
+    (force HTTPS, cabeçalhos de segurança, cache imutável para
+    `_next/static`, `no-store` para HTML/`sw.js`/`manifest.json`). Commit
+    `9dbe27f`.
+  - **DEC-026:** Reinaldo informou que o produto da Igreja Siloé migrou para
+    outro projeto — removidos `app/(site)/page.tsx` e `lib/site-content.ts`
+    (branch `tarefa/TAREFA-002-landing`, dentro do commit da Landing Page,
+    `d779e50` — resolveu de quebra a colisão de rota que o Antigravity tinha
+    sinalizado, já que `(marketing)` e `(site)` disputavam `/`).
+    `PLAN-12` e `SIL-01` cancelados no backlog (obsoletos); `TAREFA-001` tem
+    o escopo reduzido (só dado fictício remanescente, não mais o site).
+  - **DEC-027:** escopo do `ADM-01` expandido — vendas, licenças, clientes
+    (tenants), módulos contratados, MFA. Ainda em aberto: se entra antes ou
+    depois de `TEN-01`/`SEC-01` (dependência técnica real: licença/cliente
+    pressupõe noção de tenant).
+  - `BACKLOG-OPERACIONAL.md` e `DECISOES.md` atualizados com tudo acima.
+- **Evidência:** `npm run build` gera `out/` com `index.html` por rota e
+  `.htaccess` copiado; lint no baseline pré-existente (27 erros/88 avisos,
+  QUA-01, sem regressão) nas três pastas testadas.
+- **Portão automático:** lint ok (baseline) · types ok · build ok · testes
+  n/a · isolamento n/a.
+- **Pendências:**
+  - Reinaldo: apontar Codex e Antigravity para as pastas de worktree novas.
+  - Rota de homologação mínima do OPS-01 (login + insert/select + Edge
+    Function + Storage) — precisa de `@supabase/supabase-js` como
+    dependência nova nesta branch (Tipo 1, package.json) — **parei antes de
+    adicionar, aguardando confirmação** (ver próximo passo).
+  - Decidir prioridade do `ADM-01` expandido frente a SEC-01/TEN-01 em
+    andamento.
+- **Riscos / bloqueios:** working tree compartilhada é risco enquanto os
+  agentes não migrarem para as pastas de worktree — evitar rodar os três ao
+  mesmo tempo na pasta antiga até a migração.
+- **Próximo passo:** confirmar com Reinaldo a dependência nova
+  (`@supabase/supabase-js`) para fechar a prova do OPS-01; migrar Codex e
+  Antigravity para os worktrees; decidir sequência do ADM-01.
+- **Arquivos tocados:** `next.config.ts`, `tsconfig.json`, `public/.htaccess`
+  (branch OPS-01); `app/(marketing)/**`, `lib/plans.ts`, remoção de
+  `app/(site)/page.tsx` e `lib/site-content.ts` (branch TAREFA-002-landing,
+  ver sessão do Antigravity); `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md`.
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 11
 - **Tarefa / ID:** governança — libera OPS-01/SEC-01 em paralelo + adianta
   Landing Page (TAREFA-002)

@@ -22,25 +22,25 @@ aprovado). Fora do fluxo: `Bloqueada`.
 
 | ID | Trabalho | Tipo | Etapa plano | Responsável | Revisor | Ciclo | Estado | Depende de | PR / evidência |
 |---|---|---|---|---|---|---|---|---|---|
-| PLAN-12 | Revisão v1.2 do plano (Siloé vira tenant) | 1 | — | Arquiteto | Reinaldo | 1 | Especificacao | DEC-014 | OT-PLAN-12 (aguarda aprovação) |
-| TAREFA-001 | Desvinculação da marca Igreja Siloé | 1 | A9 / QUA-01 | Arquiteto + Dev Frontend | Arquiteto | 1 | Especificacao | — | OT-TAREFA-001 (aguarda aprovação) |
-| SIL-01 | Especificar sistema completo e personalizações Siloé | 1 | 0 | Arquiteto + Reinaldo | Reinaldo | 1 | Backlog | insumos de Reinaldo | — |
+| PLAN-12 | ~~Revisão v1.2 do plano (Siloé vira tenant)~~ | 1 | — | Arquiteto | Reinaldo | 1 | **Cancelada (DEC-026)** | — | obsoleta — Siloé migrou para outro projeto, premissa da DEC-014 superada |
+| TAREFA-001 | Desvinculação da marca Igreja Siloé — escopo reduzido a dado fictício remanescente (mock-data, holidays), site já removido (DEC-026) | 1 | A9 / QUA-01 | Arquiteto + Dev Frontend | Arquiteto | 1 | Especificacao | — | OT-TAREFA-001 (a revisar antes de aprovar — escopo mudou) |
+| SIL-01 | ~~Especificar sistema completo e personalizações Siloé~~ | 1 | 0 | Arquiteto + Reinaldo | Reinaldo | 1 | **Cancelada (DEC-026)** | — | obsoleta — sem tenant Siloé neste repositório |
 | NEG-01 | Detalhar Lite, níveis superiores e critérios de teste | 1 | 0 | Reinaldo | — | 1 | Backlog | — | insumo parcial recebido 2026-09-10, ver `ciclos/CICLO-01.md` — falta completar |
 | OPS-01 | Homologar HostGator Plano M + frontend estático + Supabase | 1 | 0 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | 1 | Execucao | subdomínio + SSL ok; migração `homolog` **aplicada e validada** (`supabase/validate/` — 14/14 + 6/6 PASS); `homolog` em Exposed schemas **ok**. Codex autorizado (DEC-024) a: deploy `homolog-echo` · `revoke execute` em `rls_auto_enable()`. Falta ainda: `next.config.ts` export + `.htaccess` + runbook (Arquiteto) · prova A/B frontend | OT-OPS-01 · branch tarefa/OPS-01-homologacao |
 | QUA-01 | Tratar lint, fonte, documentação e revisão mobile | 2 | 1 | Dev Frontend + Dev Backend | Arquiteto | — | Backlog | — | — |
 | SEC-01 | Auth, recuperação, convite e logout reais | 1 | 1 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | 1 | Revisao | OPS-01 (dependência **suspensa em paralelo**, DEC-023) — falta revisão de segurança por agente distinto do implementador (§12/DEC-007) antes do QA | branch tarefa/SEC-01-auth (commit `04e32d1`, autoria Codex, separado em 2026-09-10 via DEC-022) |
 | TEN-01 | Organizações, vínculos e isolamento entre igrejas | 1 | 4 | Arquiteto + Dev Backend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 | — |
-| ADM-01 | Console exclusivo do proprietário + MFA | 1 | 4 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 | — |
-| MEM-01 | Membros e importação com validação | 2 | 1 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01 (Siloé) / TEN-01 (SaaS) | — |
+| ADM-01 | Console exclusivo do proprietário: vendas, licenças, clientes (tenants) e módulos contratados + MFA (escopo expandido, DEC-027) | 1 | 4 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 (dependência técnica a confirmar — ver DEC-027) | — |
+| MEM-01 | Membros e importação com validação | 2 | 1 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | TEN-01 | — |
 | CEL-01 | Gestão de células e membros reais | 2 | 2 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01, MEM-01 | — |
 | ROT-01 | Agenda, reserva, aprovação e avisos reais | 2 | 2 | Dev Backend + Dev Frontend | Arquiteto | — | Backlog | SEC-01, MEM-01 | — |
-| FIN-01 | Livro-caixa e prestação agregada | 1 | 2 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | SEC-01 (Siloé) / TEN-01 (SaaS) | — |
+| FIN-01 | Livro-caixa e prestação agregada | 1 | 2 | Dev Backend + Dev Frontend | Arquiteto + Dev Frontend | — | Backlog | TEN-01 | — |
 | FAT-01 | Assinaturas, limites e eventos do gateway | 1 | 4 | Dev Backend | Arquiteto + Dev Frontend | — | Backlog | ADM-01 | — |
-| PUB-01 | Identidade e página pública configurada | 2 | 3 | Dev Frontend | Arquiteto | — | Backlog | SEC-01 (Siloé) / TEN-01 (SaaS) | — |
-| TAREFA-002 | Site comercial do SaaS (`app/(site)`) — Landing Page adiantada (DEC-025) | 1 | 4 | Dev Frontend | Arquiteto | 1 | Especificacao | `lib/brand.ts` mínimo (Arquiteto, dentro desta OT); NEG-01 (preços) — parcial, aguardando Reinaldo completar | OT-TAREFA-002 (a redigir) |
+| PUB-01 | Identidade e página pública configurada (por tenant, genérica — feature já existe em `app/(app)/site/`) | 2 | 3 | Dev Frontend | Arquiteto | — | Backlog | TEN-01 | — |
+| TAREFA-002 | Site comercial do SaaS — Landing Page adiantada (DEC-025) | 1 | 4 | Dev Frontend | Arquiteto | 1 | Revisao | `lib/brand.ts` mínimo — ok; NEG-01 (preços Essencial/Premium) — parcial, aguardando Reinaldo completar antes da publicação | OT-TAREFA-002 · branch tarefa/TAREFA-002-landing (commit `d779e50`) |
 | REC-01 | Backup e recuperação de banco e arquivos | 1 | 1 | Arquiteto + Dev Backend | Arquiteto | — | Backlog | OPS-01 | — |
-| SIL-02 | Homologar entrega completa Siloé | 1 | 3 | Reinaldo + Arquiteto | Reinaldo | — | Backlog | SIL-01 + módulos contratados | — |
-| PIL-01 | Liberar licenças externas de teste após MVP | 1 | 6 | Reinaldo + Dev Backend | Arquiteto | — | Backlog | SIL-02, fundação comercial | — |
+| SIL-02 | ~~Homologar entrega completa Siloé~~ | 1 | 3 | Reinaldo + Arquiteto | Reinaldo | — | **Cancelada (DEC-026)** | — | obsoleta |
+| PIL-01 | Liberar licenças externas de teste após MVP | 1 | 6 | Reinaldo + Dev Backend | Arquiteto | — | Backlog | fundação comercial (ADM-01/FAT-01) | — |
 | COM-01 | Repetir aquisição e implantação | 1 | 7 | Reinaldo | — | — | Backlog | PIL-01 | — |
 
 > Responsável e revisor acima são **proposta do Arquiteto**. O Orquestrador
