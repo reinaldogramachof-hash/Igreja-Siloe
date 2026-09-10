@@ -19,6 +19,41 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 18
+- **Tarefa / ID:** MARCA-LOGO — valida logotipo vetorial do Codex
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** aprovação visual final do
+  logotipo (decisão de marca, §4) — aguardando.
+- **Entregas:**
+  - Revisão do `logo.svg` do Codex: SVG vetorial puro (688 bytes, sem
+    `<image>`/base64/`xlink:href`), casa/abrigo estilizado com três
+    pessoas (comunidade acolhida), cores do design system (`--primary`
+    `#0e7a8f`, `--accent` `#2fa8bd`, dourado `#c99a3e` já usado no tema).
+  - Inspeção visual: `icon-512x512.png` (símbolo limpo e legível) e
+    `favicon-32x32.png` (silhueta da casa ainda reconhecível em 32px).
+  - **Achado de processo corrigido:** Codex tinha gerado o logo na worktree
+    dele, mas ela estava com a branch `tarefa/SEC-01-auth` ainda
+    selecionada — misturaria marca com auth. Movido para branch própria
+    `tarefa/MARCA-LOGO` (a partir de `main`) via stash tagueado
+    (`git stash push -u -m` + `apply <sha>` + `drop <sha>`, conforme regra
+    de stash compartilhado entre worktrees). Worktree do Codex devolvida
+    limpa em `tarefa/SEC-01-auth` para o próximo trabalho dele.
+  - Commit `9f549b7` em `tarefa/MARCA-LOGO`, push feito.
+  - `BACKLOG-OPERACIONAL.md`: `MARCA-LOGO` → `Revisao`.
+- **Evidência:** leitura do SVG; inspeção visual dos PNGs gerados; `npm run
+  build` ok na branch limpa.
+- **Portão automático:** build ok · types ok (parte do build) · lint n/a
+  (só asset, sem código) · testes n/a · isolamento n/a.
+- **Pendências:** aprovação visual final de Reinaldo.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** Reinaldo aprova (ou pede ajuste) o logotipo.
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md` (branch OPS-01); `logo.svg`,
+  `public/logo.svg`, `public/icons/*`, `public/apple-touch-icon.png`,
+  `public/favicon-32x32.png` (branch MARCA-LOGO, commit `9f549b7`).
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 17
 - **Tarefa / ID:** SEC-01 — valida correções dos 5 achados de segurança
 - **Tipo:** 1
