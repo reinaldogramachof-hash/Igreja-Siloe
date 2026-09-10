@@ -27,8 +27,8 @@ export const commercialPlans: Plan[] = [
     id: "entrada",
     name: "Modelo de Entrada",
     subtitle: "Armazenamento local e pagamento único",
-    price: "Pagamento único vitalício",
-    period: "Acesso no dispositivo",
+    price: "R$ 399,90",
+    period: "pagamento único / vitalício",
     description: "Ideal para congregações que precisam de organização imediata sem mensalidades.",
     features: [
       { text: "Armazenamento local no dispositivo (LocalStorage)", included: true },
