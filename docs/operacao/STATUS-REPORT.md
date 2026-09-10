@@ -19,6 +19,40 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 20
+- **Tarefa / ID:** TEN-01 — confirma isolamento real no Supabase (independente)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma.
+- **Entregas:**
+  - Codex aplicou a migração no projeto real ("Gestão Igreja Pro") e rodou
+    `supabase/tests/ten_01_isolation.sql` contra o banco de fato — 5/5
+    casos do §8.3 passaram (A só lê A; A não lê/edita B; forjar
+    `organization_id` falha pela `WITH CHECK`; usuário sem membership não
+    vê nada).
+  - **Confirmado de forma independente pelo Arquiteto** (não só no relato
+    do Codex, DEC-022): `list_migrations` mostra `20260910213004` aplicada;
+    `list_tables` mostra `organizations`/`memberships` com `rls_enabled`;
+    query direta em `pg_class` confirma `relforcerowsecurity = true` nas
+    duas (RLS realmente forçada, não só habilitada); `get_advisors(security)`
+    → `[]` (nenhum achado novo); `ten_01_isolation_probe` não existe no
+    banco (rollback da transação de teste não deixou resíduo).
+  - `BACKLOG-OPERACIONAL.md`: `TEN-01` → `QA` — falta só a tela mínima em
+    `/backoffice` (fase 3) e o QA de Reinaldo.
+- **Evidência:** saídas de `list_migrations`, `list_tables`,
+  `execute_sql` (pg_class) e `get_advisors` acima.
+- **Portão automático:** isolamento **confirmado em ambiente real**
+  (não só estático) · demais itens já verdes desde a sessão 19.
+- **Pendências:** tela mínima em `/backoffice` (criar organização, vincular
+  primeiro admin); QA de Reinaldo.
+- **Riscos / bloqueios:** nenhum.
+- **Próximo passo:** decidir quem/quando faz a fase 3 (`/backoffice`
+  mínimo) — liga com o kickoff do `ADM-01` (DEC-035, Antigravity executa a
+  tela).
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md`.
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 19
 - **Tarefa / ID:** TEN-01 — revisão e correção de origem de branch
 - **Tipo:** 1
