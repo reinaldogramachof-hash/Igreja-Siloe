@@ -19,6 +19,35 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 9
+- **Tarefa / ID:** governança — commit centralizado no Arquiteto (DEC-022)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova — Reinaldo já
+  confirmou a mudança nesta sessão.
+- **Entregas:**
+  - `CEREBRO-OPERACIONAL.md` v1.3: Codex e Antigravity continuam em cópia de
+    trabalho isolada por tarefa, mas não commitam nem dão push — entregam
+    pronto e avisam o Arquiteto. O Arquiteto valida (revisão + portão
+    automático) e commita toda entrega, identificando o agente responsável na
+    mensagem. Push/merge/deploy continuam exigindo autorização expressa de
+    Reinaldo (sem mudança aí). Seções alteradas: §2.1–§2.3, §3, §6, §8, §10,
+    §21.
+  - `docs/operacao/DECISOES.md`: DEC-022 registrada com contexto (mistura de
+    escopo Codex/Claude na branch `tarefa/OPS-01-homologacao` na sessão 8) e
+    alternativas consideradas.
+- **Evidência:** diff dos arquivos listados abaixo.
+- **Portão automático:** n/a (mudança de documentação/governança).
+- **Pendências:** a colisão de branch da sessão 8 (mudanças de Auth do Codex
+  não commitadas em `tarefa/OPS-01-homologacao`) ainda não foi resolvida —
+  próxima sessão aplica a regra nova: Arquiteto valida e commita esse
+  trabalho em branch própria de SEC-01.
+- **Riscos / bloqueios:** nenhum novo.
+- **Próximo passo:** separar e commitar o trabalho de Auth do Codex (SEC-01)
+  numa branch própria, seguindo a regra v1.3; seguir com `next.config.ts` +
+  `.htaccess` do OPS-01.
+- **Arquivos tocados:** `CEREBRO-OPERACIONAL.md`,
+  `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md`.
+
 ## 2026-09-08 — Claude (Arquiteto) — sessão 8
 - **Tarefa / ID:** OPS-01 — validação do banco (schema `homolog`)
 - **Tipo:** 1

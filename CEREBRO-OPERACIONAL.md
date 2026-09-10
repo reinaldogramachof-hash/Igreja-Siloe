@@ -1,6 +1,6 @@
 # Cérebro Operacional — Gestão de Igrejas (SaaS)
 
-> **Versão:** 1.2 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-08
+> **Versão:** 1.3 — VIGENTE. Aprovado expressamente por Reinaldo em 2026-09-10
 > (registro em `docs/operacao/DECISOES.md`).
 > **Alterações neste documento** seguem a mesma regra: proposta do Arquiteto,
 > aprovação expressa de Reinaldo, nova linha no §21 e no `DECISOES.md`.
@@ -50,19 +50,27 @@ alterações em modelo de dados, autenticação, dependências e infraestrutura.
 cross-cutting** onde desenho e código são inseparáveis — modelo de dados,
 autenticação/autorização, camada de RLS, `lib/brand.ts` e afins.
 
-**Não faz:** implementação de módulos de negócio ponta a ponta; commit, push,
-merge para `main`, publicação ou deploy sem autorização expressa de Reinaldo.
+**Também faz, desde a v1.3 (DEC-022):** é o **único agente que commita**.
+Valida (revisão de código + portão automático quando aplicável) e commita toda
+entrega pronta — a própria e a dos Devs Sênior — preservando a autoria de cada
+agente na mensagem do commit.
+
+**Não faz:** implementação de módulos de negócio ponta a ponta; push, merge
+para `main`, publicação ou deploy sem autorização expressa de Reinaldo.
 
 ### 2.2 Codex — Dev Sênior (Backend)
 
 **Faz:** implementação de backend, domínio, dados, integrações e cobrança,
 seguindo a especificação do Arquiteto; testes automatizados e evidência de teste;
-migrações versionadas com script de rollback.
+migrações versionadas com script de rollback; executa na cópia de trabalho
+isolada da tarefa e, ao terminar, **entrega pronto sem commitar** — avisa o
+Arquiteto, que valida e commita (DEC-022).
 
 **Não faz:** alterar modelo de dados, autenticação/autorização, dependências
 (`package.json`) ou infraestrutura sem tarefa Tipo 1 aprovada e revisão do
 Arquiteto; ser a única fonte de validação do próprio código em segurança ou
-financeiro.
+financeiro; **commitar ou dar push** — desde a v1.3 (DEC-022), só o Arquiteto
+commita.
 
 ### 2.3 Antigravity — Dev Sênior (Frontend)
 
@@ -71,8 +79,9 @@ especificação do Arquiteto; verificação visual reproduzível em navegador (n
 confundir leitura de código com teste visual); testes de componente quando
 aplicável.
 
-**Não faz:** o mesmo conjunto de restrições de §2.2. Mesmo operando com vários
-sub-agentes, **cada entrega tem um único dono responsável nomeado**.
+**Não faz:** o mesmo conjunto de restrições de §2.2, incluindo commit e push
+(DEC-022). Mesmo operando com vários sub-agentes, **cada entrega tem um único
+dono responsável nomeado**.
 
 ### 2.4 Reinaldo — Orquestrador Geral + QA Validador
 
@@ -99,7 +108,12 @@ Regras:
   precisar tocar arquivo de outro domínio, ela passa pelo Arquiteto, que serializa
   a mudança ou reatribui.
 - Toda tarefa trabalha em **cópia de trabalho isolada** (branch
-  `tarefa/<ID>-<slug>` ou worktree). `main` é protegida.
+  `tarefa/<ID>-<slug>` ou worktree) — evita que dois agentes rodando em
+  paralelo sobrescrevam arquivo um do outro em tempo real. `main` é protegida.
+- Desde a v1.3 (DEC-022): Codex e Antigravity **não commitam nem dão push**
+  nessa cópia — só editam e entregam pronto. O Arquiteto é quem valida e
+  commita, podendo decidir caso a caso se a entrega fica na própria branch da
+  tarefa ou é integrada em outra.
 - Alteração em arquivo compartilhado ou fundação: só com o Arquiteto como
   responsável de integração.
 - Na estrutura de módulos (§15.1), Codex e Antigravity trabalham na **mesma pasta
@@ -156,11 +170,16 @@ Orquestrador antes de prosseguir.
 2. Escrever a entrada no Status Report (§7).
 3. Atualizar o status do ID no backlog.
 4. Se a tarefa continua: escrever nota de hand-off (onde parou, o que falta, riscos).
-5. Abrir ou atualizar o PR da cópia isolada, com descrição vinculada ao ID.
-6. **Não** commitar, fazer push, merge ou deploy sem autorização expressa de
-   Reinaldo. Quando autorizado, o commit termina com:
+5. **Codex e Antigravity:** entregar a tarefa pronta na cópia isolada, **sem
+   commitar nem dar push** (DEC-022), e avisar o Arquiteto.
+   **Arquiteto:** validar (revisão + portão automático) e commitar toda
+   entrega — a própria e a dos devs —, identificando o agente responsável na
+   mensagem do commit.
+6. Abrir ou atualizar o PR da cópia isolada, com descrição vinculada ao ID.
+7. **Não** fazer push, merge ou deploy sem autorização expressa de Reinaldo.
+   Quando autorizado, o commit termina com:
    `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
-7. Garantir que não há diff isolado contendo apenas o bloco `nextjs-agent-rules`
+8. Garantir que não há diff isolado contendo apenas o bloco `nextjs-agent-rules`
    do `AGENTS.md`; se houver trabalho, ele é commitado junto.
 
 ### 6.1 Portão automático (antes do QA humano)
@@ -206,8 +225,10 @@ recente no topo. Uma entrada por sessão de agente.
 3. **Reinaldo** aprova a especificação (Tipo 1 sempre item a item; Tipo 2 pode ser
    aprovação em lote no início do ciclo).
 4. **Dev Sênior** da camada correspondente executa na cópia isolada, seguindo o
-   `AGENTS.md`.
-5. **Portão automático** verde (§6.1).
+   `AGENTS.md`; roda o portão automático localmente; **entrega pronto sem
+   commitar nem dar push** (DEC-022) e avisa o Arquiteto.
+5. **Arquiteto** valida o portão automático (§6.1) e o diff, e **commita** a
+   entrega na cópia isolada.
 6. **Revisão:** o Arquiteto sempre; mais um agente diferente do implementador para
    segurança e financeiro.
 7. **QA de Reinaldo** (dias 4–5 do ciclo): valida fluxo real entre usuários e
@@ -248,8 +269,10 @@ Regras:
 
 ## 10. O que nunca é permitido
 
-- Commit, push, merge para `main`, publicação ou deploy sem autorização expressa
+- Push, merge para `main`, publicação ou deploy sem autorização expressa
   de Reinaldo na sessão correspondente.
+- Codex ou Antigravity commitar ou dar push por conta própria — desde a v1.3
+  (DEC-022), toda entrega é validada e commitada pelo Arquiteto.
 - Dois agentes editando o mesmo arquivo simultaneamente sem coordenação do
   Arquiteto.
 - Alterar modelo de dados, autenticação/autorização, dependências ou infra sem
@@ -580,3 +603,4 @@ Fluxo de distribuição:
 | 1.0 | 2026-09-08 | Aprovado expressamente por Reinaldo. DEC-012 e DEC-014 confirmados. Criados `docs/operacao/DECISOES.md`, `docs/operacao/STATUS-REPORT.md` e `docs/operacao/deploys/` |
 | 1.1 | 2026-09-08 | §20 (artefatos de execução e distribuição): `BACKLOG-OPERACIONAL.md`, `agentes/`, `templates/`, `ordens/`, `ciclos/`; DEC-019 |
 | 1.2 | 2026-09-08 | `ROADMAP-EXECUCAO.md` e `agentes/KICKOFF.md` na §20; DEC-020 (roadmap A–H e desvio TEN-01 antes das rotinas) |
+| 1.3 | 2026-09-10 | Commit centralizado no Arquiteto (DEC-022): Codex e Antigravity entregam pronto sem commitar nem dar push; o Arquiteto valida (revisão + portão automático) e commita tudo, preservando a autoria de cada agente. §2, §3, §6, §8, §10 |

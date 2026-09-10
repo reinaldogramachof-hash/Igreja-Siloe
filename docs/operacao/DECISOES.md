@@ -216,3 +216,27 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Impacto no plano:** nenhum no escopo; operacionaliza o acesso de leitura ao
   Supabase para todos os agentes/sessões. A URL não contém segredo
   (`project_ref` é público; autenticação é OAuth fora do repositório).
+
+## DEC-022 — Commit centralizado no Arquiteto
+- **Data:** 2026-09-10
+- **Decisão:** Codex e Antigravity continuam trabalhando em cópia de trabalho
+  isolada por tarefa (branch/worktree), mas **não commitam nem dão push** —
+  terminam a tarefa, rodam o portão automático localmente e avisam o Arquiteto.
+  O Arquiteto (Claude) passa a ser o **único agente que commita**: valida a
+  entrega (revisão + portão automático) e commita, identificando o agente
+  responsável na mensagem do commit. Push, merge para `main` e deploy
+  continuam exigindo autorização expressa de Reinaldo (nenhuma mudança aí).
+- **Contexto:** na sessão de 2026-09-08 (Status Report, sessão 8), Codex
+  deixou mudanças de Auth (SEC-01) não commitadas na branch de OPS-01 do
+  Arquiteto — sinal de que "cada agente commita e dá push por conta própria"
+  gera mistura de escopo. Reinaldo propôs unificar em uma única branch com
+  commits controlados; o Arquiteto apontou que o risco real não é revisão e
+  sim edição concorrente no mesmo diretório de trabalho, e propôs manter a
+  cópia isolada por tarefa mas remover o commit/push da responsabilidade dos
+  devs.
+- **Alternativas:** manter cada agente commitando na própria branch (situação
+  anterior, v1.2); unificar tudo em uma única branch com todos os agentes
+  commitando nela diretamente.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum no escopo do produto; atualiza a governança do
+  `CEREBRO-OPERACIONAL.md` v1.3 (§2, §3, §6, §8, §10).
