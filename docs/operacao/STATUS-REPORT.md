@@ -19,6 +19,56 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 19
+- **Tarefa / ID:** TEN-01 — revisão e correção de origem de branch
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma.
+- **Entregas:**
+  - **Revisão de código completa** (auth + RLS, sensível): migração
+    (`organizations`/`memberships`, RLS habilitada e **forçada**, grants
+    explícitos pós-RLS — cobre a mudança recente da Supabase Data API sobre
+    tabelas não expostas automaticamente —, funções helper `SECURITY
+    DEFINER` com `search_path=''` em `app_private`, revogadas de
+    `anon`/`public`), `proxy.ts`/`layout.tsx` (fail-closed sem membership
+    ativa), tela de login (verifica membership pós-login, `signOut` +
+    mensagem clara se não houver organização), `lib/prototype-auth.tsx`
+    (sessão real tem precedência sobre role client-side — fecha a mesma
+    classe de vulnerabilidade do achado crítico do SEC-01, agora nesta
+    rota também). Qualidade alta, sem achado bloqueante.
+  - **Corrigido problema de origem de branch:** Codex criou `tarefa/TEN-01`
+    a partir de `main` (que ainda não tem o SEC-01) e trouxe os arquivos do
+    SEC-01 manualmente por cima — geraria conflito de histórico quando as
+    duas branches fossem mescladas depois. Reconstruída a partir de
+    `tarefa/SEC-01-auth` via stash tagueado + `branch -f` + reaplicação
+    (4 conflitos, todos resolvidos pegando a versão final do Codex, já
+    confirmada idêntica ao SEC-01 + delta genuíno do TEN-01, arquivo a
+    arquivo). Commit `330a77b`, push feito.
+  - Bônus incidental: lint global melhorou (26 erros/85 avisos, era
+    27/88) — fix de `icon: any` → `LucideIcon` no sidebar.
+- **Evidência:** `npm run build` ok; `node --test
+  tests/ten-01-migration.test.mjs` ok (4/4); `npm run lint` 26/85; diff
+  arquivo a arquivo contra `tarefa/SEC-01-auth` conferido antes de
+  commitar.
+- **Portão automático:** build ok · types ok · testes ok (estáticos) ·
+  lint melhorou · isolamento **parcial** — `ten_01_isolation.sql` escrito e
+  validado estaticamente, mas não executado contra banco real (Codex tem
+  escrita no Supabase; Arquiteto só tem conector read-only).
+- **Pendências:** aplicar a migração no Supabase real e rodar
+  `supabase/tests/ten_01_isolation.sql` de fato — a cargo do Codex.
+  Fase 3 (tela mínima em `/backoffice`) e fase 4 (documentar teste real)
+  seguem depois.
+- **Riscos / bloqueios:** nenhum novo.
+- **Próximo passo:** Codex aplica a migração + roda o teste de isolamento
+  real; Arquiteto confirma de forma independente via `get_advisors`/query
+  read-only assim que aplicado.
+- **Arquivos tocados:** `docs/operacao/BACKLOG-OPERACIONAL.md`,
+  `docs/operacao/STATUS-REPORT.md` (branch OPS-01); migração, RLS,
+  `proxy.ts`, `layout.tsx`, `lib/supabase/membership.ts`,
+  `lib/prototype-auth.tsx`, `lib/types.ts`, testes (branch TEN-01, commit
+  `330a77b`).
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 18
 - **Tarefa / ID:** MARCA-LOGO — valida logotipo vetorial do Codex
 - **Tipo:** 1
