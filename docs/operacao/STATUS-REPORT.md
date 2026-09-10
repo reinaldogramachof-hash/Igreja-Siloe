@@ -19,6 +19,59 @@ agente. Template em `CEREBRO-OPERACIONAL.md` §7.
 
 ---
 
+## 2026-09-10 — Claude (Arquiteto) — sessão 11
+- **Tarefa / ID:** governança — libera OPS-01/SEC-01 em paralelo + adianta
+  Landing Page (TAREFA-002)
+- **Tipo:** 1
+- **Decisões solicitadas ao Orquestrador:** nenhuma nova — Reinaldo confirmou
+  os 4 pontos nesta sessão (registrados em DEC-023, DEC-024, DEC-025).
+- **Entregas:**
+  - `DECISOES.md`: DEC-023 (OPS-01/SEC-01 em paralelo), DEC-024 (advisory
+    `rls_auto_enable()` → revoke execute; Codex autorizado a fazer as duas
+    escritas no Supabase), DEC-025 (Landing Page comercial adiantada).
+  - `BACKLOG-OPERACIONAL.md`: SEC-01 → `Revisao` (dependência de OPS-01
+    suspensa para este par); OPS-01 nota a autorização das 2 escritas;
+    TAREFA-002 → `Especificacao` com OT redigida e aprovada; NEG-01 com
+    apontador para o insumo parcial.
+  - `ciclos/CICLO-01.md`: registrado o insumo parcial de `NEG-01` (Modelo de
+    Entrada/LocalStorage, Gestão Lite R$69,90, Gestão Online escalando até
+    Essencial/Premium) — mensagem do Reinaldo veio cortada, faltam valores de
+    Essencial/Premium e critérios de teste/trial.
+  - `docs/operacao/ordens/OT-TAREFA-002.md` (novo): Landing Page comercial em
+    rota nova `app/(marketing)/`. **Corrigido durante a redação:** a OT
+    inicial apontava para `app/(site)/`, que já existe e é o site público da
+    Igreja Siloé (`lib/site-content.ts`, feature PUB-01) — trocado antes de
+    liberar, para não colidir com esse arquivo.
+  - `lib/brand.ts` (novo, branch `tarefa/TAREFA-002-landing`, a partir de
+    `main`): fundação mínima do Arquiteto para a Landing Page não ter string
+    de marca solta. Campos de contato como `[EM DEFINIÇÃO]` até `NEG-01`
+    fechar. Validado (`tsc --noEmit` e `npm run build`, após limpar `.next/`
+    que tinha tipos gerados da branch anterior) antes de commitar.
+- **Evidência:** commits `4ab1b8d` (governança, `tarefa/OPS-01-homologacao`)
+  e `4e8e7ec` (`lib/brand.ts`, `tarefa/TAREFA-002-landing`).
+- **Portão automático:** types ok · build ok · lint não rodado nesta branch
+  (arquivo novo isolado, sem risco) · testes n/a · isolamento n/a.
+- **Pendências:**
+  - Codex: deploy `homolog-echo` + `revoke execute` em `rls_auto_enable()`
+    (DEC-024) — kickoff enviado a Reinaldo para repassar no terminal do
+    Codex.
+  - Antigravity: Landing Page (`OT-TAREFA-002`) — kickoff enviado a Reinaldo
+    para repassar.
+  - Reinaldo: completar `NEG-01` (valores de Essencial/Premium e critérios de
+    teste) antes do aceite final da Landing Page.
+  - Arquiteto: seguir com `next.config.ts` + `.htaccess` do OPS-01 (próxima
+    ação desta sessão).
+  - Revisão de segurança do SEC-01 por agente distinto do implementador
+    (§12/DEC-007) ainda não agendada.
+- **Riscos / bloqueios:** nenhum novo.
+- **Próximo passo:** Arquiteto inicia `next.config.ts`/`.htaccess` do OPS-01;
+  Reinaldo repassa os kickoffs a Codex e Antigravity.
+- **Arquivos tocados:** `docs/operacao/DECISOES.md`,
+  `docs/operacao/BACKLOG-OPERACIONAL.md`, `docs/operacao/ciclos/CICLO-01.md`,
+  `docs/operacao/ordens/OT-TAREFA-002.md`, `lib/brand.ts` (branch separada).
+
+---
+
 ## 2026-09-10 — Claude (Arquiteto) — sessão 10
 - **Tarefa / ID:** governança — separação da colisão de branch (SEC-01 × OPS-01)
 - **Tipo:** 1
