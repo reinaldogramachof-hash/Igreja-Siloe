@@ -519,3 +519,13 @@ consideradas, quem decidiu, impacto no plano estratégico.
 - **Impacto no plano:** `TAREFA-002` → `Aceita`. Nova frente `MARCA-LOGO`
   no backlog. Resultado visual do logotipo ainda pendente de aprovação
   final de Reinaldo (decisão de marca, §4).
+
+## DEC-040 — Logotipo aprovado
+- **Data:** 2026-09-10
+- **Decisão:** logotipo vetorial (`OT-CODEX-LOGO.md`) aprovado por Reinaldo
+  em contexto real (navbar + rodapé da Landing Page), após visualização por
+  arquivo enviado não ter sido suficiente. `MARCA-LOGO` → `Aceita`.
+- **Quem decidiu:** Reinaldo.
+- **Impacto no plano:** nenhum pendente — pronto para uso em outros pontos
+  do sistema (tela de login já referenciava `/logo.svg`, herda
+  automaticamente; demais pontos entram conforme cada tela avançar).
