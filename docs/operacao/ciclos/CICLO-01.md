@@ -36,9 +36,14 @@ provar a hospedagem, deixando o repositório pronto para a fundação de código
 - **OPS-01 — infra (agente Claude do Chrome, 2026-09-08):** subdomínio
   `homolog.plenaaplicativos.com.br` **criado** na conta `hg2fbe99`, document root
   `/home2/hg2fbe99/homolog`, SSL AutoSSL válido (expira 2026-12-07), HTTPS 200,
-  PHP 8.3, provável Apache. **Pendências:** (a) chave SSH `id_rsa` autorizada pelo
-  agente sem identificar o dono — Reinaldo confirmar/revogar; (b) Force HTTPS
-  Redirect desativado; (c) `mod_rewrite` a confirmar no 1º deploy.
+  PHP 8.3, provável Apache. Chave SSH `id_rsa` — Reinaldo confirmou que é dele
+  (mantida). Force HTTPS Redirect e `mod_rewrite` tratados no `.htaccess`.
+- **OPS-01 — execução (sessão 7):** conector claude.ai Supabase não alcança o
+  "Gestão Igreja Pro"; Reinaldo aplica o SQL manualmente. Branch
+  `tarefa/OPS-01-homologacao` com a migração `20260908183000_homolog.sql`, o
+  rollback, a Edge Function `homolog-echo` e o README em `supabase/`. Falta
+  aplicar no projeto e seguir com `next.config.ts`/`.htaccess`/runbook e a prova
+  A/B.
 - **Dependência OPS-01 × SIL-01 (ruling do Arquiteto):** a prova técnica de
   compatibilidade do OPS-01 (build estático, deploy no Plano M, rotas após
   recarga, HTTPS/cabeçalhos, ida-e-volta de auth no Supabase, uma escrita
@@ -66,6 +71,26 @@ Para `OT-OPS-01`:
 - Confirmar a lista mínima de operações da prova descrita na OT: login, escrita
   protegida por RLS (`homolog_ping`), negação de acesso cruzado A/B, Edge
   Function, Storage, atualização do PWA/cache, recarga de rotas, build estático.
+
+Para `NEG-01` (recebido de Reinaldo em 2026-09-10, **parcial** — falta
+completar antes de fechar a especificação):
+- Modelo de Entrada: LocalStorage (sem backend), pagamento único, licença
+  vitalícia. **Preço fechado em 2026-09-10: R$ 399,90** (DEC-029). Aplicado
+  em `lib/plans.ts` (branch `tarefa/TAREFA-002-landing`).
+- Gestão Lite: módulos base online, R$ 69,90 (periodicidade a confirmar —
+  provável mensal).
+- Gestão Online: mais módulos que o Lite, valores escalando, passando por um
+  nível "Essencial" até um nível "Premium" (nomes, módulos incluídos em cada
+  nível **definidos** — ver `lib/plans.ts` — valores exatos **ainda não
+  informados**).
+- **Em andamento (2026-09-10):** Antigravity fazendo pesquisa de mercado de
+  preços de concorrentes para embasar Essencial e Premium — ver
+  `ordens/OT-NEG-01-PESQUISA.md`.
+- **Falta:** valores de Essencial e Premium (aguardando a pesquisa); se
+  "Gestão Online" é o nome comercial da faixa toda ou só de um nível;
+  critérios de teste/trial mencionados no título do NEG-01 — ver
+  `ordens/OT-CODEX-DEMO.md` (caminho de teste via Landing Page, em desenho
+  pelo Codex).
 
 Para `OT-SIL-01`:
 - O que a Igreja Siloé usa hoje (planilha, sistema, papel).
